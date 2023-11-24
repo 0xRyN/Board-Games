@@ -4,9 +4,11 @@
 #include <Board-Games/Piece.hpp>
 
 class Tile {
-  public:
+  private:
     bool isDark;
     Piece* piece;
+
+  public:
     Tile(bool dark);
 
     void setPiece(Piece* newPiece);
