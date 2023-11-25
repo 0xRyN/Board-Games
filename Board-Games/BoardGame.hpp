@@ -22,6 +22,7 @@ class BoardGame {
     void changePlayer();
 
     virtual void initializeGame() = 0;
+    virtual void loadTextures() = 0;
     virtual bool movePiece(int fromX, int fromY, int toX, int toY) = 0;
 };
 
