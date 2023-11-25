@@ -14,6 +14,7 @@ class BoardGame {
     int size;
     std::vector<std::vector<Tile>> board;
     Player currentPlayer;
+    // TODO: add last selected tile
 
   public:
     BoardGame(int boardSize);
