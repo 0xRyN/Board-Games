@@ -54,6 +54,7 @@ bool Pawn::canMove(int toX, int toY) const {
     return true;
 }
 
+// TODO: Why is there fromX and fromY?
 bool Pawn::canCapture(int fromX, int fromY, int toX, int toY) const {
     // Capture rules for pawn :
     // 1. Can capture diagonally forward one square
