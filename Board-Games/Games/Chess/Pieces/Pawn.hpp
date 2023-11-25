@@ -10,7 +10,7 @@ class Pawn : public Piece {
 
     // Overrides
     bool canMove(int toX, int toY) const override;
-    bool canCapture(int fromX, int fromY, int toX, int toY) const override;
+    bool canCapture(int toX, int toY) const override;
 };
 
 #endif // PAWN_HPP

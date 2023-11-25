@@ -55,7 +55,7 @@ bool Pawn::canMove(int toX, int toY) const {
 }
 
 // TODO: Why is there fromX and fromY?
-bool Pawn::canCapture(int fromX, int fromY, int toX, int toY) const {
+bool Pawn::canCapture(int toX, int toY) const {
     // Capture rules for pawn :
     // 1. Can capture diagonally forward one square
     // 2. En passant (not implemented)
@@ -63,20 +63,20 @@ bool Pawn::canCapture(int fromX, int fromY, int toX, int toY) const {
     // If statements are separated like this for optimization (short-circuiting)
 
     // Check if the pawn is moving diagonally forward one square
-    if (abs(toX - fromX) != 1 || abs(toY - fromY) != 1) {
+    if (abs(toX - x) != 1 || abs(toY - y) != 1) {
         return false;
     }
 
     // White pawns can only move up the board
     if (color == Color::White) {
-        if (toY <= fromY) {
+        if (toY <= y) {
             return false;
         }
     }
 
     // Black pawns can only move down the board
     if (color == Color::Black) {
-        if (toY >= fromY) {
+        if (toY >= x) {
             return false;
         }
     }
