@@ -5,7 +5,7 @@ BoardGame::BoardGame(int boardSize)
     for (int i = 0; i < size; ++i) {
         std::vector<Tile> row;
         for (int j = 0; j < size; ++j) {
-            row.push_back(Tile((i + j) % 2 == 0));
+            row.push_back(Tile((i + j) % 2 == 1));
         }
         board.push_back(row);
     }
