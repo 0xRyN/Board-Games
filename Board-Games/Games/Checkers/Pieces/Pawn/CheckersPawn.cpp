@@ -3,8 +3,8 @@
 CheckersPawn::CheckersPawn(int posX, int posY, Color pieceColor)
     : Piece(posX, posY, pieceColor) {
     texturePath = (pieceColor == Color::White)
-                      ? "Board-Games/Games/Checkers/Pieces/Pawn/white.png"
-                      : "Board-Games/Games/Checkers/Pieces/Pawn/black.png";
+                      ? "assets/Pieces/Checkers/Pawn/white.png"
+                      : "assets/Pieces/Checkers/Pawn/black.png";
 }
 
 bool CheckersPawn::canMove(int toX, int toY) const {

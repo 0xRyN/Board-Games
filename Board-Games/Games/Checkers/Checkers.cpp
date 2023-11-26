@@ -19,10 +19,9 @@ void Checkers::initializeGame() {
 void Checkers::loadTextures() {
     // Implementation of loadTextures function
     std::string textures[] = {
-        "Board-Games/Games/Checkers/Pieces/Pawn/white.png",
-        "Board-Games/Games/Checkers/Pieces/Pawn/black.png",
-        "Board-Games/Games/Checkers/Pieces/Queen/white.png",
-        "Board-Games/Games/Checkers/Pieces/Queen/black.png",
+        "assets/Pieces/Checkers/Pawn/white.png",
+        "assets/Pieces/Checkers/Pawn/black.png",
+
     };
 
     for (std::string texture : textures) {
