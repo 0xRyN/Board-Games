@@ -32,7 +32,7 @@ void GameView::drawPiece(Piece* piece, int x, int y, int tileSize) {
         (double)desiredSizePixels / (double)textureSizePixels.x;
     double desiredHeight =
         (double)desiredSizePixels / (double)textureSizePixels.y;
-    std::cout << desiredWidth << " " << desiredHeight << std::endl;
+
     sprite.setScale(desiredWidth, desiredHeight);
 
     sprite.setPosition(x + (tileSize - desiredSizePixels) / 2,
