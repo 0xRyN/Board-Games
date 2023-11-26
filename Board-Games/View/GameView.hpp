@@ -8,6 +8,7 @@ class GameView {
   private:
     BoardGame& game; // Référence au jeu de plateau
     sf::RenderWindow window;
+    void drawPiece(Piece* piece, int x, int y, int tileSize);
 
   public:
     GameView(BoardGame& game, int width = 800, int height = 800);

@@ -2,7 +2,9 @@
 #define BOARDGAME_HPP
 
 #include <Board-Games/Tile.hpp>
+#include <SFML/Graphics.hpp>
 #include <iostream>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -14,11 +16,14 @@ class BoardGame {
     int size;
     std::vector<std::vector<Tile>> board;
     Player currentPlayer;
-    // TODO: add last selected tile
+    std::map<std::string, sf::Texture> textures;
+    Tile* selectedTile;
 
   public:
     BoardGame(int boardSize);
     int getBoardSize() const;
+    const std::map<std::string, sf::Texture>& getTextures() const;
+    Piece* getPieceAt(int x, int y) const;
     void displayBoard();
     void changePlayer();
 

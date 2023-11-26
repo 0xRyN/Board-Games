@@ -2,6 +2,9 @@
 
 CheckersPawn::CheckersPawn(int posX, int posY, Color pieceColor)
     : Piece(posX, posY, pieceColor) {
+    texturePath = (pieceColor == Color::White)
+                      ? "Board-Games/Games/Checkers/Pieces/Pawn/white.png"
+                      : "Board-Games/Games/Checkers/Pieces/Pawn/black.png";
 }
 
 bool CheckersPawn::canMove(int toX, int toY) const {
@@ -42,4 +45,6 @@ bool CheckersPawn::canCapture(int toX, int toY) const {
     if (abs(toX - x) != 2 || abs(toY - y) != 2) {
         return false;
     }
+
+    return true;
 }

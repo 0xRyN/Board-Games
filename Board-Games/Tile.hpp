@@ -6,10 +6,11 @@
 class Tile {
   private:
     Piece* piece;
+    bool isDark;
 
   public:
     Tile(bool dark);
-    bool isDark;
+    bool getIsDark() const;
     void setPiece(Piece* newPiece);
     void removePiece();
     Piece* getPiece() const;

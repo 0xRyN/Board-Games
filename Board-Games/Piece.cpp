@@ -20,3 +20,7 @@ void Piece::setPosition(int posX, int posY) {
 Color Piece::getColor() const {
     return color;
 }
+
+std::string Piece::getTexturePath() const {
+    return texturePath;
+}

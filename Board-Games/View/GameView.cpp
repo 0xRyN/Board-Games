@@ -20,6 +20,17 @@ void GameView::run() {
     }
 }
 
+void GameView::drawPiece(Piece* piece, int x, int y, int tileSize) {
+    // Dessiner une pièce à la position (x, y)
+    auto texturePath = piece->getTexturePath();
+    auto texture = game.getTextures().at(texturePath);
+    sf::Sprite sprite(texture);
+    sprite.setPosition(x, y);
+    sprite.setScale(tileSize / texture.getSize().x,
+                    tileSize / texture.getSize().y);
+    window.draw(sprite);
+}
+
 void GameView::drawBoard() {
     // Draw a 2D Board
     auto size = window.getSize();
@@ -34,6 +45,12 @@ void GameView::drawBoard() {
             tile.setPosition(j * tileSize, i * tileSize);
             tile.setFillColor(sf::Color::Black);
             window.draw(tile);
+
+            // Draw a piece if there is one
+            auto piece = game.getPieceAt(i, j);
+            if (piece != nullptr) {
+                drawPiece(piece, j * tileSize, i * tileSize, tileSize);
+            }
         }
     }
 }

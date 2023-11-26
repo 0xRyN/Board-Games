@@ -1,6 +1,10 @@
 #include "Tile.hpp"
 
-Tile::Tile(bool dark) : isDark(dark), piece(nullptr) {
+Tile::Tile(bool dark) : piece(nullptr), isDark(dark) {
+}
+
+bool Tile::getIsDark() const {
+    return isDark;
 }
 
 void Tile::setPiece(Piece* newPiece) {

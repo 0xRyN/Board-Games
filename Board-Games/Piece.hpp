@@ -7,8 +7,9 @@ enum class Color { White, Black };
 
 class Piece {
   protected:
-    int x, y;    // Position of the piece on the board
-    Color color; // Color of the piece
+    int x, y;                // Position of the piece on the board
+    Color color;             // Color of the piece
+    std::string texturePath; // Path to the texture of the piece
 
   public:
     // Constructor
@@ -25,6 +26,9 @@ class Piece {
 
     // Getter for the color
     Color getColor() const;
+
+    // Getter for the texture path
+    std::string getTexturePath() const;
 
     // Virtual method for the piece movements (to be overridden in derived
     // classes)

@@ -8,6 +8,7 @@ class Checkers : public BoardGame {
   public:
     Checkers();
     void initializeGame();
+    void loadTextures();
     bool movePiece(int fromX, int fromY, int toX, int toY);
 };
 
