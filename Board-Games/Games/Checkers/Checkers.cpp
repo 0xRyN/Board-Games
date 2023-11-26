@@ -2,7 +2,8 @@
 #include "Checkers.hpp"
 #include <Board-Games/Games/Checkers/Pieces/Pawn/CheckersPawn.hpp>
 
-Checkers::Checkers() : BoardGame(8) {
+size_t CHECKERS_BOARD_SIZE = 10;
+Checkers::Checkers() : BoardGame(CHECKERS_BOARD_SIZE) {
     // Implementation of Checkers constructor
     this->loadTextures();
     this->initializeGame();
@@ -10,9 +11,21 @@ Checkers::Checkers() : BoardGame(8) {
 
 void Checkers::initializeGame() {
     // Implementation of initializeGame function
-    for (int i = 0; i < 8; i++) {
-        this->board[1][i].setPiece(new CheckersPawn(i, 1, Color::White));
-        this->board[6][i].setPiece(new CheckersPawn(i, 6, Color::Black));
+    for (size_t i = 0; i < CHECKERS_BOARD_SIZE; i++)
+    {
+        for (size_t j = 0; j < CHECKERS_BOARD_SIZE; j++)
+        {
+            if(board[i][j].getIsDark() && i < 4){
+                board[i][j].setPiece(new CheckersPawn(i, j, Color::White));
+            }
+            else if(board[i][j].getIsDark() && i > 5){
+                board[i][j].setPiece(new CheckersPawn(i, j, Color::Black));
+            }
+            else{
+                board[i][j].removePiece();
+            }
+        }
+        
     }
 }
 
