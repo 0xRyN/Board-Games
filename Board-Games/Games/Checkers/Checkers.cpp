@@ -27,6 +27,7 @@ void Checkers::loadTextures() {
     for (std::string texture : textures) {
         sf::Texture tex;
         tex.loadFromFile(texture);
+        tex.setSmooth(true);
         this->textures[texture] = tex;
     }
 }

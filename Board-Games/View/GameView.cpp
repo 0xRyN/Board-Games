@@ -24,9 +24,19 @@ void GameView::drawPiece(Piece* piece, int x, int y, int tileSize) {
     // Dessiner une pièce à la position (x, y)
     auto texturePath = piece->getTexturePath();
     auto texture = game.getTextures().at(texturePath);
+    auto desiredSizePixels = tileSize * 0.8;
+    auto textureSizePixels = texture.getSize();
     sf::Sprite sprite(texture);
-    sprite.setPosition(x, y);
-    sprite.setScale(0.1, 0.1);
+
+    double desiredWidth =
+        (double)desiredSizePixels / (double)textureSizePixels.x;
+    double desiredHeight =
+        (double)desiredSizePixels / (double)textureSizePixels.y;
+    std::cout << desiredWidth << " " << desiredHeight << std::endl;
+    sprite.setScale(desiredWidth, desiredHeight);
+
+    sprite.setPosition(x + (tileSize - desiredSizePixels) / 2,
+                       y + (tileSize - desiredSizePixels) / 2);
     window.draw(sprite);
 }
 
