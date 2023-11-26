@@ -26,8 +26,7 @@ void GameView::drawPiece(Piece* piece, int x, int y, int tileSize) {
     auto texture = game.getTextures().at(texturePath);
     sf::Sprite sprite(texture);
     sprite.setPosition(x, y);
-    sprite.setScale(tileSize / texture.getSize().x,
-                    tileSize / texture.getSize().y);
+    sprite.setScale(0.1, 0.1);
     window.draw(sprite);
 }
 
