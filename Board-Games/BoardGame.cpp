@@ -18,7 +18,7 @@ int BoardGame::getBoardSize() const {
 void BoardGame::displayBoard() {
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
-            std::cout << (board[i][j].isDark ? "X " : "O ");
+            std::cout << (board[i][j].isDarkTile() ? "X " : "O ");
         }
         std::cout << std::endl;
     }
