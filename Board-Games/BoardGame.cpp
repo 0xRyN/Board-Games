@@ -9,10 +9,16 @@ BoardGame::BoardGame(int boardSize)
         }
         board.push_back(row);
     }
+
+    this->loadTextures();
 }
 
 int BoardGame::getBoardSize() const {
     return size;
+}
+
+const std::vector<std::vector<Tile>>& BoardGame::getBoard() const {
+    return board;
 }
 
 // Return const reference to avoid copying the map
@@ -40,4 +46,18 @@ void BoardGame::changePlayer() {
 
 bool BoardGame::movePiece(int fromX, int fromY, int toX, int toY) {
     return false;
+}
+
+void BoardGame::loadTextures() {
+    std::string textures[] = {
+        "assets/Tiles/dark.png",
+        "assets/Tiles/light.png",
+    };
+
+    for (std::string texture : textures) {
+        sf::Texture tex;
+        tex.loadFromFile(texture);
+        tex.setSmooth(true);
+        this->textures[texture] = tex;
+    }
 }

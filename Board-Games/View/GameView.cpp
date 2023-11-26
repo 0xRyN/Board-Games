@@ -20,6 +20,17 @@ void GameView::run() {
     }
 }
 
+void GameView::drawTile(Tile* tile, int x, int y, int tileSize) {
+    // Dessiner une case à la position (x, y)
+    auto texturePath = tile->getTexturePath();
+    auto texture = game.getTextures().at(texturePath);
+    sf::Sprite sprite(texture);
+    sprite.setPosition(x, y);
+    sprite.setScale((double)tileSize / (double)texture.getSize().x,
+                    (double)tileSize / (double)texture.getSize().y);
+    window.draw(sprite);
+}
+
 void GameView::drawPiece(Piece* piece, int x, int y, int tileSize) {
     // Dessiner une pièce à la position (x, y)
     auto texturePath = piece->getTexturePath();
@@ -46,14 +57,15 @@ void GameView::drawBoard() {
     int width = size.x;
     int height = size.y;
     int boardSize = game.getBoardSize();
+    auto board = game.getBoard();
     int tileSize = std::min(width, height) / boardSize;
 
     for (int i = 0; i < boardSize; ++i) {
-        for (int j = i % 2; j < boardSize; j += 2) {
+        for (int j = 0; j < boardSize; ++j) {
             sf::RectangleShape tile(sf::Vector2f(tileSize, tileSize));
             tile.setPosition(j * tileSize, i * tileSize);
-            tile.setFillColor(sf::Color::Black);
-            window.draw(tile);
+
+            drawTile(&board[i][j], j * tileSize, i * tileSize, tileSize);
 
             // Draw a piece if there is one
             auto piece = game.getPieceAt(i, j);

@@ -7,10 +7,12 @@ class Tile {
   private:
     Piece* piece;
     bool isDark;
+    std::string texturePath;
 
   public:
     Tile(bool dark);
     bool getIsDark() const;
+    std::string getTexturePath() const;
     void setPiece(Piece* newPiece);
     void removePiece();
     Piece* getPiece() const;
