@@ -7,9 +7,7 @@
 #include <map>
 #include <string>
 #include <vector>
-
-// Player1 is the player who goes first
-enum class Player { Player1, Player2 };
+#include <Board-Games/Player.hpp>
 
 class BoardGame {
   protected:
@@ -27,6 +25,7 @@ class BoardGame {
     Piece* getPieceAt(int x, int y) const;
     void displayBoard();
     void changePlayer();
+    void handleEvent(sf::Event event);
 
     virtual void loadTextures();
     virtual void initializeGame() = 0;

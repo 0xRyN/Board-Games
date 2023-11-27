@@ -9,8 +9,8 @@ class CheckersPawn : public Piece {
     CheckersPawn(int posX, int posY, Color pieceColor);
 
     // Overrides
-    bool canMove(int toX, int toY) const override;
-    bool canCapture(int toX, int toY) const override;
+    bool isValidMove(int toX, int toY) const override;
+    bool isValidCaptureMove(int toX, int toY) const override;
 };
 
 #endif // CHECKERS_PA_HPP

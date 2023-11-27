@@ -1,8 +1,13 @@
 #include "BoardGame.hpp"
 
+
+Player Player1("Player 1", sf::Color::White);
+Player Player2("Player 2", sf::Color::Black);
+
 BoardGame::BoardGame(int boardSize)
-    : size(boardSize), currentPlayer(Player::Player1), selectedTile(nullptr) {
+    : size(boardSize), currentPlayer(Player1), selectedTile(nullptr) {
     for (int i = 0; i < size; ++i) {
+       
         std::vector<Tile> row;
         for (int j = 0; j < size; ++j) {
             row.push_back(Tile((i + j) % 2 == 1));
@@ -40,14 +45,32 @@ void BoardGame::displayBoard() {
 }
 
 void BoardGame::changePlayer() {
-    currentPlayer =
-        (currentPlayer == Player::Player1) ? Player::Player2 : Player::Player1;
+    currentPlayer = currentPlayer.getName() == Player1.getName() ? Player2 : Player1;
 }
 
 bool BoardGame::movePiece(int fromX, int fromY, int toX, int toY) {
     return false;
 }
 
+void BoardGame::handleEvent(sf::Event event) {
+    if (event.type == sf::Event::MouseButtonPressed) {
+        sf::Vector2i mousePos = sf::Mouse::getPosition();
+        int x = mousePos.x / 100;
+        int y = mousePos.y / 100;
+
+        if (selectedTile == nullptr) {
+            if (board[x][y].hasPiece() &&
+                board[x][y].getPiece()->getColor() == currentPlayer.getColor()) {
+                selectedTile = &board[x][y];
+            }
+        } else {
+            if (movePiece(selectedTile->getX(), selectedTile->getY(), x, y)) {
+                changePlayer();
+            }
+            selectedTile = nullptr;
+        }
+    }
+}
 void BoardGame::loadTextures() {
     std::string textures[] = {
         "assets/Tiles/dark.png",
@@ -61,3 +84,4 @@ void BoardGame::loadTextures() {
         this->textures[texture] = tex;
     }
 }
+

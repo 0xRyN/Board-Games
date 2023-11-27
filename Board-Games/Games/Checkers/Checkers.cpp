@@ -46,7 +46,30 @@ void Checkers::loadTextures() {
     }
 }
 
+
+bool Checkers::isPathObstructed(int fromX, int fromY, int toX, int toY) {
+    if(fromX > toX)
+        return board[fromX-1][fromY].hasPiece();
+    if(fromX < toX)
+        return board[fromX+1][fromY].hasPiece();
+    return false;
+}
+
 bool Checkers::movePiece(int fromX, int fromY, int toX, int toY) {
-    // Implementation of movePiece function
+    
+    //Check if the new position is empty
+    if(board[toX][toY].hasPiece()) return false;
+    //Check if move is a capture move and if the path is obstructed
+    if(board[fromX][fromY].getPiece()->isValidCaptureMove(toX, toY)  && isPathObstructed(fromX, fromY, toX, toY)){
+        board[toX][toY].setPiece(board[fromX][fromY].getPiece());
+        board[fromX][fromY].removePiece();
+        return true;
+    }   
+    //Check if move is a normal move 
+    if(board[fromX][fromY].getPiece()->isValidMove(toX, toY)){
+        board[toX][toY].setPiece(board[fromX][fromY].getPiece());
+        return true;
+    }
+
     return false;
 }

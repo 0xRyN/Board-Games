@@ -10,6 +10,8 @@ class Checkers : public BoardGame {
     void initializeGame();
     void loadTextures();
     bool movePiece(int fromX, int fromY, int toX, int toY);
+    bool isPathVertical(int fromX, int fromY, int toX, int toY);
+    bool isPathObstructed(int fromX, int fromY, int toX, int toY);
 };
 
 #endif
