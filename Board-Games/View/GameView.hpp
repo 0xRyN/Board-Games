@@ -16,6 +16,7 @@ class GameView {
     void run();       // Lance la boucle de rendu
     void drawBoard(); // Dessine le damier
     // Autres méthodes pour la gestion des interactions et l'affichage des
+    void handleClick(sf::Event event, BoardGame& game, sf::RenderWindow& window);
     // pièces
 };
 

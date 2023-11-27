@@ -13,9 +13,10 @@ void GameView::run() {
             // Gérer d'autres événements ici, comme les clics de souris
         }
         
-        game.handleEvent(event);
+       
         window.clear(sf::Color::White);
         drawBoard();
+        handleClick(event, game, window);
         // Appeler les méthodes de dessin des pièces ici
         window.display();
     }
@@ -75,4 +76,15 @@ void GameView::drawBoard() {
             }
         }
     }
+}
+
+//get the position of the click
+void GameView::handleClick(sf::Event event, BoardGame& game, sf::RenderWindow& window) {
+    if (event.type == sf::Event::MouseButtonPressed) {
+        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+        int x = mousePos.x / (window.getSize().x / game.getBoardSize());
+        int y = mousePos.y / (window.getSize().y / game.getBoardSize());
+        game.handleTile(x, y);
+    }
+
 }

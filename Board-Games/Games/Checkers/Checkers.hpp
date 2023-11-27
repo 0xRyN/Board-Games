@@ -12,7 +12,7 @@ class Checkers : public BoardGame {
     bool movePiece(int fromX, int fromY, int toX, int toY);
     bool isPathVertical(int fromX, int fromY, int toX, int toY);
     bool isPathObstructed(int fromX, int fromY, int toX, int toY);
-    void handleEvent(sf::Event event);
+    void handleTile(int x, int y);
 };
 
 #endif

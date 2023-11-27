@@ -52,10 +52,10 @@ void BoardGame::changePlayer() {
 bool BoardGame::movePiece(int fromX, int fromY, int toX, int toY) {
     return false;
 }
-void BoardGame::handleEvent(sf::Event event) {
-   
-}
 
+void BoardGame::handleTile(int x, int y) {
+    std::cout << "Tile (" << x << ", " << y << ") clicked" << std::endl;
+}
 
 void BoardGame::loadTextures() {
     std::string textures[] = {

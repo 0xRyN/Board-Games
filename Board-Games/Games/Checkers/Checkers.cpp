@@ -74,12 +74,7 @@ bool Checkers::movePiece(int fromX, int fromY, int toX, int toY) {
     return false;
 }
 //Override
-void Checkers::handleEvent(sf::Event event) {
-    if (event.type == sf::Event::MouseButtonPressed) {
-        sf::Vector2i mousePos = sf::Mouse::getPosition();
-        int x = mousePos.x / 100;
-        int y = mousePos.y / 100;
-        std::cout << x << " " << y << std::endl;
+void Checkers::handleTile(int x, int y) {
         if (selectedTile == nullptr) {
             if (board[x][y].hasPiece()) {
                 selectedTile = &board[x][y];
@@ -91,5 +86,4 @@ void Checkers::handleEvent(sf::Event event) {
                 std::cout << "Piece moved" << std::endl;
             }
         }
-    }
 }
