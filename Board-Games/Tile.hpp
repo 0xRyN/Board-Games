@@ -8,6 +8,7 @@ class Tile {
     Piece* piece;
     bool isDark;
     std::string texturePath;
+    int x, y;
 
   public:
     Tile(bool dark);
@@ -17,6 +18,8 @@ class Tile {
     void removePiece();
     Piece* getPiece() const;
     bool hasPiece() const;
+    int getX() const;
+    int getY() const;
 };
 
 #endif

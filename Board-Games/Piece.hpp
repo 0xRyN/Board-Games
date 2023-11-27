@@ -34,6 +34,7 @@ class Piece {
     // classes)
     virtual bool isValidMove(int toX, int toY) const = 0;
     virtual bool isValidCaptureMove(int toX, int toY) const = 0;
+    int colorToInt() const;
 };
 
 #endif // PIECE_HPP

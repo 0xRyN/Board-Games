@@ -12,7 +12,8 @@ void GameView::run() {
                 window.close();
             // Gérer d'autres événements ici, comme les clics de souris
         }
-
+        
+        game.handleEvent(event);
         window.clear(sf::Color::White);
         drawBoard();
         // Appeler les méthodes de dessin des pièces ici

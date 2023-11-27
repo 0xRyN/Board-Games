@@ -7,7 +7,8 @@
 #include <map>
 #include <string>
 #include <vector>
-#include <Board-Games/Player.hpp>
+
+enum class Player { Player1, Player2 };
 
 class BoardGame {
   protected:
@@ -26,7 +27,7 @@ class BoardGame {
     void displayBoard();
     void changePlayer();
     void handleEvent(sf::Event event);
-
+    int playerToInt() const;
     virtual void loadTextures();
     virtual void initializeGame() = 0;
     virtual bool movePiece(int fromX, int fromY, int toX, int toY) = 0;

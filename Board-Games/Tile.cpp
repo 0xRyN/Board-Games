@@ -1,6 +1,6 @@
 #include "Tile.hpp"
 
-Tile::Tile(bool dark) : piece(nullptr), isDark(dark) {
+Tile::Tile(bool dark) : piece(nullptr), isDark(dark), x(0), y(0) {
     this->texturePath =
         (dark) ? "assets/Tiles/dark.png" : "assets/Tiles/light.png";
 }
@@ -30,4 +30,12 @@ Piece* Tile::getPiece() const {
 
 bool Tile::hasPiece() const {
     return piece != nullptr;
+}
+
+int Tile::getX() const {
+    return x;
+}
+
+int Tile::getY() const {
+    return y;
 }
