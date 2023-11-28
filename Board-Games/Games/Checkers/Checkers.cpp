@@ -11,21 +11,16 @@ Checkers::Checkers() : BoardGame(CHECKERS_BOARD_SIZE) {
 
 void Checkers::initializeGame() {
     // Implementation of initializeGame function
-    for (size_t i = 0; i < CHECKERS_BOARD_SIZE; i++)
-    {
-        for (size_t j = 0; j < CHECKERS_BOARD_SIZE; j++)
-        {
-            if(board[i][j].getIsDark() && i < 4){
-                board[i][j].setPiece(new CheckersPawn(i, j, Color::White));
-            }
-            else if(board[i][j].getIsDark() && i > 5){
-                board[i][j].setPiece(new CheckersPawn(i, j, Color::Black));
-            }
-            else{
-                board[i][j].removePiece();
+    for (size_t i = 0; i < CHECKERS_BOARD_SIZE; i++) {
+        for (size_t j = 0; j < CHECKERS_BOARD_SIZE; j++) {
+            if (board[j][i].getIsDark() && i < 4) {
+                board[j][i].setPiece(new CheckersPawn(j, i, Color::White));
+            } else if (board[j][i].getIsDark() && i > 5) {
+                board[j][i].setPiece(new CheckersPawn(j, i, Color::Black));
+            } else {
+                board[j][i].removePiece();
             }
         }
-        
     }
 }
 
@@ -46,44 +41,46 @@ void Checkers::loadTextures() {
     }
 }
 
-
 bool Checkers::isPathObstructed(int fromX, int fromY, int toX, int toY) {
-    if(fromX > toX)
-        return board[fromX-1][fromY].hasPiece();
-    if(fromX < toX)
-        return board[fromX+1][fromY].hasPiece();
+    if (fromX > toX)
+        return board[fromX - 1][fromY].hasPiece();
+    if (fromX < toX)
+        return board[fromX + 1][fromY].hasPiece();
     return false;
 }
 
 bool Checkers::movePiece(int fromX, int fromY, int toX, int toY) {
-    
-    //Check if the new position is empty
-    if(board[toX][toY].hasPiece()) return false;
-    //Check if move is a capture move and if the path is obstructed
-    if(board[fromX][fromY].getPiece()->isValidCaptureMove(toX, toY)  && isPathObstructed(fromX, fromY, toX, toY)){
+        //segfault here 
+    // Check if the new position is empty
+    if (board[toX][toY].hasPiece()){
+        return false;
+    }
+    // Check if move is a capture move and if the path is obstructed
+    if (board[fromX][fromY].getPiece()->isValidCaptureMove(toX, toY) &&
+        isPathObstructed(fromX, fromY, toX, toY)) {
         board[toX][toY].setPiece(board[fromX][fromY].getPiece());
         board[fromX][fromY].removePiece();
         return true;
-    }   
-    //Check if move is a normal move 
-    if(board[fromX][fromY].getPiece()->isValidMove(toX, toY)){
+    }
+    // Check if move is a normal move
+    if (board[fromX][fromY].getPiece()->isValidMove(toX, toY)) {
         board[toX][toY].setPiece(board[fromX][fromY].getPiece());
+        //board[fromX][fromY].removePiece();
         return true;
     }
 
     return false;
 }
-//Override
+// Override
 void Checkers::handleTile(int x, int y) {
-        if (selectedTile == nullptr) {
-            if (board[x][y].hasPiece()) {
-                selectedTile = &board[x][y];
-            }
-        } else {
-            if (movePiece(selectedTile->getX(), selectedTile->getY(), x, y)) {
-                selectedTile = nullptr;
-                changePlayer();
-                std::cout << "Piece moved" << std::endl;
-            }
+    if (selectedTile == nullptr) {
+        if (board[y][x].hasPiece()) {
+            selectedTile = &board[y][x];
         }
+    } else {
+        if (movePiece(selectedTile->getX(), selectedTile->getY(), x, y)) {
+            selectedTile = nullptr;
+            changePlayer();
+        }
+    }
 }

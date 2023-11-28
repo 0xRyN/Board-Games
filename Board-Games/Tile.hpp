@@ -11,7 +11,7 @@ class Tile {
     int x, y;
 
   public:
-    Tile(bool dark);
+    Tile(bool dark, int x, int y);
     bool getIsDark() const;
     std::string getTexturePath() const;
     void setPiece(Piece* newPiece);

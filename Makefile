@@ -1,6 +1,6 @@
 # Variables
 CXX = g++
-CXXFLAGS = -std=c++11 -Wall -I.
+CXXFLAGS = -std=c++11 -Wall -I. -g
 SFMLFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 EXECUTABLE = BoardGames
 
@@ -16,9 +16,9 @@ OBJECTS = $(SOURCES:%.cpp=$(OBJ_DIR)/%.o)
 # Règle principale
 all: $(EXECUTABLE)
 
-# Règle pour créer l'exécutable
+# Règle pour créer l'exécutable with all errors and warnings
 $(EXECUTABLE): $(OBJECTS)
-	$(CXX) $(CXXFLAGS) $^ -o $@ $(SFMLFLAGS)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(SFMLFLAGS)  
 
 # Règle pour créer les fichiers objets
 $(OBJ_DIR)/%.o: %.cpp

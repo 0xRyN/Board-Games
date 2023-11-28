@@ -1,6 +1,6 @@
 #include "GameView.hpp"
 
-GameView::GameView(BoardGame& game, int width, int height)
+GameView::GameView(Checkers& game, int width, int height)
     : game(game), window(sf::VideoMode(width, height), "Board Game") {
 }
 
@@ -13,11 +13,11 @@ void GameView::run() {
             // Gérer d'autres événements ici, comme les clics de souris
         }
         
-       
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            handleClick(event, game, window);
+        }
         window.clear(sf::Color::White);
-        drawBoard();
-        handleClick(event, game, window);
-        // Appeler les méthodes de dessin des pièces ici
+        drawBoard();        // Appeler les méthodes de dessin des pièces ici
         window.display();
     }
 }
@@ -36,6 +36,7 @@ void GameView::drawTile(Tile* tile, int x, int y, int tileSize) {
 void GameView::drawPiece(Piece* piece, int x, int y, int tileSize) {
     // Dessiner une pièce à la position (x, y)
     auto texturePath = piece->getTexturePath();
+    std::cout << texturePath << std::endl;
     auto texture = game.getTextures().at(texturePath);
     auto desiredSizePixels = tileSize * 0.8;
     auto textureSizePixels = texture.getSize();
@@ -70,7 +71,7 @@ void GameView::drawBoard() {
             drawTile(&board[i][j], j * tileSize, i * tileSize, tileSize);
 
             // Draw a piece if there is one
-            auto piece = game.getPieceAt(i, j);
+            auto piece = game.getPieceAt(j, i);
             if (piece != nullptr) {
                 drawPiece(piece, j * tileSize, i * tileSize, tileSize);
             }
@@ -79,7 +80,7 @@ void GameView::drawBoard() {
 }
 
 //get the position of the click
-void GameView::handleClick(sf::Event event, BoardGame& game, sf::RenderWindow& window) {
+void GameView::handleClick(sf::Event event, Checkers& game, sf::RenderWindow& window) {
     if (event.type == sf::Event::MouseButtonPressed) {
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
         int x = mousePos.x / (window.getSize().x / game.getBoardSize());

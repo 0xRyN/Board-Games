@@ -3,10 +3,9 @@
 BoardGame::BoardGame(int boardSize)
     : size(boardSize), currentPlayer(Player::Player1), selectedTile(nullptr) {
     for (int i = 0; i < size; ++i) {
-
         std::vector<Tile> row;
         for (int j = 0; j < size; ++j) {
-            row.push_back(Tile((i + j) % 2 == 1));
+            row.push_back(Tile((i + j) % 2 == 1, j, i));
         }
         board.push_back(row);
     }
@@ -28,6 +27,7 @@ const std::vector<std::vector<Tile>>& BoardGame::getBoard() const {
 
 // Return const reference to avoid copying the map
 const std::map<std::string, sf::Texture>& BoardGame::getTextures() const {
+    std::cout << "herreeeeee" << std::endl;
     return textures;
 }
 
@@ -40,7 +40,7 @@ void BoardGame::displayBoard() {
         for (int j = 0; j < size; ++j) {
             std::cout << (board[i][j].getIsDark() ? "X " : "O ");
         }
-        std::cout << std::endl;
+       
     }
 }
 
@@ -54,7 +54,6 @@ bool BoardGame::movePiece(int fromX, int fromY, int toX, int toY) {
 }
 
 void BoardGame::handleTile(int x, int y) {
-    std::cout << "Tile (" << x << ", " << y << ") clicked" << std::endl;
 }
 
 void BoardGame::loadTextures() {

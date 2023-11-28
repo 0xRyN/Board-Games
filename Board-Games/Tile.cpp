@@ -1,6 +1,7 @@
 #include "Tile.hpp"
+#include <iostream>
 
-Tile::Tile(bool dark) : piece(nullptr), isDark(dark), x(0), y(0) {
+Tile::Tile(bool dark, int x, int y) : piece(nullptr), isDark(dark), x(x), y(y) {
     this->texturePath =
         (dark) ? "assets/Tiles/dark.png" : "assets/Tiles/light.png";
 }
