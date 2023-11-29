@@ -36,7 +36,6 @@ void GameView::drawTile(Tile* tile, int x, int y, int tileSize) {
 void GameView::drawPiece(Piece* piece, int x, int y, int tileSize) {
     // Dessiner une pièce à la position (x, y)
     auto texturePath = piece->getTexturePath();
-    std::cout << texturePath << std::endl;
     auto texture = game.getTextures().at(texturePath);
     auto desiredSizePixels = tileSize * 0.8;
     auto textureSizePixels = texture.getSize();

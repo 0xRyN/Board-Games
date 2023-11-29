@@ -50,6 +50,7 @@ bool Checkers::isPathObstructed(int fromX, int fromY, int toX, int toY) {
 }
 
 bool Checkers::movePiece(int fromX, int fromY, int toX, int toY) {
+    std::cout << "fromX: " << fromX << " fromY: " << fromY << " toX: " << toX << " toY: " << toY << std::endl;
         //segfault here 
     // Check if the new position is empty
     if (board[toX][toY].hasPiece()){
@@ -65,7 +66,7 @@ bool Checkers::movePiece(int fromX, int fromY, int toX, int toY) {
     // Check if move is a normal move
     if (board[fromX][fromY].getPiece()->isValidMove(toX, toY)) {
         board[toX][toY].setPiece(board[fromX][fromY].getPiece());
-        //board[fromX][fromY].removePiece();
+        board[fromX][fromY].removePiece();
         return true;
     }
 
@@ -78,6 +79,7 @@ void Checkers::handleTile(int x, int y) {
             selectedTile = &board[y][x];
         }
     } else {
+        std::cout << "je rentre dans le else"<< std::endl;
         if (movePiece(selectedTile->getX(), selectedTile->getY(), x, y)) {
             selectedTile = nullptr;
             changePlayer();

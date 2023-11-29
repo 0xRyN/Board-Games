@@ -27,7 +27,6 @@ const std::vector<std::vector<Tile>>& BoardGame::getBoard() const {
 
 // Return const reference to avoid copying the map
 const std::map<std::string, sf::Texture>& BoardGame::getTextures() const {
-    std::cout << "herreeeeee" << std::endl;
     return textures;
 }
 
