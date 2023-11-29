@@ -11,11 +11,12 @@ void GameView::run() {
             if (event.type == sf::Event::Closed)
                 window.close();
             // Gérer d'autres événements ici, comme les clics de souris
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                handleClick(event, game, window);
+            }
         }
         
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            handleClick(event, game, window);
-        }
+
         window.clear(sf::Color::White);
         drawBoard();        // Appeler les méthodes de dessin des pièces ici
         window.display();
