@@ -13,12 +13,12 @@ void Checkers::initializeGame() {
     // Implementation of initializeGame function
     for (size_t i = 0; i < CHECKERS_BOARD_SIZE; i++) {
         for (size_t j = 0; j < CHECKERS_BOARD_SIZE; j++) {
-            if (board[j][i].getIsDark() && i < 4) {
-                board[j][i].setPiece(new CheckersPawn(j, i, Color::White));
-            } else if (board[j][i].getIsDark() && i > 5) {
-                board[j][i].setPiece(new CheckersPawn(j, i, Color::Black));
+            if (board[i][j].getIsDark() && j < 4) {
+                board[i][j].setPiece(new CheckersPawn(i, j, Color::White));
+            } else if (board[i][j].getIsDark() && j > 5) {
+                board[i][j].setPiece(new CheckersPawn(i, j, Color::Black));
             } else {
-                board[j][i].removePiece();
+                board[i][i].removePiece();
             }
         }
     }
@@ -50,23 +50,26 @@ bool Checkers::isPathObstructed(int fromX, int fromY, int toX, int toY) {
 }
 
 bool Checkers::movePiece(int fromX, int fromY, int toX, int toY) {
-    std::cout << "fromX: " << fromX << " fromY: " << fromY << " toX: " << toX << " toY: " << toY << std::endl;
-        //segfault here 
+    // segfault here
     // Check if the new position is empty
-    if (board[toX][toY].hasPiece()){
+    if (board[toX][toY].hasPiece()) {
+        std::cout << "There is already a piece here" << std::endl;
         return false;
     }
     // Check if move is a capture move and if the path is obstructed
     if (board[fromX][fromY].getPiece()->isValidCaptureMove(toX, toY) &&
         isPathObstructed(fromX, fromY, toX, toY)) {
         board[toX][toY].setPiece(board[fromX][fromY].getPiece());
-        board[fromX][fromY].removePiece();
+        // board[fromX][fromY].removePiece();
         return true;
     }
     // Check if move is a normal move
     if (board[fromX][fromY].getPiece()->isValidMove(toX, toY)) {
-        board[toX][toY].setPiece(board[fromX][fromY].getPiece());
-        board[fromX][fromY].removePiece();
+        auto piece = board[fromX][fromY].getPiece();
+        piece->setPosition(toX, toY);
+        board[toX][toY].setPiece(piece);
+        board[fromX][fromY].setPiece(nullptr);
+        // board[fromX][fromY].removePiece();
         return true;
     }
 
@@ -74,15 +77,43 @@ bool Checkers::movePiece(int fromX, int fromY, int toX, int toY) {
 }
 // Override
 void Checkers::handleTile(int x, int y) {
+    // if (selectedTile == nullptr) {
+    //     if (board[y][x].hasPiece()) {
+    //         selectedTile = &board[y][x];
+    //     }
+    // } else {
+    //     std::cout << "je rentre dans le else"<< std::endl;
+    //     if (movePiece(selectedTile->getX(), selectedTile->getY(), x, y)) {
+    //         selectedTile = nullptr;
+    //         changePlayer();
+    //     }
+    // }
+    std::cout << "Before : Selected tile is nullptr ? "
+              << ((selectedTile == nullptr) ? "true" : "false") << std::endl
+              << std::flush;
+
     if (selectedTile == nullptr) {
-        if (board[y][x].hasPiece()) {
-            selectedTile = &board[y][x];
-        }
-    } else {
-        std::cout << "je rentre dans le else"<< std::endl;
-        if (movePiece(selectedTile->getX(), selectedTile->getY(), x, y)) {
-            selectedTile = nullptr;
-            changePlayer();
-        }
+        selectedTile = &board[x][y];
+        return;
     }
+
+    // if (!board[x][y].hasPiece()) {
+    //     std::cout << "There is no piece here" << std::endl;
+    //     selectedTile = nullptr;
+    //     return;
+    // }
+
+    // On a une pièce sélectionnée
+    if (movePiece(selectedTile->getX(), selectedTile->getY(), x, y)) {
+        changePlayer();
+    }
+
+    else {
+        std::cout << "Invalid move" << std::endl;
+    }
+    selectedTile = nullptr;
+
+    std::cout << "After : Selected tile is nullptr ? "
+              << ((selectedTile == nullptr) ? "true" : "false") << "\n\n\n"
+              << std::flush;
 }

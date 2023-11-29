@@ -11,14 +11,13 @@ void GameView::run() {
             if (event.type == sf::Event::Closed)
                 window.close();
             // Gérer d'autres événements ici, comme les clics de souris
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                handleClick(event, game, window);
+            if (event.type == sf::Event::MouseButtonPressed) {
+                handleClick();
             }
         }
-        
 
         window.clear(sf::Color::White);
-        drawBoard();        // Appeler les méthodes de dessin des pièces ici
+        drawBoard(); // Appeler les méthodes de dessin des pièces ici
         window.display();
     }
 }
@@ -66,26 +65,23 @@ void GameView::drawBoard() {
     for (int i = 0; i < boardSize; ++i) {
         for (int j = 0; j < boardSize; ++j) {
             sf::RectangleShape tile(sf::Vector2f(tileSize, tileSize));
-            tile.setPosition(j * tileSize, i * tileSize);
+            tile.setPosition(i * tileSize, j * tileSize);
 
-            drawTile(&board[i][j], j * tileSize, i * tileSize, tileSize);
+            drawTile(&board[i][j], i * tileSize, j * tileSize, tileSize);
 
             // Draw a piece if there is one
-            auto piece = game.getPieceAt(j, i);
+            auto piece = game.getPieceAt(i, j);
             if (piece != nullptr) {
-                drawPiece(piece, j * tileSize, i * tileSize, tileSize);
+                drawPiece(piece, i * tileSize, j * tileSize, tileSize);
             }
         }
     }
 }
 
-//get the position of the click
-void GameView::handleClick(sf::Event event, Checkers& game, sf::RenderWindow& window) {
-    if (event.type == sf::Event::MouseButtonPressed) {
-        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-        int x = mousePos.x / (window.getSize().x / game.getBoardSize());
-        int y = mousePos.y / (window.getSize().y / game.getBoardSize());
-        game.handleTile(x, y);
-    }
-
+// get the position of the click
+void GameView::handleClick() {
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+    int x = mousePos.x / (window.getSize().x / game.getBoardSize());
+    int y = mousePos.y / (window.getSize().y / game.getBoardSize());
+    game.handleTile(x, y);
 }
