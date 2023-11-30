@@ -41,49 +41,56 @@ void Checkers::loadTextures() {
     }
 }
 
-bool Checkers::isPathObstructed(int fromX, int fromY, int toX, int toY) {
-    if (fromX > toX)
-        return board[fromX - 1][fromY].hasPiece();
-    if (fromX < toX)
-        return board[fromX + 1][fromY].hasPiece();
-    return false;
-}
 
 bool Checkers::movePiece(int fromX, int fromY, int toX, int toY) {
     // Check if the new position is empty
     if (board[toX][toY].hasPiece()){
         return false;
     }
-    Piece* piece = board[fromX][fromY].getPiece();
-    if (piece == nullptr) {
-        return false;
-    }
     
-    // Check if move is a capture move and if the path is obstructed
-    if (piece->isValidCaptureMove(toX, toY) && isPathObstructed(fromX, fromY, toX, toY)) {
-        board[toX][toY].setPiece(piece);
+    Piece* piece = board[fromX][fromY].getPiece();
+
+    // Check if move is a capture move and if it is, remove the piece in the middle
+    if (piece->isValidCaptureMove(toX, toY)) {
+        int midX = (fromX + toX) / 2;
+        int midY = (fromY + toY) / 2;
+        if (!board[midX][midY].hasPiece() || board[midX][midY].getPiece()->getColor() == piece->getColor()) {
+            return false;
+        }
+        board[midX][midY].removePiece();
+        updatePosition(fromX, fromY, toX, toY);
         return true;
     }
     // Check if move is a normal move
-    if (piece->isValidMove(toX, toY)) {
-        board[toX][toY].setPiece(piece);
-        board[fromX][fromY].setPiece(nullptr);
-        piece->setPosition(toX, toY);
-
+    else if (piece->isValidMove(toX, toY)) {
+        updatePosition(fromX, fromY, toX, toY);
         return true;
     }
 
     return false;
 }
+
+void Checkers::updatePosition(int fromX, int fromY, int toX, int toY) {
+    // Implementation of updatePosition function
+        Piece* piece = board[fromX][fromY].getPiece();
+        board[toX][toY].setPiece(piece);
+        board[fromX][fromY].setPiece(nullptr);
+        piece->setPosition(toX, toY);
+}
+
 // Override
-void Checkers::handleTile(int x, int y) {
+void Checkers::selection(int x, int y) {
     // Implementation of handleTile function
-    
     if(selectedTile == nullptr && board[x][y].hasPiece()){
         selectedTile = &board[x][y];
     }
     else if(selectedTile != nullptr){
-        if(movePiece(selectedTile->getPiece()->getX(), selectedTile->getPiece()->getY(), x, y)){
+        Piece* piece = selectedTile->getPiece();
+        if(piece->colorToInt() != this->playerToInt()){
+            selectedTile = nullptr;
+            return;
+        }
+        if(movePiece(piece->getX(), piece->getY(), x, y)){
             changePlayer();
         }
         selectedTile = nullptr;

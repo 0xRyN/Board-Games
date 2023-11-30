@@ -10,9 +10,9 @@ class Checkers : public BoardGame {
     void initializeGame();
     void loadTextures();
     bool movePiece(int fromX, int fromY, int toX, int toY);
+    void updatePosition(int fromX, int fromY, int toX, int toY);
+    void selection(int x, int y);
     bool isPathVertical(int fromX, int fromY, int toX, int toY);
-    bool isPathObstructed(int fromX, int fromY, int toX, int toY);
-    void handleTile(int x, int y);
 };
 
 #endif

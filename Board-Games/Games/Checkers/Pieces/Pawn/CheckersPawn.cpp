@@ -39,11 +39,17 @@ bool CheckersPawn::isValidMove(int toX, int toY) const {
 
 // TODO: Why is there fromX and fromY?
 bool CheckersPawn::isValidCaptureMove(int toX, int toY) const {
-   
-    // Check if the pawn is moving diagonally forward two square
-    if (abs(toX - x) != 2 || abs(toY - y) != 2) {
-        return false;
-    }
-
-    return true;
+   // Check if the pawn is moving diagonally forward two square
+   if(this->color == Color::White){
+       if(toY - y == 2 && abs(toX - x) == 2){
+           return true;
+       }
+   }
+   else if(this->color == Color::Black){
+       if(y - toY == 2 && abs(toX - x) == 2){
+           return true;
+       }
+   }
+    return false;
 }
+
