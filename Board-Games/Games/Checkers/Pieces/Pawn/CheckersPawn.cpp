@@ -1,4 +1,5 @@
 #include "CheckersPawn.hpp"
+#include <iostream>
 
 CheckersPawn::CheckersPawn(int posX, int posY, Color pieceColor)
     : Piece(posX, posY, pieceColor) {
@@ -13,6 +14,8 @@ bool CheckersPawn::isValidMove(int toX, int toY) const {
     // If statements are separated like this for optimization (short-circuiting)
 
     // Check if the pawn is moving diagonally forward one square
+
+    
     if (abs(toX - x) != 1 || abs(toY - y) != 1) {
         return false;
     }
@@ -26,7 +29,7 @@ bool CheckersPawn::isValidMove(int toX, int toY) const {
 
     // Black pawns can only move down the board
     if (color == Color::Black) {
-        if (toY >= x) {
+        if (toY >= y) {
             return false;
         }
     }
