@@ -44,7 +44,8 @@ void Checkers::loadTextures() {
 
 bool Checkers::movePiece(int fromX, int fromY, int toX, int toY) {
     // Check if the new position is empty
-    if (board[toX][toY].hasPiece()){
+    if (board[toX][toY].hasPiece()) {
+        std::cout << "There is already a piece here" << std::endl;
         return false;
     }
     

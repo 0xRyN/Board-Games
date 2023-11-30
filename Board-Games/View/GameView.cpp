@@ -15,10 +15,9 @@ void GameView::run() {
                 handleClick();
             }
         }
-        
 
         window.clear(sf::Color::White);
-        drawBoard();        // Appeler les méthodes de dessin des pièces ici
+        drawBoard(); // Appeler les méthodes de dessin des pièces ici
         window.display();
     }
 }

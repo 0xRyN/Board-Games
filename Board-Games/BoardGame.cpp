@@ -39,7 +39,6 @@ void BoardGame::displayBoard() {
         for (int j = 0; j < size; ++j) {
             std::cout << (board[i][j].getIsDark() ? "X " : "O ");
         }
-       
     }
 }
 
@@ -68,4 +67,3 @@ void BoardGame::loadTextures() {
         this->textures[texture] = tex;
     }
 }
-
