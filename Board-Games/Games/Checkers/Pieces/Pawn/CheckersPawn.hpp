@@ -8,9 +8,8 @@ class CheckersPawn : public Piece {
     // Constructor
     CheckersPawn(int posX, int posY, Color pieceColor);
 
-    // Overrides
     bool isValidMove(int toX, int toY) const override;
-    bool isValidCaptureMove(int toX, int toY) const override;
+    bool isValidJump(int toX, int toY) const override;
 };
 
 #endif // CHECKERS_PA_HPP

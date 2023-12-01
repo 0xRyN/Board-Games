@@ -83,7 +83,7 @@ void GameView::handleClick() {
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
     int x = mousePos.x / (window.getSize().x / game.getBoardSize());
     int y = mousePos.y / (window.getSize().y / game.getBoardSize());
-    game.selection(x, y);
+    game.selectTile(x, y);
 
 
 }

@@ -1,5 +1,6 @@
 #include "CheckersPawn.hpp"
 #include <iostream>
+#include <vector>
 
 CheckersPawn::CheckersPawn(int posX, int posY, Color pieceColor)
     : Piece(posX, posY, pieceColor) {
@@ -39,7 +40,7 @@ bool CheckersPawn::isValidMove(int toX, int toY) const {
 }
 
 // TODO: Why is there fromX and fromY?
-bool CheckersPawn::isValidCaptureMove(int toX, int toY) const {
+bool CheckersPawn::isValidJump(int toX, int toY) const {
    // Check if the pawn is moving diagonally forward two square
    if(this->color == Color::White){
        if(toY - y == 2 && abs(toX - x) == 2){
@@ -53,4 +54,7 @@ bool CheckersPawn::isValidCaptureMove(int toX, int toY) const {
    }
     return false;
 }
+
+
+
 

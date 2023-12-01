@@ -33,7 +33,7 @@ class Piece {
     // Virtual method for the piece movements (to be overridden in derived
     // classes)
     virtual bool isValidMove(int toX, int toY) const = 0;
-    virtual bool isValidCaptureMove(int toX, int toY) const = 0;
+    virtual bool isValidJump(int toX, int toY) const = 0;
     int colorToInt() const;
 };
 
