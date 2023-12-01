@@ -9,7 +9,7 @@ CheckersPawn::CheckersPawn(int posX, int posY, Color pieceColor)
                       : "assets/Pieces/Checkers/Pawn/black.png";
 }
 
-bool CheckersPawn::isValidMove(int toX, int toY) const {
+bool CheckersPawn::canMove(int toX, int toY) const {
     // Movement rules for pawn checkers :
     // 1. Can move diagonally forward one square
     // If statements are separated like this for optimization (short-circuiting)
@@ -40,7 +40,7 @@ bool CheckersPawn::isValidMove(int toX, int toY) const {
 }
 
 // TODO: Why is there fromX and fromY?
-bool CheckersPawn::isValidJump(int toX, int toY) const {
+bool CheckersPawn::canCapture(int toX, int toY) const {
    // Check if the pawn is moving diagonally forward two square
    if(this->color == Color::White){
        if(toY - y == 2 && abs(toX - x) == 2){

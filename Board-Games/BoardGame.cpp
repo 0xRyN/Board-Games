@@ -1,7 +1,9 @@
 #include "BoardGame.hpp"
 
 BoardGame::BoardGame(int boardSize)
-    : size(boardSize), currentPlayer(Player::Player1), selectedTile(nullptr) {
+    : size(boardSize), firstPlayer(Player("Rayan", Color::White)),
+      secondPlayer("Ilyas", Color::Black), currentPlayer(&firstPlayer),
+      selectedTile(nullptr) {
     for (int i = 0; i < size; ++i) {
         std::vector<Tile> row;
         for (int j = 0; j < size; ++j) {
@@ -11,10 +13,6 @@ BoardGame::BoardGame(int boardSize)
     }
 
     this->loadTextures();
-}
-
-int BoardGame::playerToInt() const {
-    return currentPlayer == Player::Player1 ? 0 : 1;
 }
 
 int BoardGame::getBoardSize() const {
@@ -44,7 +42,7 @@ void BoardGame::displayBoard() {
 
 void BoardGame::changePlayer() {
     currentPlayer =
-        currentPlayer == Player::Player1 ? Player::Player2 : Player::Player1;
+        currentPlayer == &firstPlayer ? &secondPlayer : &firstPlayer;
 }
 
 bool BoardGame::movePiece(int fromX, int fromY, int toX, int toY) {

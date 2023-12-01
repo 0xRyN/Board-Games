@@ -1,6 +1,7 @@
 #ifndef BOARDGAME_HPP
 #define BOARDGAME_HPP
 
+#include <Board-Games/Player.hpp>
 #include <Board-Games/Tile.hpp>
 #include <Board-Games/common.hpp>
 #include <SFML/Graphics.hpp>
@@ -13,7 +14,8 @@ class BoardGame {
   protected:
     int size;
     std::vector<std::vector<Tile>> board;
-    Player currentPlayer;
+    Player firstPlayer, secondPlayer;
+    Player* currentPlayer;
     std::map<std::string, sf::Texture> textures;
     Tile* selectedTile;
 

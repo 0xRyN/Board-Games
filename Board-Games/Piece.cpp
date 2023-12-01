@@ -25,7 +25,3 @@ Color Piece::getColor() const {
 std::string Piece::getTexturePath() const {
     return texturePath;
 }
-
-int Piece::colorToInt() const {
-    return color == Color::White ? 0 : 1;
-}

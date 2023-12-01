@@ -52,7 +52,7 @@ bool Checkers::movePiece(int fromX, int fromY, int toX, int toY) {
 
     // Check if move is a capture move and if it is, remove the piece in the
     // middle
-    if (piece->isValidJump(toX, toY)) {
+    if (piece->canCapture(toX, toY)) {
         int midX = (fromX + toX) / 2;
         int midY = (fromY + toY) / 2;
         if (!board[midX][midY].hasPiece() ||
@@ -64,7 +64,7 @@ bool Checkers::movePiece(int fromX, int fromY, int toX, int toY) {
         return true;
     }
     // Check if move is a normal move
-    else if (piece->isValidMove(toX, toY)) {
+    else if (piece->canMove(toX, toY)) {
         updatePosition(fromX, fromY, toX, toY);
         return true;
     }
@@ -89,7 +89,7 @@ void Checkers::selectTile(int x, int y) {
     }
 
     Piece* piece = selectedTile->getPiece();
-    if (piece->colorToInt() != this->playerToInt()) {
+    if (piece->getColor() != currentPlayer->getColor()) {
         selectedTile = nullptr;
         return;
     }
@@ -122,7 +122,7 @@ std::vector<std::pair<int, int>>
 Checkers::computeJumps(int fromX, int fromY, bool initialCall = true) {
     std::vector<std::pair<int, int>> possibleMoves;
     Piece* piece = board[fromX][fromY].getPiece();
-    if (piece && piece->colorToInt() == this->playerToInt()) {
+    if (piece && piece->getColor() == currentPlayer->getColor()) {
         int directions[4][2] = {{-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
         for (int i = 0; i < 4; i++) {
             int dx = directions[i][0];
