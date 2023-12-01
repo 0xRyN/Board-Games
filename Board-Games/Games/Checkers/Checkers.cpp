@@ -1,7 +1,6 @@
 
 #include "Checkers.hpp"
 #include <Board-Games/Games/Checkers/Pieces/Pawn/CheckersPawn.hpp>
-#include "Pieces/Pawn/CheckersPawn.hpp"
 
 size_t CHECKERS_BOARD_SIZE = 10;
 Checkers::Checkers() : BoardGame(CHECKERS_BOARD_SIZE) {
@@ -42,21 +41,22 @@ void Checkers::loadTextures() {
     }
 }
 
-
 bool Checkers::movePiece(int fromX, int fromY, int toX, int toY) {
     // Check if the new position is empty
     if (board[toX][toY].hasPiece()) {
         std::cout << "There is already a piece here" << std::endl;
         return false;
     }
-    
+
     Piece* piece = board[fromX][fromY].getPiece();
 
-    // Check if move is a capture move and if it is, remove the piece in the middle
+    // Check if move is a capture move and if it is, remove the piece in the
+    // middle
     if (piece->isValidJump(toX, toY)) {
         int midX = (fromX + toX) / 2;
         int midY = (fromY + toY) / 2;
-        if (!board[midX][midY].hasPiece() || board[midX][midY].getPiece()->getColor() == piece->getColor()) {
+        if (!board[midX][midY].hasPiece() ||
+            board[midX][midY].getPiece()->getColor() == piece->getColor()) {
             return false;
         }
         board[midX][midY].removePiece();
@@ -74,10 +74,10 @@ bool Checkers::movePiece(int fromX, int fromY, int toX, int toY) {
 
 void Checkers::updatePosition(int fromX, int fromY, int toX, int toY) {
     // Implementation of updatePosition function
-        Piece* piece = board[fromX][fromY].getPiece();
-        board[toX][toY].setPiece(piece);
-        board[fromX][fromY].setPiece(nullptr);
-        piece->setPosition(toX, toY);
+    Piece* piece = board[fromX][fromY].getPiece();
+    board[toX][toY].setPiece(piece);
+    board[fromX][fromY].setPiece(nullptr);
+    piece->setPosition(toX, toY);
 }
 
 void Checkers::selectTile(int x, int y) {
@@ -101,14 +101,16 @@ void Checkers::selectTile(int x, int y) {
 }
 
 bool Checkers::canJump(int fromX, int fromY, int dx, int dy) {
-    int newX = fromX + 2*dx;
-    int newY = fromY + 2*dy;
-    if (newX >= 0 && newX < CHECKERS_BOARD_SIZE && newY >= 0 && newY < CHECKERS_BOARD_SIZE) {
+    int newX = fromX + 2 * dx;
+    int newY = fromY + 2 * dy;
+    if (newX >= 0 && newX < CHECKERS_BOARD_SIZE && newY >= 0 &&
+        newY < CHECKERS_BOARD_SIZE) {
         if (!board[newX][newY].hasPiece()) {
             int midX = fromX + dx;
             int midY = fromY + dy;
             Piece* piece = board[fromX][fromY].getPiece();
-            if (board[midX][midY].hasPiece() && board[midX][midY].getPiece()->getColor() != piece->getColor()) {
+            if (board[midX][midY].hasPiece() &&
+                board[midX][midY].getPiece()->getColor() != piece->getColor()) {
                 return true;
             }
         }
@@ -116,7 +118,8 @@ bool Checkers::canJump(int fromX, int fromY, int dx, int dy) {
     return false;
 }
 
-std::vector<std::pair<int, int>> Checkers::computeJumps(int fromX, int fromY, bool initialCall = true) {
+std::vector<std::pair<int, int>>
+Checkers::computeJumps(int fromX, int fromY, bool initialCall = true) {
     std::vector<std::pair<int, int>> possibleMoves;
     Piece* piece = board[fromX][fromY].getPiece();
     if (piece && piece->colorToInt() == this->playerToInt()) {
@@ -125,11 +128,14 @@ std::vector<std::pair<int, int>> Checkers::computeJumps(int fromX, int fromY, bo
             int dx = directions[i][0];
             int dy = directions[i][1];
             if (canJump(fromX, fromY, dx, dy)) {
-                int newX = fromX + 2*dx;
-                int newY = fromY + 2*dy;
-                std::vector<std::pair<int, int>> furtherJumps = computeJumps(newX, newY, false);
+                int newX = fromX + 2 * dx;
+                int newY = fromY + 2 * dy;
+                std::vector<std::pair<int, int>> furtherJumps =
+                    computeJumps(newX, newY, false);
                 if (furtherJumps.size() > 0) {
-                    possibleMoves.insert(possibleMoves.end(), furtherJumps.begin(), furtherJumps.end());
+                    possibleMoves.insert(possibleMoves.end(),
+                                         furtherJumps.begin(),
+                                         furtherJumps.end());
                 } else if (initialCall) {
                     possibleMoves.push_back(std::make_pair(newX, newY));
                 }
@@ -138,5 +144,3 @@ std::vector<std::pair<int, int>> Checkers::computeJumps(int fromX, int fromY, bo
     }
     return possibleMoves;
 }
-
-

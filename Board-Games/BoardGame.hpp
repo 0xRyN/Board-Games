@@ -2,13 +2,12 @@
 #define BOARDGAME_HPP
 
 #include <Board-Games/Tile.hpp>
+#include <Board-Games/common.hpp>
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <map>
 #include <string>
 #include <vector>
-
-enum class Player { Player1, Player2 };
 
 class BoardGame {
   protected:

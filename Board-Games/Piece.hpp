@@ -3,8 +3,6 @@
 
 #include <string>
 
-enum class Color { White, Black };
-
 class Piece {
   protected:
     int x, y;                // Position of the piece on the board
