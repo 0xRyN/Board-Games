@@ -1,4 +1,5 @@
 #include "CheckersPawn.hpp"
+#include <Board-Games/common.hpp>
 #include <iostream>
 #include <vector>
 
@@ -16,7 +17,6 @@ bool CheckersPawn::canMove(int toX, int toY) const {
 
     // Check if the pawn is moving diagonally forward one square
 
-    
     if (abs(toX - x) != 1 || abs(toY - y) != 1) {
         return false;
     }
@@ -41,20 +41,15 @@ bool CheckersPawn::canMove(int toX, int toY) const {
 
 // TODO: Why is there fromX and fromY?
 bool CheckersPawn::canCapture(int toX, int toY) const {
-   // Check if the pawn is moving diagonally forward two square
-   if(this->color == Color::White){
-       if(toY - y == 2 && abs(toX - x) == 2){
-           return true;
-       }
-   }
-   else if(this->color == Color::Black){
-       if(y - toY == 2 && abs(toX - x) == 2){
-           return true;
-       }
-   }
+    // Check if the pawn is moving diagonally forward two square
+    if (this->color == Color::White) {
+        if (toY - y == 2 && abs(toX - x) == 2) {
+            return true;
+        }
+    } else if (this->color == Color::Black) {
+        if (y - toY == 2 && abs(toX - x) == 2) {
+            return true;
+        }
+    }
     return false;
 }
-
-
-
-
