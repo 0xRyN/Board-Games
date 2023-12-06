@@ -27,7 +27,6 @@ class BoardGame {
     Piece* getPieceAt(int x, int y) const;
     void displayBoard();
     void changePlayer();
-    virtual void handleTile(int x, int y);
     int playerToInt() const;
     virtual void loadTextures();
     virtual void initializeGame() = 0;

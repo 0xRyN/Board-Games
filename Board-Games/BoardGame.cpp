@@ -49,9 +49,6 @@ bool BoardGame::movePiece(int fromX, int fromY, int toX, int toY) {
     return false;
 }
 
-void BoardGame::handleTile(int x, int y) {
-}
-
 void BoardGame::loadTextures() {
     std::string textures[] = {
         "assets/Tiles/dark.png",
