@@ -1,5 +1,23 @@
 #include "BoardGame.hpp"
 
+bool BoardGame::isPathClear(int fromX, int fromY, int toX, int toY) const {
+    int x = fromX, y = fromY;
+    int dx = toX - fromX, dy = toY - fromY;
+    int steps = std::max(std::abs(dx), std::abs(dy));
+    dx /= steps;
+    dy /= steps;
+
+    for (int i = 0; i < steps; ++i) {
+        x += dx;
+        y += dy;
+        if (board[x][y].getPiece() != nullptr) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 BoardGame::BoardGame(int boardSize)
     : size(boardSize), firstPlayer(Player("Rayan", Color::White)),
       secondPlayer("Ilyas", Color::Black), currentPlayer(&firstPlayer),
@@ -46,7 +64,29 @@ void BoardGame::changePlayer() {
 }
 
 bool BoardGame::movePiece(int fromX, int fromY, int toX, int toY) {
-    return false;
+    Piece* piece = board[fromX][fromY].getPiece();
+
+    if (piece == nullptr) {
+        return false;
+    }
+
+    // If the path is clear, call canMove
+    if (isPathClear(fromX, fromY, toX, toY)) {
+        if (piece->canMove(toX, toY)) {
+            board[fromX][fromY].setPiece(nullptr);
+            board[toX][toY].setPiece(piece);
+            return true;
+        }
+    }
+
+    // Else, call canCapture
+    else {
+        if (piece->canCapture(toX, toY)) {
+            board[fromX][fromY].setPiece(nullptr);
+            board[toX][toY].setPiece(piece);
+            return true;
+        }
+    }
 }
 
 void BoardGame::loadTextures() {

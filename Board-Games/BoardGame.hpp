@@ -19,6 +19,8 @@ class BoardGame {
     std::map<std::string, sf::Texture> textures;
     Tile* selectedTile;
 
+    virtual bool isPathClear(int fromX, int fromY, int toX, int toY) const;
+
   public:
     BoardGame(int boardSize);
     int getBoardSize() const;
