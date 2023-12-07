@@ -10,6 +10,12 @@
 #include <string>
 #include <vector>
 
+struct PossibleMove {
+    int x;
+    int y;
+    bool isCapture;
+};
+
 class BoardGame {
   protected:
     int size;
@@ -19,7 +25,9 @@ class BoardGame {
     std::map<std::string, sf::Texture> textures;
     Tile* selectedTile;
 
-    virtual bool isPathClear(int fromX, int fromY, int toX, int toY) const;
+    bool isPathClear(int fromX, int fromY, int toX, int toY) const;
+    void updatePosition(int fromX, int fromY, int toX, int toY);
+    void removeCapturedPiece(int fromX, int fromY, int toX, int toY);
 
   public:
     BoardGame(int boardSize);
@@ -29,9 +37,11 @@ class BoardGame {
     Piece* getPieceAt(int x, int y) const;
     void displayBoard();
     void changePlayer();
+    void selectTile(int x, int y);
+    std::vector<PossibleMove> computeAllPossibleMoves(int x, int y);
     virtual void loadTextures();
     virtual void initializeGame() = 0;
-    virtual bool movePiece(int fromX, int fromY, int toX, int toY) = 0;
+    virtual bool movePiece(int fromX, int fromY, int toX, int toY);
 };
 
 #endif

@@ -1,5 +1,26 @@
 #include "BoardGame.hpp"
 
+void BoardGame::selectTile(int x, int y) {
+    if (!selectedTile) {
+        if (board[x][y].hasPiece()) {
+            selectedTile = &board[x][y];
+        }
+        return;
+    }
+
+    Piece* piece = selectedTile->getPiece();
+    if (piece->getColor() != currentPlayer->getColor()) {
+        selectedTile = nullptr;
+        return;
+    }
+
+    if (movePiece(piece->getX(), piece->getY(), x, y)) {
+        changePlayer();
+    }
+
+    selectedTile = nullptr;
+}
+
 bool BoardGame::isPathClear(int fromX, int fromY, int toX, int toY) const {
     int x = fromX, y = fromY;
     int dx = toX - fromX, dy = toY - fromY;
@@ -10,12 +31,38 @@ bool BoardGame::isPathClear(int fromX, int fromY, int toX, int toY) const {
     for (int i = 0; i < steps; ++i) {
         x += dx;
         y += dy;
-        if (board[x][y].getPiece() != nullptr) {
+        if (board[x][y].hasPiece()) {
             return false;
         }
     }
 
     return true;
+}
+
+void BoardGame::updatePosition(int fromX, int fromY, int toX, int toY) {
+    Piece* piece = board[fromX][fromY].getPiece();
+    board[toX][toY].setPiece(piece);
+    board[fromX][fromY].setPiece(nullptr);
+    piece->setPosition(toX, toY);
+}
+
+void BoardGame::removeCapturedPiece(int fromX, int fromY, int toX, int toY) {
+    int x = fromX, y = fromY;
+    int dx = toX - fromX, dy = toY - fromY;
+    int steps = std::max(std::abs(dx), std::abs(dy));
+    dx /= steps;
+    dy /= steps;
+
+    for (int i = 0; i < steps; ++i) {
+        x += dx;
+        y += dy;
+        if (board[x][y].hasPiece()) {
+            board[x][y].removePiece();
+            std::cout << "Piece captured at (" << x << ", " << y << ")"
+                      << std::endl;
+            return;
+        }
+    }
 }
 
 BoardGame::BoardGame(int boardSize)
@@ -63,6 +110,26 @@ void BoardGame::changePlayer() {
         currentPlayer == &firstPlayer ? &secondPlayer : &firstPlayer;
 }
 
+std::vector<PossibleMove> BoardGame::computeAllPossibleMoves(int x, int y) {
+    std::vector<PossibleMove> moves;
+    Piece* piece = board[x][y].getPiece();
+    if (piece == nullptr) {
+        return moves;
+    }
+
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; j++) {
+            if (piece->canMove(i, j)) {
+                moves.push_back({i, j, false});
+            } else if (piece->canCapture(i, j)) {
+                moves.push_back({i, j, true});
+            }
+        }
+    }
+
+    return moves;
+}
+
 bool BoardGame::movePiece(int fromX, int fromY, int toX, int toY) {
     Piece* piece = board[fromX][fromY].getPiece();
 
@@ -70,11 +137,20 @@ bool BoardGame::movePiece(int fromX, int fromY, int toX, int toY) {
         return false;
     }
 
+    // Check if a capture is possible
+    std::vector<PossibleMove> possibleMoves =
+        computeAllPossibleMoves(fromX, fromY);
+
+    for (PossibleMove move : possibleMoves) {
+        if (move.isCapture) {
+            return false;
+        }
+    }
+
     // If the path is clear, call canMove
     if (isPathClear(fromX, fromY, toX, toY)) {
         if (piece->canMove(toX, toY)) {
-            board[fromX][fromY].setPiece(nullptr);
-            board[toX][toY].setPiece(piece);
+            updatePosition(fromX, fromY, toX, toY);
             return true;
         }
     }
@@ -82,11 +158,13 @@ bool BoardGame::movePiece(int fromX, int fromY, int toX, int toY) {
     // Else, call canCapture
     else {
         if (piece->canCapture(toX, toY)) {
-            board[fromX][fromY].setPiece(nullptr);
-            board[toX][toY].setPiece(piece);
+            updatePosition(fromX, fromY, toX, toY);
+            removeCapturedPiece(fromX, fromY, toX, toY);
             return true;
         }
     }
+
+    return false;
 }
 
 void BoardGame::loadTextures() {

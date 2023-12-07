@@ -41,15 +41,24 @@ bool CheckersPawn::canMove(int toX, int toY) const {
 
 // TODO: Why is there fromX and fromY?
 bool CheckersPawn::canCapture(int toX, int toY) const {
-    // Check if the pawn is moving diagonally forward two square
-    if (this->color == Color::White) {
-        if (toY - y == 2 && abs(toX - x) == 2) {
-            return true;
-        }
-    } else if (this->color == Color::Black) {
-        if (y - toY == 2 && abs(toX - x) == 2) {
-            return true;
+    std::cout << "Called canCapture" << std::endl;
+    if (abs(toX - x) != 2 || abs(toY - y) != 2) {
+        return false;
+    }
+
+    // White pawns can only move up the board
+    if (color == Color::White) {
+        if (toY <= y) {
+            return false;
         }
     }
-    return false;
+
+    // Black pawns can only move down the board
+    if (color == Color::Black) {
+        if (toY >= y) {
+            return false;
+        }
+    }
+
+    return true;
 }

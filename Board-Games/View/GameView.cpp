@@ -78,12 +78,10 @@ void GameView::drawBoard() {
     }
 }
 
-//get the position of the click
+// get the position of the click
 void GameView::handleClick() {
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
     int x = mousePos.x / (window.getSize().x / game.getBoardSize());
     int y = mousePos.y / (window.getSize().y / game.getBoardSize());
     game.selectTile(x, y);
-
-
 }
