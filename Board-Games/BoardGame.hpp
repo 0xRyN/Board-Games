@@ -1,14 +1,13 @@
 #ifndef BOARDGAME_HPP
 #define BOARDGAME_HPP
 
-#include <Board-Games/Player.hpp>
-#include <Board-Games/Tile.hpp>
-#include <Board-Games/common.hpp>
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <map>
 #include <string>
 #include <vector>
+#include "Player.hpp"
+#include "Tile.hpp"
 
 struct PossibleMove {
     int x;
@@ -24,6 +23,7 @@ class BoardGame {
     Player* currentPlayer;
     std::map<std::string, sf::Texture> textures;
     Tile* selectedTile;
+    GameState* gameState;
 
     bool isPathClear(int fromX, int fromY, int toX, int toY) const;
     void updatePosition(int fromX, int fromY, int toX, int toY);
@@ -42,6 +42,7 @@ class BoardGame {
     virtual void loadTextures();
     virtual void initializeGame() = 0;
     virtual bool movePiece(int fromX, int fromY, int toX, int toY);
+    GameState* getGameState() const;
 };
 
 #endif

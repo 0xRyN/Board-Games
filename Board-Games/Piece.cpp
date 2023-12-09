@@ -1,5 +1,5 @@
 #include "Piece.hpp"
-#include <Board-Games/common.hpp>
+#include "common.hpp"
 
 Piece::Piece(int posX, int posY, Color pieceColor)
     : x(posX), y(posY), color(pieceColor) {

@@ -1,9 +1,11 @@
 #include "BoardGame.hpp"
+#include "GameState.hpp"
 
 void BoardGame::selectTile(int x, int y) {
     if (!selectedTile) {
         if (board[x][y].hasPiece()) {
             selectedTile = &board[x][y];
+            computeAllPossibleMoves(x, y);
         }
         return;
     }
@@ -14,10 +16,7 @@ void BoardGame::selectTile(int x, int y) {
         return;
     }
 
-    if (movePiece(piece->getX(), piece->getY(), x, y)) {
-        changePlayer();
-    }
-
+    movePiece(piece->getX(), piece->getY(), x, y);
     selectedTile = nullptr;
 }
 
@@ -119,10 +118,14 @@ std::vector<PossibleMove> BoardGame::computeAllPossibleMoves(int x, int y) {
 
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; j++) {
-            if (piece->canMove(i, j)) {
+            if (piece->canMove(i, j) /* && this->isPathClear(x, y, i, j) */) {        //NOTE: canMove() vérifie seulement si le mouvement est valide, pas si le chemin est libre
                 moves.push_back({i, j, false});
-            } else if (piece->canCapture(i, j)) {
+                std::cout << "Possible move at (" << i << ", " << j << ")"
+                          << std::endl;
+            } else if (piece->canCapture(i, j) && !this->isPathClear(x, y, i, j) && !board[i][j].hasPiece()) {
                 moves.push_back({i, j, true});
+                std::cout << "Possible capture at (" << i << ", " << j << ")"
+                          << std::endl;
             }
         }
     }
@@ -143,6 +146,16 @@ bool BoardGame::movePiece(int fromX, int fromY, int toX, int toY) {
 
     for (PossibleMove move : possibleMoves) {
         if (move.isCapture) {
+            if (move.x == toX && move.y == toY) {
+                updatePosition(fromX, fromY, toX, toY);
+                removeCapturedPiece(fromX, fromY, toX, toY);
+                possibleMoves = computeAllPossibleMoves(toX, toY);
+                if (possibleMoves.size() == 0) {
+                    changePlayer();
+                }
+                return true;
+            }
+            // If a capture is possible, the player must capture
             return false;
         }
     }
@@ -151,19 +164,10 @@ bool BoardGame::movePiece(int fromX, int fromY, int toX, int toY) {
     if (isPathClear(fromX, fromY, toX, toY)) {
         if (piece->canMove(toX, toY)) {
             updatePosition(fromX, fromY, toX, toY);
+            changePlayer();
             return true;
         }
     }
-
-    // Else, call canCapture
-    else {
-        if (piece->canCapture(toX, toY)) {
-            updatePosition(fromX, fromY, toX, toY);
-            removeCapturedPiece(fromX, fromY, toX, toY);
-            return true;
-        }
-    }
-
     return false;
 }
 
@@ -179,4 +183,8 @@ void BoardGame::loadTextures() {
         tex.setSmooth(true);
         this->textures[texture] = tex;
     }
+}
+
+GameState* BoardGame::getGameState() const {
+    return gameState;
 }

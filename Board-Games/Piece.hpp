@@ -1,7 +1,7 @@
 #ifndef PIECE_HPP
 #define PIECE_HPP
 
-#include <Board-Games/common.hpp>
+#include "common.hpp"
 #include <string>
 
 class Piece {

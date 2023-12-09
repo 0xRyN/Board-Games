@@ -1,7 +1,7 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
-#include <Board-Games/common.hpp>
+#include "common.hpp"
 #include <string>
 
 class Player {
