@@ -31,8 +31,8 @@ class Piece {
 
     // Virtual method for the piece movements (to be overridden in derived
     // classes)
-    virtual bool canMove(int toX, int toY) const = 0;
-    virtual bool canCapture(int toX, int toY) const = 0;
+    virtual bool canMove(const BoardGame& game, int toX, int toY) const = 0;
+    virtual bool canCapture(const BoardGame& game, int toX, int toY) const = 0;
 };
 
 #endif // PIECE_HPP

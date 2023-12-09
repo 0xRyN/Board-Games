@@ -8,16 +8,15 @@
 #include <vector>
 #include "Player.hpp"
 #include "Tile.hpp"
+#include "GameRules.hpp"
 
-struct PossibleMove {
-    int x;
-    int y;
-    bool isCapture;
-};
 
 class BoardGame {
   protected:
     int size;
+    std::vector<std::vector<Tile>> board;
+    std::unique_ptr<GameState> gameState;
+    std::unique_ptr<GameRules> gameRules;
     std::vector<std::vector<Tile>> board;
     Player firstPlayer, secondPlayer;
     Player* currentPlayer;
@@ -38,10 +37,9 @@ class BoardGame {
     void displayBoard();
     void changePlayer();
     void selectTile(int x, int y);
-    std::vector<PossibleMove> computeAllPossibleMoves(int x, int y);
     virtual void loadTextures();
     virtual void initializeGame() = 0;
-    virtual bool movePiece(int fromX, int fromY, int toX, int toY);
+    virtual void movePiece(int fromX, int fromY, int toX, int toY);
     GameState* getGameState() const;
 };
 

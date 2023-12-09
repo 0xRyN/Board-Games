@@ -109,66 +109,21 @@ void BoardGame::changePlayer() {
         currentPlayer == &firstPlayer ? &secondPlayer : &firstPlayer;
 }
 
-std::vector<PossibleMove> BoardGame::computeAllPossibleMoves(int x, int y) {
-    std::vector<PossibleMove> moves;
-    Piece* piece = board[x][y].getPiece();
-    if (piece == nullptr) {
-        return moves;
-    }
+void BoardGame::movePiece(int fromX, int fromY, int toX, int toY) {
+    if (gameRules->isValidMove(*this, fromX, fromY, toX, toY)) {
+        // Execute the move
+        // ...
 
-    for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; j++) {
-            if (piece->canMove(i, j) /* && this->isPathClear(x, y, i, j) */) {        //NOTE: canMove() vérifie seulement si le mouvement est valide, pas si le chemin est libre
-                moves.push_back({i, j, false});
-                std::cout << "Possible move at (" << i << ", " << j << ")"
-                          << std::endl;
-            } else if (piece->canCapture(i, j) && !this->isPathClear(x, y, i, j) && !board[i][j].hasPiece()) {
-                moves.push_back({i, j, true});
-                std::cout << "Possible capture at (" << i << ", " << j << ")"
-                          << std::endl;
-            }
+        std::vector<std::pair<int, int>> actions =
+            gameRules->getAvailableActions(*this, toX, toY);
+        if (!actions.empty()) {
+            gameState->startActionSequence();
+            // Handle available actions
+        } else {
+            gameState->endActionSequence();
+            // Change player, or other end-of-turn logic
         }
     }
-
-    return moves;
-}
-
-bool BoardGame::movePiece(int fromX, int fromY, int toX, int toY) {
-    Piece* piece = board[fromX][fromY].getPiece();
-
-    if (piece == nullptr) {
-        return false;
-    }
-
-    // Check if a capture is possible
-    std::vector<PossibleMove> possibleMoves =
-        computeAllPossibleMoves(fromX, fromY);
-
-    for (PossibleMove move : possibleMoves) {
-        if (move.isCapture) {
-            if (move.x == toX && move.y == toY) {
-                updatePosition(fromX, fromY, toX, toY);
-                removeCapturedPiece(fromX, fromY, toX, toY);
-                possibleMoves = computeAllPossibleMoves(toX, toY);
-                if (possibleMoves.size() == 0) {
-                    changePlayer();
-                }
-                return true;
-            }
-            // If a capture is possible, the player must capture
-            return false;
-        }
-    }
-
-    // If the path is clear, call canMove
-    if (isPathClear(fromX, fromY, toX, toY)) {
-        if (piece->canMove(toX, toY)) {
-            updatePosition(fromX, fromY, toX, toY);
-            changePlayer();
-            return true;
-        }
-    }
-    return false;
 }
 
 void BoardGame::loadTextures() {
