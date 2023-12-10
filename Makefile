@@ -1,6 +1,6 @@
 # Variables
 CXX = g++
-CXXFLAGS = -std=c++11 -Wall -I. -g
+CXXFLAGS = -std=c++17 -Wall -I. -g
 SFMLFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 EXECUTABLE = BoardGames
 

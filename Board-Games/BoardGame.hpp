@@ -22,8 +22,7 @@ class BoardGame {
     Player* currentPlayer;
     std::map<std::string, sf::Texture> textures;
     Tile* selectedTile;
-    GameState* gameState;
-
+  
     bool isPathClear(int fromX, int fromY, int toX, int toY) const;
     void updatePosition(int fromX, int fromY, int toX, int toY);
     void removeCapturedPiece(int fromX, int fromY, int toX, int toY);
