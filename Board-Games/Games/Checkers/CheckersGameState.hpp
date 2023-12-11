@@ -10,6 +10,7 @@ private:
     bool isMultiCaptureInProgress;
     Piece* capturingPiece;
     std::vector<std::pair<int, int>> availableCaptures;
+    
 
 public:
     CheckersGameState();

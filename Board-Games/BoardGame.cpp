@@ -5,7 +5,6 @@ void BoardGame::selectTile(int x, int y) {
     if (!selectedTile) {
         if (board[x][y].hasPiece()) {
             selectedTile = &board[x][y];
-            computeAllPossibleMoves(x, y);
         }
         return;
     }
@@ -20,23 +19,6 @@ void BoardGame::selectTile(int x, int y) {
     selectedTile = nullptr;
 }
 
-bool BoardGame::isPathClear(int fromX, int fromY, int toX, int toY) const {
-    int x = fromX, y = fromY;
-    int dx = toX - fromX, dy = toY - fromY;
-    int steps = std::max(std::abs(dx), std::abs(dy));
-    dx /= steps;
-    dy /= steps;
-
-    for (int i = 0; i < steps; ++i) {
-        x += dx;
-        y += dy;
-        if (board[x][y].hasPiece()) {
-            return false;
-        }
-    }
-
-    return true;
-}
 
 void BoardGame::updatePosition(int fromX, int fromY, int toX, int toY) {
     Piece* piece = board[fromX][fromY].getPiece();
@@ -83,9 +65,7 @@ int BoardGame::getBoardSize() const {
     return size;
 }
 
-const std::vector<std::vector<Tile>>& BoardGame::getBoard() const {
-    return board;
-}
+
 
 // Return const reference to avoid copying the map
 const std::map<std::string, sf::Texture>& BoardGame::getTextures() const {
@@ -96,35 +76,19 @@ Piece* BoardGame::getPieceAt(int x, int y) const {
     return board[x][y].getPiece();
 }
 
-void BoardGame::displayBoard() {
-    for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; ++j) {
-            std::cout << (board[i][j].getIsDark() ? "X " : "O ");
-        }
-    }
-}
 
 void BoardGame::changePlayer() {
     currentPlayer =
         currentPlayer == &firstPlayer ? &secondPlayer : &firstPlayer;
 }
 
-void BoardGame::movePiece(int fromX, int fromY, int toX, int toY) {
-    if (gameRules->isValidMove(*this, fromX, fromY, toX, toY)) {
-        // Execute the move
-        // ...
-
-        std::vector<std::pair<int, int>> actions =
-            gameRules->getAvailableActions(*this, toX, toY);
-        if (!actions.empty()) {
-            gameState->startActionSequence();
-            // Handle available actions
-        } else {
-            gameState->endActionSequence();
-            // Change player, or other end-of-turn logic
-        }
-    }
+bool BoardGame::isEmpty(int x, int y) const {
+    return !board[x][y].hasPiece();
 }
+
+void BoardGame::movePiece(int fromX, int fromY, int toX, int toY) {
+}
+
 
 void BoardGame::loadTextures() {
     std::string textures[] = {
@@ -140,6 +104,3 @@ void BoardGame::loadTextures() {
     }
 }
 
-GameState* BoardGame::getGameState() const {
-    return gameState;
-}

@@ -23,22 +23,23 @@ class BoardGame {
     std::map<std::string, sf::Texture> textures;
     Tile* selectedTile;
   
-    bool isPathClear(int fromX, int fromY, int toX, int toY) const;
     void updatePosition(int fromX, int fromY, int toX, int toY);
     void removeCapturedPiece(int fromX, int fromY, int toX, int toY);
 
   public:
     BoardGame(int boardSize);
+    virtual ~BoardGame();
+    void initializeGame();
+    
     int getBoardSize() const;
-    const std::vector<std::vector<Tile>>& getBoard() const;
     const std::map<std::string, sf::Texture>& getTextures() const;
     Piece* getPieceAt(int x, int y) const;
-    void displayBoard();
-    void changePlayer();
+    std::vector<std::vector<Tile>>& getBoard() const;
     void selectTile(int x, int y);
     virtual void loadTextures();
-    virtual void initializeGame() = 0;
     virtual void movePiece(int fromX, int fromY, int toX, int toY);
+    virtual void changePlayer();
+    virtual bool isEmpty(int x, int y) const;
     GameState* getGameState() const;
 };
 
