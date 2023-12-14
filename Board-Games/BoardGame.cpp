@@ -27,25 +27,6 @@ void BoardGame::updatePosition(int fromX, int fromY, int toX, int toY) {
     piece->setPosition(toX, toY);
 }
 
-void BoardGame::removeCapturedPiece(int fromX, int fromY, int toX, int toY) {
-    int x = fromX, y = fromY;
-    int dx = toX - fromX, dy = toY - fromY;
-    int steps = std::max(std::abs(dx), std::abs(dy));
-    dx /= steps;
-    dy /= steps;
-
-    for (int i = 0; i < steps; ++i) {
-        x += dx;
-        y += dy;
-        if (board[x][y].hasPiece()) {
-            board[x][y].removePiece();
-            std::cout << "Piece captured at (" << x << ", " << y << ")"
-                      << std::endl;
-            return;
-        }
-    }
-}
-
 BoardGame::BoardGame(int boardSize)
     : size(boardSize), firstPlayer(Player("Rayan", Color::White)),
       secondPlayer("Ilyas", Color::Black), currentPlayer(&firstPlayer),
@@ -87,6 +68,10 @@ bool BoardGame::isEmpty(int x, int y) const {
 }
 
 void BoardGame::movePiece(int fromX, int fromY, int toX, int toY) {
+    Piece* piece = board[fromX][fromY].getPiece();
+    board[toX][toY].setPiece(piece);
+    board[fromX][fromY].setPiece(nullptr);
+    piece->setPosition(toX, toY);
 }
 
 

@@ -18,7 +18,7 @@ bool CheckersRules::isValidCaptureMove(const BoardGame& game, int fromX, int fro
                                   int toX, int toY) const {
 
     // Check if the move is diagonal and of length 2
-    if (!isDiagonal2Step(fromX, fromY, toX, toY)) {
+    if (!isDiagonalStep(2,fromX, fromY, toX, toY)) {
         return false;
     }
 
@@ -35,38 +35,12 @@ bool CheckersRules::isValidCaptureMove(const BoardGame& game, int fromX, int fro
     return true;
 }
 
-std::vector<std::pair<int, int>>
-CheckersRules::getAvailableActions(const BoardGame& game, int x, int y) {
-    std::vector<std::pair<int, int>> actions;
-    // Get the color of the piece
-    Color color = game.getPieceAt(x, y)->getColor();
 
-    // Définir des constantes pour les directions
-    const int WHITE_DIRECTION = 1;
-    const int BLACK_DIRECTION = -1;
-
-    // Utiliser les constantes dans le code
-    int direction = (color == Color::White) ? WHITE_DIRECTION : BLACK_DIRECTION;
-
-    // Iterate through all possible moves in the valid direction
-    for (int dx = -1; dx <= 1; dx++) {
-        int toX = x + dx;
-        int toY = y + direction;
-
-        // Check if the move is within the board boundaries
-        if (isValidMove(game, x, y, toX, toY)) {
-            // Check if the move is valid or a capture
-                actions.emplace_back(toX, toY);
-            }
-        }
-
-    return actions;
-}
 
 bool CheckersRules::isValidSimpleMove(const BoardGame& game, int fromX, int fromY,
                                  int toX, int toY) const {
     // check if the move is diagonal
-    if (!isDiagonalStep(fromX, fromY, toX, toY)) {
+    if (!isDiagonalStep(1, fromX, fromY, toX, toY)) {
         return false;
     }
     // check if the move is forward
@@ -85,17 +59,12 @@ bool CheckersRules::isWithinBoard(const BoardGame& game, int x, int y) const {
            y < game.getBoardSize();
 }
 
-bool CheckersRules::isDiagonalStep(int fromX, int fromY, int toX,
+bool CheckersRules::isDiagonalStep(int step,int fromX, int fromY, int toX,
                                    int toY) const {
     // check if the move is diagonal and of length 1
-    return abs(fromX - toX) == 1 && abs(fromY - toY) == 1;
+    return abs(fromX - toX) == step && abs(fromY - toY) == step;
 }
 
-bool CheckersRules::isDiagonal2Step(int fromX, int fromY, int toX,
-                                   int toY) const{   
- // Check if the move is diagonal and of length 2
-    return (abs(fromX - toX) != 2 || abs(fromY - toY) != 2);
-}
 
 bool CheckersRules::isMoveForward(const BoardGame& game, int fromX, int fromY,
                                   int toX, int toY) const {

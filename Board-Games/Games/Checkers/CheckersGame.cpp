@@ -20,32 +20,75 @@ void CheckersGame::loadTextures() {
     };
 };
 
-void CheckersGame::movePiece(int fromX, int fromY, int toX, int toY) {
-    //get available actions
-    std::vector<std::pair<int, int>> availableActions = gameRules->getAvailableActions(*this, fromX, fromY);
-    //check which action is selected
-    std::vector<std::pair<int, int>>::iterator selectedAction = std::find(availableActions.begin(), availableActions.end(), std::make_pair(toX, toY));
-    //if action is not available, return
-    if (selectedAction == availableActions.end()) {
-        return;
+void CheckersGame::removeCapturedPiece(int fromX, int fromY, int toX, int toY) {
+    int x = fromX, y = fromY;
+    int dx = toX - fromX, dy = toY - fromY;
+    int steps = std::max(std::abs(dx), std::abs(dy));
+    dx /= steps;
+    dy /= steps;
+
+    for (int i = 0; i < steps; ++i) {
+        x += dx;
+        y += dy;
+        if (board[x][y].hasPiece()) {
+            board[x][y].removePiece();
+            std::cout << "Piece captured at (" << x << ", " << y << ")"
+                      << std::endl;
+            return;
+        }
     }
-    //if action is available, move piece
-    //see wich type of action is selected
-    if (gameRules.
+}
 
-void CheckersGame::changePlayer() {
-    // Implementation of changePlayer function
-    BoardGame::changePlayer();
-};
+std::vector<std::pair<int, int>>CheckersGame::getAvailableActions(const BoardGame& game, int x, int y) {
+    std::vector<std::pair<int, int>> actions;
+    // Get the color of the piece
+    Color color = game.getPieceAt(x, y)->getColor();
 
-bool CheckersGame::isEmpty(int x, int y) const {
-    // Implementation of isEmpty function
-    return BoardGame::isEmpty(x, y);
-};
+    // Définir des constantes pour les directions
+    const int WHITE_DIRECTION = 1;
+    const int BLACK_DIRECTION = -1;
 
-void addAvailableCaptures(int x, int y, int dx, int dy) {
+    // Utiliser les constantes dans le code
+    int direction = (color == Color::White) ? WHITE_DIRECTION : BLACK_DIRECTION;
 
-};
+    // Iterate through all possible moves in the valid direction
+    for (int dx = -1; dx <= 1; dx++) {
+        int toX = x + dx;
+        int toY = y + direction;
+
+        // Check if the move is within the board boundaries
+        if (gameRules->isValidMove(game, x, y, toX, toY)) {
+            // Check if the move is valid or a capture
+                actions.emplace_back(toX, toY);
+            }
+        }
+
+    return actions;
+}
+
+//function to get available capture moves
+
+std::vector<std::pair<int, int>> CheckersGame::getAvailableCaptureMoves(const BoardGame& game, int x, int y) {
+    std::vector<std::pair<int, int>> captures;
+    std::vector<std::pair<int, int>> actions = getAvailableActions(game, x, y);
+    for (auto action : actions) {
+        int toX = action.first;
+        int toY = action.second;
+        if (gameRules->isValidCaptureMove(game, x, y, toX, toY)) {
+            captures.emplace_back(toX, toY);
+        }
+    }
+    return captures;
+}
+
+void CheckersGame::setAvailableCaptureMoves(const BoardGame& game, int x, int y) {
+    std::vector<std::pair<int, int>> captures = getAvailableCaptureMoves(game, x, y);
+        gameState->setAvailableCaptureMoves(captures);
+}
+
+
+
+
 
 
 

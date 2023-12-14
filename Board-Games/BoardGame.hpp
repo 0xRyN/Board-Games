@@ -24,7 +24,6 @@ class BoardGame {
     Tile* selectedTile;
   
     void updatePosition(int fromX, int fromY, int toX, int toY);
-    void removeCapturedPiece(int fromX, int fromY, int toX, int toY);
 
   public:
     BoardGame(int boardSize);
@@ -37,9 +36,9 @@ class BoardGame {
     std::vector<std::vector<Tile>>& getBoard() const;
     void selectTile(int x, int y);
     virtual void loadTextures();
-    virtual void movePiece(int fromX, int fromY, int toX, int toY);
-    virtual void changePlayer();
-    virtual bool isEmpty(int x, int y) const;
+    void movePiece(int fromX, int fromY, int toX, int toY);
+    void changePlayer();
+    bool isEmpty(int x, int y) const;
     GameState* getGameState() const;
 };
 
