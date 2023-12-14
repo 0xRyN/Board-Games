@@ -9,6 +9,7 @@
 #include "Player.hpp"
 #include "Tile.hpp"
 #include "GameRules.hpp"
+#include "GameState.hpp"
 
 
 class BoardGame {

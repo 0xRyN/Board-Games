@@ -1,6 +1,6 @@
 #include "GameView.hpp"
 
-GameView::GameView(Checkers& game, int width, int height)
+GameView::GameView(CheckersGame& game, int width, int height)
     : game(game), window(sf::VideoMode(width, height), "Board Game") {
 }
 

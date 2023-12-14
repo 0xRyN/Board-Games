@@ -94,3 +94,7 @@ void CheckersGame::setAvailableCaptureMoves(const BoardGame& game, int x, int y)
 
 
 
+
+
+
+
