@@ -29,10 +29,5 @@ class Piece {
     // Getter for the texture path
     std::string getTexturePath() const;
 
-    // Virtual method for the piece movements (to be overridden in derived
-    // classes)
-    virtual bool canMove(const BoardGame& game, int toX, int toY) const = 0;
-    virtual bool canCapture(const BoardGame& game, int toX, int toY) const = 0;
 };
-
 #endif // PIECE_HPP

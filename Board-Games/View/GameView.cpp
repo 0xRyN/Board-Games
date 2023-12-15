@@ -27,9 +27,17 @@ void GameView::drawTile(Tile* tile, int x, int y, int tileSize) {
     auto texturePath = tile->getTexturePath();
     auto texture = game.getTextures().at(texturePath);
     sf::Sprite sprite(texture);
+    // Vérifier si la tuile est accessible
+    if (tile->isReachable()) {
+        // Utiliser la texture "assets/Tiles/green_tile.png" pour les tuiles accessibles
+        auto greenTexture = game.getTextures().at("assets/Tiles/green_tile.png");
+        sprite.setTexture(greenTexture);
+    }
     sprite.setPosition(x, y);
     sprite.setScale((double)tileSize / (double)texture.getSize().x,
                     (double)tileSize / (double)texture.getSize().y);
+
+
     window.draw(sprite);
 }
 

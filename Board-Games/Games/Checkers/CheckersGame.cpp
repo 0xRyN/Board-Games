@@ -39,10 +39,10 @@ void CheckersGame::removeCapturedPiece(int fromX, int fromY, int toX, int toY) {
     }
 }
 
-std::vector<std::pair<int, int>>CheckersGame::getAvailableActions(const BoardGame& game, int x, int y) {
+std::vector<std::pair<int, int>>CheckersGame::getAvailableActions(int x, int y) {
     std::vector<std::pair<int, int>> actions;
     // Get the color of the piece
-    Color color = game.getPieceAt(x, y)->getColor();
+    Color color =  board[x][y].getPiece()->getColor();
 
     // Définir des constantes pour les directions
     const int WHITE_DIRECTION = 1;
@@ -57,7 +57,7 @@ std::vector<std::pair<int, int>>CheckersGame::getAvailableActions(const BoardGam
         int toY = y + direction;
 
         // Check if the move is within the board boundaries
-        if (gameRules->isValidMove(game, x, y, toX, toY)) {
+        if (gameRules->isValidMove(&this ,x, y, toX, toY)) {
             // Check if the move is valid or a capture
                 actions.emplace_back(toX, toY);
             }
@@ -68,22 +68,31 @@ std::vector<std::pair<int, int>>CheckersGame::getAvailableActions(const BoardGam
 
 //function to get available capture moves
 
-std::vector<std::pair<int, int>> CheckersGame::getAvailableCaptureMoves(const BoardGame& game, int x, int y) {
+std::vector<std::pair<int, int>> CheckersGame::getAvailableCaptureMoves(int x, int y) {
     std::vector<std::pair<int, int>> captures;
-    std::vector<std::pair<int, int>> actions = getAvailableActions(game, x, y);
+    std::vector<std::pair<int, int>> actions = getAvailableActions(x, y);
     for (auto action : actions) {
         int toX = action.first;
         int toY = action.second;
-        if (gameRules->isValidCaptureMove(game, x, y, toX, toY)) {
+        if (gameRules->isValidCaptureMove(x, y, toX, toY)) {
             captures.emplace_back(toX, toY);
         }
     }
     return captures;
 }
 
-void CheckersGame::setAvailableCaptureMoves(const BoardGame& game, int x, int y) {
-    std::vector<std::pair<int, int>> captures = getAvailableCaptureMoves(game, x, y);
+void CheckersGame::setAvailableCaptureMoves(int x, int y) {
+    std::vector<std::pair<int, int>> captures = getAvailableCaptureMoves(x, y);
         gameState->setAvailableCaptureMoves(captures);
+}
+
+void CheckersGame::setRecheableTile(int x, int y) {
+    std::vector<std::pair<int, int>> actions = getAvailableActions(x, y);
+    for (auto action : actions) {
+        int toX = action.first;
+        int toY = action.second;
+         board[toX][toY].setReachable(true);
+    }
 }
 
 

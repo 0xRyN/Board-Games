@@ -3,12 +3,17 @@
 
 #include "Piece.hpp"
 
+enum class TileState {
+    Normal,
+    Reachable,
+};
 class Tile {
   private:
     Piece* piece;
     bool isDark;
     std::string texturePath;
     int x, y;
+    TileState state;
 
   public:
     Tile(bool dark, int x, int y);
@@ -20,6 +25,8 @@ class Tile {
     bool hasPiece() const;
     int getX() const;
     int getY() const;
+    bool isReachable() const;
+    void setReachable(bool reachable);
 };
 
 #endif

@@ -8,7 +8,7 @@ protected:
     bool isActionInProgress;
     std::vector<std::pair<int, int>> availableActions;
     std::vector<std::pair<int, int>> availableCaptureMoves;
-
+    
 
 public:
     GameState() {};

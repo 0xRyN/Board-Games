@@ -1,4 +1,5 @@
 #include "Tile.hpp"
+#include <SFML/Graphics.hpp>
 #include <iostream>
 
 Tile::Tile(bool dark, int x, int y) : piece(nullptr), isDark(dark), x(x), y(y) {
@@ -39,4 +40,12 @@ int Tile::getX() const {
 
 int Tile::getY() const {
     return y;
+}
+
+bool Tile::isReachable() const {
+    return state == TileState::Reachable;
+}
+
+void Tile::setReachable(bool reachable) {
+    state = (reachable) ? TileState::Reachable : TileState::Normal;
 }
