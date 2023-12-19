@@ -15,6 +15,7 @@ OBJECTS = $(SOURCES:%.cpp=$(OBJ_DIR)/%.o)
 
 # Règle principale
 all: $(EXECUTABLE)
+	./$(EXECUTABLE)
 
 # Règle pour créer l'exécutable with all errors and warnings
 $(EXECUTABLE): $(OBJECTS)
