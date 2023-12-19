@@ -1,7 +1,6 @@
 #include "GameState.hpp"
 
-GameState::GameState() : isActionInProgress(false) {
-}
+
 
 void GameState::startActionSequence() {
     isActionInProgress = true;

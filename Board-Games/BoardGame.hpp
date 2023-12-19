@@ -1,6 +1,7 @@
 #ifndef BOARDGAME_HPP
 #define BOARDGAME_HPP
 
+class GameRules;
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <map>
@@ -18,7 +19,6 @@ class BoardGame {
     std::vector<std::vector<Tile>> board;
     std::unique_ptr<GameState> gameState;
     std::unique_ptr<GameRules> gameRules;
-    std::vector<std::vector<Tile>> board;
     Player firstPlayer, secondPlayer;
     Player* currentPlayer;
     std::map<std::string, sf::Texture> textures;

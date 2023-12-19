@@ -57,7 +57,7 @@ std::vector<std::pair<int, int>>CheckersGame::getAvailableActions(int x, int y) 
         int toY = y + direction;
 
         // Check if the move is within the board boundaries
-        if (gameRules->isValidMove(&this ,x, y, toX, toY)) {
+        if (gameRules->isValidMove(*this ,x, y, toX, toY)) {
             // Check if the move is valid or a capture
                 actions.emplace_back(toX, toY);
             }
@@ -74,7 +74,7 @@ std::vector<std::pair<int, int>> CheckersGame::getAvailableCaptureMoves(int x, i
     for (auto action : actions) {
         int toX = action.first;
         int toY = action.second;
-        if (gameRules->isValidCaptureMove(x, y, toX, toY)) {
+        if (gameRules->isValidCaptureMove(*this,x, y, toX, toY)) {
             captures.emplace_back(toX, toY);
         }
     }

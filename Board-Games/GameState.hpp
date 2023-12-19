@@ -11,7 +11,7 @@ protected:
     
 
 public:
-    GameState() {};
+    GameState() : isActionInProgress(false) {}
     virtual void startActionSequence();
     virtual void endActionSequence();
     bool actionInProgress() const;

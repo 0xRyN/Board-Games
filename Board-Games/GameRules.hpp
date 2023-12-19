@@ -1,6 +1,7 @@
 #ifndef GAME_RULES_HPP
 #define GAME_RULES_HPP
 
+class BoardGame;
 #include "BoardGame.hpp"
 
 class GameRules {
