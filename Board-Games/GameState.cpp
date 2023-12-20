@@ -1,5 +1,7 @@
 #include "GameState.hpp"
 
+#include <algorithm>
+
 GameState::GameState(int boardSize)
     : boardSize(boardSize), firstPlayer(Player("Player 1", Color::White)),
       secondPlayer(Player("Player 2", Color::Black)),
@@ -34,6 +36,10 @@ const Player* GameState::getCurrentPlayer() const {
     return currentPlayer;
 }
 
+void GameState::setForcedMoves(std::vector<Move> forcedMoves) {
+    this->forcedMoves = forcedMoves;
+}
+
 void GameState::changePlayer() {
     currentPlayer =
         currentPlayer == &firstPlayer ? &secondPlayer : &firstPlayer;
@@ -66,6 +72,13 @@ void GameState::initializeGame() {
 }
 
 bool GameState::movePiece(Move move) {
+    // We have forced moves and the current move is not one of them
+    if (!forcedMoves.empty() &&
+        std::find(forcedMoves.begin(), forcedMoves.end(), move) ==
+            forcedMoves.end()) {
+        return false;
+    }
+
     auto fromX = move.fromX;
     auto fromY = move.fromY;
     auto toX = move.toX;

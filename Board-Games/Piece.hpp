@@ -4,6 +4,7 @@
 #include <Board-Games/GameState.hpp>
 #include <Board-Games/common.hpp>
 #include <string>
+#include <vector>
 
 class GameState;
 
@@ -45,6 +46,10 @@ class Piece {
 
     // canCapture is for capturing moves
     virtual bool canCapture(GameState& state, int toX, int toY) const = 0;
+
+    // See all the valid moves for a piece
+    virtual const std::vector<Move>*
+    getAllAvailableMoves(GameState& state) const = 0;
 };
 
 #endif // PIECE_HPP

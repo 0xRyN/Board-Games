@@ -34,6 +34,11 @@ void GameView::selectTile(int x, int y) {
     }
 
     const Piece* piece = selectedTile->getPiece();
+    // // TODO: Implement the use of getAllAvailableMoves like this
+    // // getAllAvailableMoves returns all available moves for a piece, and
+    // // if needed to, makes them forced (inside Piece::canCapture)
+    // auto moves = piece->getAllAvailableMoves(*state);
+
     if (piece->getColor() != state->getCurrentPlayer()->getColor()) {
         std::cout << *(state->getCurrentPlayer()) << std::endl;
         selectedTile = nullptr;

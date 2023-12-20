@@ -11,3 +11,8 @@ std::ostream& operator<<(std::ostream& os, const Move& move) {
        << move.toX << ", " << move.toY << ")";
     return os;
 }
+
+bool operator==(const Move& lhs, const Move& rhs) {
+    return lhs.fromX == rhs.fromX && lhs.fromY == rhs.fromY &&
+           lhs.toX == rhs.toX && lhs.toY == rhs.toY;
+}

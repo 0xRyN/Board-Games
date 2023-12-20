@@ -19,6 +19,7 @@ class GameState {
     std::vector<std::vector<Tile>> board;
     Player firstPlayer, secondPlayer;
     Player* currentPlayer;
+    std::vector<Move> forcedMoves;
 
   public:
     GameState(int boardSize);
@@ -27,6 +28,7 @@ class GameState {
     const std::vector<std::vector<Tile>>& getBoard() const;
     const Tile& getTileAt(int x, int y) const;
     const Player* getCurrentPlayer() const;
+    void setForcedMoves(std::vector<Move> forcedMoves);
     void changePlayer();
     bool updatePosition(Move move);
     bool removeCapturedPiece(int x, int y);
