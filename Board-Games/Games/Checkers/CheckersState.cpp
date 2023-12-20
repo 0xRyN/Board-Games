@@ -9,7 +9,6 @@ CheckersState::CheckersState(int boardSize, Player* firstPlayer,
 }
 
 void CheckersState::initializeGame() {
-    std::cout << "Initializing Checkers game..." << std::endl;
     GameState::initializeGame();
     for (int i = 0; i < boardSize; i++) {
         for (int j = 0; j < boardSize; j++) {
@@ -23,3 +22,17 @@ void CheckersState::initializeGame() {
         }
     }
 }
+
+void CheckersState::getAllAvailableMovesForAllPieces() {
+    Piece* piece;
+    for (int i = 0; i < boardSize; i++) {
+        for (int j = 0; j < boardSize; j++) {
+            piece = board[i][j].getPiece();
+            if (piece != nullptr && piece->getColor() == currentPlayer->getColor()) {
+                piece->getAllAvailableMoves(*this); 
+        }
+    }
+}
+
+}
+

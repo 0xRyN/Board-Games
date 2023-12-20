@@ -45,15 +45,20 @@ void GameState::changePlayer() {
         currentPlayer == &firstPlayer ? &secondPlayer : &firstPlayer;
 }
 
-bool GameState::updatePosition(Move move) {
+bool GameState::updatePosition(Move move, bool isCapture) {
     auto fromX = move.fromX;
     auto fromY = move.fromY;
     auto toX = move.toX;
     auto toY = move.toY;
+    std::cout << "Moving from (" << fromX << ", " << fromY << ") to (" << toX
+              << ", " << toY << ")" << std::endl;
     Piece* piece = board[fromX][fromY].getPiece();
     board[toX][toY].setPiece(piece);
     board[fromX][fromY].setPiece(nullptr);
     piece->setPosition(toX, toY);
+    if (isCapture) {
+        removeCapturedPiece((fromX + toX) / 2, (fromY + toY) / 2);
+    }
 
     return true;
 }
@@ -71,8 +76,12 @@ bool GameState::removeCapturedPiece(int x, int y) {
 void GameState::initializeGame() {
 }
 
+
+
 bool GameState::movePiece(Move move) {
     // We have forced moves and the current move is not one of them
+    //show the forced moves
+
     if (!forcedMoves.empty() &&
         std::find(forcedMoves.begin(), forcedMoves.end(), move) ==
             forcedMoves.end()) {
@@ -89,10 +98,17 @@ bool GameState::movePiece(Move move) {
         return false;
     }
 
-    if (!piece->isValidMove(*this, toX, toY)) {
-        std::cout << "Invalid move" << std::endl;
+    auto step = 0;
+    if (piece->canCapture(*this, toX, toY)) {
+        step = 2;
+    } else if (piece->canMove(*this, toX, toY)) {
+        step = 1;
+    } else {
         return false;
     }
+    
+    updatePosition(move, step == 2);
+
 
     return true;
 }

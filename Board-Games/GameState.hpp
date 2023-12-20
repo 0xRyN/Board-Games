@@ -30,10 +30,11 @@ class GameState {
     const Player* getCurrentPlayer() const;
     void setForcedMoves(std::vector<Move> forcedMoves);
     void changePlayer();
-    bool updatePosition(Move move);
+    bool updatePosition(Move move, bool isCapture = false);
     bool removeCapturedPiece(int x, int y);
     virtual bool movePiece(Move move);
     virtual void initializeGame() = 0;
+    virtual void getAllAvailableMovesForAllPieces() = 0;
 };
 
 #endif

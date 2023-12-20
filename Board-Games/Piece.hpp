@@ -48,8 +48,10 @@ class Piece {
     virtual bool canCapture(GameState& state, int toX, int toY) const = 0;
 
     // See all the valid moves for a piece
-    virtual const std::vector<Move>*
+    virtual void
     getAllAvailableMoves(GameState& state) const = 0;
+
+
 };
 
 #endif // PIECE_HPP

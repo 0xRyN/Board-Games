@@ -25,7 +25,6 @@ void GameView::run() {
 }
 
 void GameView::selectTile(int x, int y) {
-    std::cout << "Selecting tile (" << x << ", " << y << ")" << std::endl;
     if (!selectedTile) {
         if (state->getTileAt(x, y).hasPiece()) {
             selectedTile = &(state->getTileAt(x, y));
@@ -37,10 +36,8 @@ void GameView::selectTile(int x, int y) {
     // // TODO: Implement the use of getAllAvailableMoves like this
     // // getAllAvailableMoves returns all available moves for a piece, and
     // // if needed to, makes them forced (inside Piece::canCapture)
-    // auto moves = piece->getAllAvailableMoves(*state);
 
     if (piece->getColor() != state->getCurrentPlayer()->getColor()) {
-        std::cout << *(state->getCurrentPlayer()) << std::endl;
         selectedTile = nullptr;
         return;
     }
@@ -48,7 +45,10 @@ void GameView::selectTile(int x, int y) {
     Move move = {piece->getX(), piece->getY(), x, y, false};
 
     if (state->movePiece(move)) {
+        state->setForcedMoves({});
         state->changePlayer();
+        state->getAllAvailableMovesForAllPieces();
+
     }
 
     selectedTile = nullptr;
@@ -117,4 +117,5 @@ void GameView::handleClick() {
     int x = mousePos.x / (window.getSize().x / boardSize);
     int y = mousePos.y / (window.getSize().y / boardSize);
     this->selectTile(x, y);
+
 }

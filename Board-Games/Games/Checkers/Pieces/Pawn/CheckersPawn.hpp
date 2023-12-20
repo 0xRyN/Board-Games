@@ -11,8 +11,8 @@ class CheckersPawn : public Piece {
 
     bool canMove(GameState& state, int toX, int toY) const override;
     bool canCapture(GameState& state, int toX, int toY) const override;
-    const std::vector<Move>*
-    getAllAvailableMoves(GameState& state) const override;
+    void getAllAvailableMoves(GameState& state) const override;
+    bool checkDirAndStep (int toX, int toY, int step) const;
 };
 
 #endif // CHECKERS_PA_HPP

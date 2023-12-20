@@ -17,11 +17,7 @@ bool Piece::isPathClear(GameState& state, int fromX, int fromY, int toX,
     for (int i = 0; i < steps; ++i) {
         x += dx;
         y += dy;
-        std::cout << "Checking (" << x << ", " << y << ") for path clearness"
-                  << std::endl;
-
         if (state.getTileAt(x, y).hasPiece()) {
-            std::cout << "Path not clear" << std::endl;
             return false;
         }
     }
