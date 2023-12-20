@@ -9,7 +9,6 @@
 class Checkers : public BoardGame {
   public:
     Checkers();
-    void initializeGame();
     void loadTextures();
 };
 

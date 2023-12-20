@@ -1,14 +1,20 @@
 #ifndef PIECE_HPP
 #define PIECE_HPP
 
+#include <Board-Games/GameState.hpp>
 #include <Board-Games/common.hpp>
 #include <string>
+
+class GameState;
 
 class Piece {
   protected:
     int x, y;                // Position of the piece on the board
     Color color;             // Color of the piece
     std::string texturePath; // Path to the texture of the piece
+
+    bool isPathClear(GameState& state, int fromX, int fromY, int toX,
+                     int toY) const;
 
   public:
     // Constructor
@@ -29,10 +35,16 @@ class Piece {
     // Getter for the texture path
     std::string getTexturePath() const;
 
-    // Virtual method for the piece movements (to be overridden in derived
-    // classes)
-    virtual bool canMove(int toX, int toY) const = 0;
-    virtual bool canCapture(int toX, int toY) const = 0;
+    // Check if a move (capture or not) is valid
+    bool isValidMove(GameState& state, int toX, int toY) const;
+
+    // Virtual method for the piece movements. Override these.
+
+    // canMove is for non-capturing moves
+    virtual bool canMove(GameState& state, int toX, int toY) const = 0;
+
+    // canCapture is for capturing moves
+    virtual bool canCapture(GameState& state, int toX, int toY) const = 0;
 };
 
 #endif // PIECE_HPP

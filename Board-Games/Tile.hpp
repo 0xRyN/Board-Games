@@ -3,6 +3,8 @@
 
 #include <Board-Games/Piece.hpp>
 
+class Piece;
+
 class Tile {
   private:
     Piece* piece;
