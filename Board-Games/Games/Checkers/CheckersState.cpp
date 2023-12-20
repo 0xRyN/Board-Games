@@ -28,11 +28,11 @@ void CheckersState::getAllAvailableMovesForAllPieces() {
     for (int i = 0; i < boardSize; i++) {
         for (int j = 0; j < boardSize; j++) {
             piece = board[i][j].getPiece();
-            if (piece != nullptr && piece->getColor() == currentPlayer->getColor()) {
-                piece->getAllAvailableMoves(*this); 
+            if (piece != nullptr &&
+                piece->getColor() == currentPlayer->getColor()) {
+                piece->getAllAvailableMoves(*this);
+            }
         }
     }
-}
-
 }
 

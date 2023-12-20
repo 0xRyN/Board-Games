@@ -43,6 +43,7 @@ void GameState::setForcedMoves(std::vector<Move> forcedMoves) {
 void GameState::changePlayer() {
     currentPlayer =
         currentPlayer == &firstPlayer ? &secondPlayer : &firstPlayer;
+        setHasCapturedPiece(false);
 }
 
 bool GameState::updatePosition(Move move, bool isCapture) {
@@ -50,13 +51,13 @@ bool GameState::updatePosition(Move move, bool isCapture) {
     auto fromY = move.fromY;
     auto toX = move.toX;
     auto toY = move.toY;
-    std::cout << "Moving from (" << fromX << ", " << fromY << ") to (" << toX
-              << ", " << toY << ")" << std::endl;
+
     Piece* piece = board[fromX][fromY].getPiece();
     board[toX][toY].setPiece(piece);
     board[fromX][fromY].setPiece(nullptr);
     piece->setPosition(toX, toY);
     if (isCapture) {
+        setHasCapturedPiece(true);
         removeCapturedPiece((fromX + toX) / 2, (fromY + toY) / 2);
     }
 
@@ -76,7 +77,9 @@ bool GameState::removeCapturedPiece(int x, int y) {
 void GameState::initializeGame() {
 }
 
-
+std::vector<Move> GameState::getForcedMoves() const {
+    return forcedMoves;
+}
 
 bool GameState::movePiece(Move move) {
     // We have forced moves and the current move is not one of them
@@ -108,7 +111,17 @@ bool GameState::movePiece(Move move) {
     }
     
     updatePosition(move, step == 2);
-
-
+    if(!forcedMoves.empty() ){
+        forcedMoves.clear();
+    }
     return true;
+}
+
+
+bool GameState::getHasCapturedPiece() const {
+    return hasCapturedPiece;
+}
+
+void GameState::setHasCapturedPiece(bool hasCapturedPiece) {
+    this->hasCapturedPiece = hasCapturedPiece;
 }

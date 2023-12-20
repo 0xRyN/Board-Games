@@ -20,6 +20,7 @@ class GameState {
     Player firstPlayer, secondPlayer;
     Player* currentPlayer;
     std::vector<Move> forcedMoves;
+    bool hasCapturedPiece; ;
 
   public:
     GameState(int boardSize);
@@ -35,6 +36,9 @@ class GameState {
     virtual bool movePiece(Move move);
     virtual void initializeGame() = 0;
     virtual void getAllAvailableMovesForAllPieces() = 0;
+    std::vector<Move> getForcedMoves() const;
+    bool getHasCapturedPiece() const;
+    void setHasCapturedPiece(bool hasCapturedPiece);
 };
 
 #endif

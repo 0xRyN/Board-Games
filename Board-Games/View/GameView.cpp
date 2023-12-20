@@ -43,14 +43,11 @@ void GameView::selectTile(int x, int y) {
     }
 
     Move move = {piece->getX(), piece->getY(), x, y, false};
-
-    if (state->movePiece(move)) {
-        state->setForcedMoves({});
+    state->movePiece(move);
+    state->getAllAvailableMovesForAllPieces();
+    if ((state->getForcedMoves().empty() && !state->getHasCapturedPiece() ) || (!state->getForcedMoves().empty() && state->getHasCapturedPiece() )) {
         state->changePlayer();
-        state->getAllAvailableMovesForAllPieces();
-
     }
-
     selectedTile = nullptr;
 }
 
@@ -117,5 +114,4 @@ void GameView::handleClick() {
     int x = mousePos.x / (window.getSize().x / boardSize);
     int y = mousePos.y / (window.getSize().y / boardSize);
     this->selectTile(x, y);
-
 }

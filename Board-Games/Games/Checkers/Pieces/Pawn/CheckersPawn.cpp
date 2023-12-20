@@ -95,8 +95,6 @@ void CheckersPawn::getAllAvailableMoves(GameState& state) const {
                 moves->push_back(Move(x, y, i, j, false));
             } else if (this->canCapture(state, i, j)) {
                 canCapture = true;
-                std::cout << "Can capture at (" << i << ", " << j << ")"
-                          << std::endl;
                 moves->push_back(Move(x, y, i, j, true));
             }
         }

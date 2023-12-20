@@ -9,6 +9,8 @@ class CheckersState : public GameState {
     CheckersState(int boardSize, Player* firstPlayer, Player* secondPlayer);
     void initializeGame() override;
     void getAllAvailableMovesForAllPieces() override;
+
+
 };
 
 #endif
