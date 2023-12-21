@@ -1,24 +1,52 @@
 #include "CheckersRules.hpp"
 
+std::vector<std::pair<int, int>>
+CheckersRules::getAvailableActions(const BoardGame& game, int x, int y) {
+    std::vector<std::pair<int, int>> actions;
+    // Get the color of the piece
+    Color color = game.getBoard()[x][y].getPiece()->getColor();
+
+    // Définir des constantes pour les directions
+    const int WHITE_DIRECTION = 1;
+    const int BLACK_DIRECTION = -1;
+
+    // Utiliser les constantes dans le code
+    int direction = (color == Color::White) ? WHITE_DIRECTION : BLACK_DIRECTION;
+
+    // Iterate through all possible moves in the valid direction
+    for (int dx = -1; dx <= 1; dx++) {
+        int toX = x + dx;
+        int toY = y + direction;
+
+        // Check if the move is within the board boundaries
+        if (this->isValidMove(game, x, y, toX, toY)) {
+            // Check if the move is valid or a capture
+            actions.emplace_back(toX, toY);
+        }
+    }
+
+    return actions;
+}
+
 bool CheckersRules::isValidMove(const BoardGame& game, int fromX, int fromY,
                                 int toX, int toY) const {
-    if(!isWithinBoard(game, toX, toY)) {
+    if (!isWithinBoard(game, toX, toY)) {
         return false;
     }
-    if(isValidSimpleMove(game, fromX, fromY, toX, toY)){
+    if (isValidSimpleMove(game, fromX, fromY, toX, toY)) {
         return true;
     }
-    if(isValidCaptureMove(game, fromX, fromY, toX, toY)){
+    if (isValidCaptureMove(game, fromX, fromY, toX, toY)) {
         return true;
     }
     return false;
 }
 
-bool CheckersRules::isValidCaptureMove(const BoardGame& game, int fromX, int fromY,
-                                  int toX, int toY) const {
+bool CheckersRules::isValidCaptureMove(const BoardGame& game, int fromX,
+                                       int fromY, int toX, int toY) const {
 
     // Check if the move is diagonal and of length 2
-    if (!isDiagonalStep(2,fromX, fromY, toX, toY)) {
+    if (!isDiagonalStep(2, fromX, fromY, toX, toY)) {
         return false;
     }
 
@@ -35,10 +63,20 @@ bool CheckersRules::isValidCaptureMove(const BoardGame& game, int fromX, int fro
     return true;
 }
 
-
-
-bool CheckersRules::isValidSimpleMove(const BoardGame& game, int fromX, int fromY,
-                                 int toX, int toY) const {
+std::vector<std::pair<int, int>> CheckersRules::getAvailableCaptureMoves(const BoardGame& game ,int x, int y) {
+    std::vector<std::pair<int, int>> captures;
+    std::vector<std::pair<int, int>> actions = getAvailableActions(game, x, y);
+    for (auto action : actions) {
+        int toX = action.first;
+        int toY = action.second;
+        if (this->isValidCaptureMove(game,x, y, toX, toY)) {
+            captures.emplace_back(toX, toY);
+        }
+    }
+    return captures;
+}
+bool CheckersRules::isValidSimpleMove(const BoardGame& game, int fromX,
+                                      int fromY, int toX, int toY) const {
     // check if the move is diagonal
     if (!isDiagonalStep(1, fromX, fromY, toX, toY)) {
         return false;
@@ -59,12 +97,11 @@ bool CheckersRules::isWithinBoard(const BoardGame& game, int x, int y) const {
            y < game.getBoardSize();
 }
 
-bool CheckersRules::isDiagonalStep(int step,int fromX, int fromY, int toX,
+bool CheckersRules::isDiagonalStep(int step, int fromX, int fromY, int toX,
                                    int toY) const {
     // check if the move is diagonal and of length 1
     return abs(fromX - toX) == step && abs(fromY - toY) == step;
 }
-
 
 bool CheckersRules::isMoveForward(const BoardGame& game, int fromX, int fromY,
                                   int toX, int toY) const {
@@ -76,8 +113,8 @@ bool CheckersRules::isMoveForward(const BoardGame& game, int fromX, int fromY,
     return fromY > toY;
 }
 
-bool CheckersRules::isCapturablePiece(const BoardGame& game, int fromX, int fromY,
-                                  int toX, int toY) const { 
+bool CheckersRules::isCapturablePiece(const BoardGame& game, int fromX,
+                                      int fromY, int toX, int toY) const {
     // Get the position of the jumped piece
     int midX = (fromX + toX) / 2;
     int midY = (fromY + toY) / 2;
@@ -93,8 +130,3 @@ bool CheckersRules::isCapturablePiece(const BoardGame& game, int fromX, int from
     }
     return true;
 }
-
-
-
-  
-    

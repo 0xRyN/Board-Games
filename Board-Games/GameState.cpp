@@ -22,3 +22,7 @@ void GameState::setAvailableActions(const std::vector<std::pair<int, int>>& acti
 const std::vector<std::pair<int, int>>& GameState::getAvailableActions() const {
     return availableActions;
 }
+
+void GameState::setAvailableCaptureMoves(
+    const std::vector<std::pair<int, int>>& captures) {
+}

@@ -6,6 +6,7 @@ class BoardGame;
 
 class GameRules {
 public:
+    virtual std::vector<std::pair<int, int>> getAvailableCaptureMoves(const BoardGame& game, int x, int y) = 0;
     virtual bool isValidMove(const BoardGame& game, int fromX, int fromY, int toX, int toY) const = 0;
     virtual std::vector<std::pair<int, int>> getAvailableActions(const BoardGame& game, int x, int y) = 0;
     // Additional methods for other game-specific rule checks
