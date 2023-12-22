@@ -6,6 +6,8 @@
 CheckersGame::CheckersGame() : BoardGame(8) {
     gameState = std::make_unique<CheckersGameState>();
     gameRules = std::make_unique<CheckersRules>();
+    this->loadTextures();
+    this->initializeGame();
 }
 
 CheckersGame::~CheckersGame() {
@@ -19,16 +21,26 @@ void CheckersGame::loadTextures() {
         "assets/Pieces/Checkers/Pawn/white.png",
         "assets/Pieces/Checkers/Pawn/black.png",
     };
+
+    for (std::string texture : textures) {
+        sf::Texture tex;
+        tex.loadFromFile(texture);
+        tex.setSmooth(true);
+        this->textures[texture] = tex;
+    }
 };
 
 void CheckersGame::initializeGame() {
-    // Implementation of initializeGame function
-    for (int i = 0; i < boadSize; ++i) {
-        for (int j = 0; j < boadSize; ++j) {
-            if (i < 3 && (i + j) % 2 == 1) {
+    std::cout << "Initializing Checkers game..." << std::endl;
+    BoardGame::initializeGame();
+    for (int i = 0; i < boardSize; i++) {
+        for (int j = 0; j < boardSize; j++) {
+            if (board[i][j].getIsDark() && j < 3) {
                 board[i][j].setPiece(new CheckersPawn(i, j, Color::White));
-            } else if (i > 4 && (i + j) % 2 == 1) {
+            } else if (board[i][j].getIsDark() && j > 4) {
                 board[i][j].setPiece(new CheckersPawn(i, j, Color::Black));
+            } else {
+                board[i][j].removePiece();
             }
         }
     }

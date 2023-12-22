@@ -3,12 +3,12 @@
 
 
 BoardGame::BoardGame(int boardSize)
-    : boadSize(boardSize), firstPlayer(Player("Rayan", Color::White)),
+    : boardSize(boardSize), firstPlayer(Player("Rayan", Color::White)),
       secondPlayer("Ilyas", Color::Black), currentPlayer(&firstPlayer),
       selectedTile(nullptr) {
-    for (int i = 0; i < boadSize; ++i) {
+    for (int i = 0; i < boardSize; ++i) {
         std::vector<Tile> row;
-        for (int j = 0; j < boadSize; ++j) {
+        for (int j = 0; j < boardSize; ++j) {
             row.push_back(Tile((i + j) % 2 == 1, i, j));
         }
         board.push_back(row);
@@ -35,7 +35,7 @@ void BoardGame::loadTextures() {
 }
 
 int BoardGame::getBoardSize() const {
-    return boadSize;
+    return boardSize;
 }
 
 const std::map<std::string, sf::Texture>& BoardGame::getTextures() const {
@@ -82,7 +82,8 @@ void BoardGame::selectTile(int x, int y) {
     }
 }
 
-
+void BoardGame::initializeGame() {
+}
 
 void BoardGame::updatePosition(int fromX, int fromY, int toX, int toY) {
     Piece* piece = board[fromX][fromY].getPiece();

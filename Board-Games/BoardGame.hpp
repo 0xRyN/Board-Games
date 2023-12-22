@@ -15,7 +15,7 @@ class GameRules;
 
 class BoardGame {
   protected:
-    int boadSize;
+    int boardSize;
     std::vector<std::vector<Tile>> board;
     std::unique_ptr<GameState> gameState;
     std::unique_ptr<GameRules> gameRules;
@@ -30,7 +30,7 @@ class BoardGame {
     virtual ~BoardGame();
     virtual void loadTextures();
     
-    /// @brief 
+
     virtual void initializeGame();
     void updatePosition(int fromX, int fromY, int toX, int toY);
     int getBoardSize() const;
