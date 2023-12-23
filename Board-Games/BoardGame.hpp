@@ -16,7 +16,6 @@ class BoardGame {
   protected:
     GameState* gameState;
     std::map<std::string, sf::Texture> textures;
-    Tile* selectedTile;
 
   public:
     BoardGame(int boardSize);
