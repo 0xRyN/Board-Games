@@ -42,10 +42,10 @@ int Tile::getY() const {
     return y;
 }
 
-bool Tile::isReachable() const {
+bool Tile::isReachable() {
     return state == TileState::Reachable;
 }
 
-void Tile::setReachable(bool reachable) {
+void Tile::setReachable(bool reachable)  {
     state = (reachable) ? TileState::Reachable : TileState::Normal;
 }

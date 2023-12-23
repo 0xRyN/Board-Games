@@ -37,7 +37,7 @@ class BoardGame {
     const std::map<std::string, sf::Texture>& getTextures() const;
     Piece* getPieceAt(int x, int y) const;
     const std::vector<std::vector<Tile>>& getBoard() const;
-    void selectTile(int x, int y);
+    virtual void selectTile(int x, int y);
     void movePiece(int fromX, int fromY, int toX, int toY);
     void changePlayer();
     bool isEmpty(int x, int y) const;

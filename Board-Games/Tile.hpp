@@ -25,7 +25,7 @@ class Tile {
     bool hasPiece() const;
     int getX() const;
     int getY() const;
-    bool isReachable() const;
+    bool isReachable();
     void setReachable(bool reachable);
 };
 

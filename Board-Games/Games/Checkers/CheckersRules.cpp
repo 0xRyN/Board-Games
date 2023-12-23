@@ -34,12 +34,12 @@ bool CheckersRules::isValidMove(const BoardGame& game, int fromX, int fromY,
         return false;
     }
     if (isValidSimpleMove(game, fromX, fromY, toX, toY)) {
-        return true;
+        return false;
     }
     if (isValidCaptureMove(game, fromX, fromY, toX, toY)) {
-        return true;
+        return false;
     }
-    return false;
+    return true;
 }
 
 bool CheckersRules::isValidCaptureMove(const BoardGame& game, int fromX,
@@ -129,4 +129,14 @@ bool CheckersRules::isCapturablePiece(const BoardGame& game, int fromX,
         return false;
     }
     return true;
+}
+
+void CheckersRules::showReachableTiles(BoardGame& game, int x, int y)  {
+    std::vector<std::pair<int, int>> actions  = getAvailableActions(game, x, y);
+    for (auto action : actions) {
+        int toX = action.first;
+        int toY = action.second;
+        auto board = game.getBoard()[toX][toY];
+        board.setReachable(true);
+    }
 }

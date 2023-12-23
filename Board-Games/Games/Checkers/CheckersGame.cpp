@@ -65,11 +65,6 @@ void CheckersGame::removeCapturedPiece(int fromX, int fromY, int toX, int toY) {
     }
 }
 
-
-//function to get available capture moves
-
-
-
 void CheckersGame::setAvailableCaptureMoves(int x, int y) {
     std::vector<std::pair<int, int>> captures = gameRules->getAvailableCaptureMoves(*this, x, y);
         gameState->setAvailableCaptureMoves(captures);
@@ -82,6 +77,32 @@ void CheckersGame::setRecheableTile(int x, int y) {
         int toY = action.second;
          board[toX][toY].setReachable(true);
     }
+}
+
+void CheckersGame::selectTile(int x, int y) {
+    if (!selectedTile) {
+        if (board[x][y].hasPiece()) {
+            selectedTile = &board[x][y];
+            setRecheableTile(x, y);
+            setAvailableCaptureMoves(x, y);
+            std::cout << "Tile selected at (" << x << ", " << y << ")"
+                      << std::endl;
+        }
+        return;
+    }
+
+    Piece* piece = selectedTile->getPiece();
+    if (piece->getColor() != currentPlayer->getColor()) {
+        selectedTile = nullptr;
+        return;
+    }
+
+    if (gameRules->isValidMove(*this, piece->getX(), piece->getY(), x, y)) {
+        movePiece(piece->getX(), piece->getY(), x, y);
+        changePlayer();
+    }
+    selectedTile = nullptr;
+
 }
 
 

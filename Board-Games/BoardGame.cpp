@@ -51,35 +51,6 @@ const std::vector<std::vector<Tile>>& BoardGame::getBoard() const {
 }
 
 void BoardGame::selectTile(int x, int y) {
-    // Si la case est vide, retournez
-    if (isEmpty(x, y)) {
-        return;
-    }
-
-    // Si la case contient une pièce de l'adversaire, retournez
-    if (board[x][y].getPiece()->getColor() != currentPlayer->getColor()) {
-        return;
-    }
-
-    // Si aucune case n'a été sélectionnée précédemment
-    if (!selectedTile) {
-        selectedTile = &board[x][y];
-    } else {
-        // Une case a été sélectionnée précédemment, donc le joueur essaie de faire un mouvement
-        Piece* piece = selectedTile->getPiece();
-
-        // Vérifiez si le mouvement est valide
-        if (gameRules->isValidMove(*this ,piece->getX(), piece->getY(), x, y)) {
-            // Faites le mouvement
-            movePiece(piece->getX(), piece->getY(), x, y);
-
-            // Changez le joueur actuel
-            changePlayer();
-        }
-
-        // Réinitialisez la case sélectionnée
-        selectedTile = nullptr;
-    }
 }
 
 void BoardGame::initializeGame() {

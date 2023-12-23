@@ -12,6 +12,8 @@ class CheckersGame : public BoardGame {
     void setRecheableTile(int x, int y);
     void loadTextures() override;
     void initializeGame() override;
+    void selectTile(int x, int y) override;
+
 };
 
 #endif

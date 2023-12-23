@@ -20,5 +20,6 @@ public:
     bool isDiagonalStep(int step, int fromX, int fromY, int toX, int toY) const;
     bool isMoveForward(const BoardGame& game, int fromX, int fromY, int toX, int toY) const;
     bool isCapturablePiece(const BoardGame& game, int fromX, int fromY, int toX, int toY) const;
+    void showReachableTiles(BoardGame& game, int x, int y) ;
 };
 #endif
