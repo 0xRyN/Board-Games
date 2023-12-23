@@ -36,10 +36,6 @@ const Player* GameState::getCurrentPlayer() const {
     return currentPlayer;
 }
 
-void GameState::setForcedMoves(std::vector<Move> forcedMoves) {
-    this->forcedMoves = forcedMoves;
-}
-
 void GameState::changePlayer() {
     currentPlayer =
         currentPlayer == &firstPlayer ? &secondPlayer : &firstPlayer;
@@ -71,26 +67,42 @@ bool GameState::removeCapturedPiece(int x, int y) {
 void GameState::initializeGame() {
 }
 
-bool GameState::movePiece(Move move) {
-    // We have forced moves and the current move is not one of them
-    if (!forcedMoves.empty() &&
-        std::find(forcedMoves.begin(), forcedMoves.end(), move) ==
-            forcedMoves.end()) {
-        return false;
+void GameState::computeAvailableMoves() {
+    // TODO: Only check pieces of the current player
+    availableMoves.clear();
+    for (int i = 0; i < boardSize; ++i) {
+        for (int j = 0; j < boardSize; j++) {
+            Piece* piece = board[i][j].getPiece();
+            if (piece != nullptr) {
+                auto moves = piece->getAllAvailableMoves(*this);
+                std::vector<Move> copy = *moves;
+                availableMoves[std::make_pair(i, j)] = copy;
+            }
+        }
     }
+}
 
+bool GameState::movePiece(Move move) {
     auto fromX = move.fromX;
     auto fromY = move.fromY;
     auto toX = move.toX;
     auto toY = move.toY;
-    Piece* piece = board[fromX][fromY].getPiece();
 
+    Piece* piece = board[fromX][fromY].getPiece();
     if (piece == nullptr) {
         return false;
     }
 
-    if (!piece->isValidMove(*this, toX, toY)) {
-        std::cout << "Invalid move" << std::endl;
+    if (piece->getColor() != currentPlayer->getColor()) {
+        return false;
+    }
+
+    auto possibleMoves = availableMoves[std::make_pair(fromX, fromY)];
+
+    bool canMove = std::find(possibleMoves.begin(), possibleMoves.end(),
+                             move) != possibleMoves.end();
+
+    if (!canMove) {
         return false;
     }
 
