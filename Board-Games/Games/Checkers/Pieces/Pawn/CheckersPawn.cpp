@@ -94,39 +94,6 @@ bool CheckersPawn::canCapture(GameState& state, int toX, int toY) const {
 const std::vector<Move>*
 CheckersPawn::getAllAvailableMoves(GameState& state) const {
     std::vector<Move>* moves = new std::vector<Move>();
-    bool canCapture = false;
 
-    for (int i = 0; i < state.getBoardSize(); ++i) {
-        for (int j = 0; j < state.getBoardSize(); j++) {
-            if (this->canMove(state, i, j)) {
-                moves->push_back(Move(x, y, i, j, false));
-            } else if (this->canCapture(state, i, j)) {
-                canCapture = true;
-                moves->push_back(Move(x, y, i, j, true));
-            }
-        }
-    }
-
-    // We can capture, remove all non-capturing moves and set the forced moves
-    if (canCapture) {
-        for (auto it = moves->begin(); it != moves->end();) {
-            if (!it->isCaptureMove) {
-                it = moves->erase(it);
-            } else {
-                ++it;
-            }
-        }
-        std::cout << "Found " << moves->size() << " forced moves." << std::endl;
-        for (auto move : *moves) {
-            std::cout << move << std::endl;
-        }
-        state.setForcedMoves(*moves);
-    }
-
-    // We can't capture, remove all capturing moves and reset the forced moves
-    else {
-        state.setForcedMoves({});
-    }
-
-    return moves;
+    // TODO
 }
