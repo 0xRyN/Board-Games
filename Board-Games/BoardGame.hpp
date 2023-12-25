@@ -15,32 +15,29 @@ class GameRules;
 
 class BoardGame {
   protected:
-    int boardSize;
-    std::vector<std::vector<Tile>> board;
     std::unique_ptr<GameState> gameState;
     std::unique_ptr<GameRules> gameRules;
-    Player firstPlayer, secondPlayer;
-    Player* currentPlayer;
     std::map<std::string, sf::Texture> textures;
-    Tile* selectedTile;
   
 
   public:
-    BoardGame(int boardSize);
-    virtual ~BoardGame();
-    virtual void loadTextures();
+    
+    //constructors
+    BoardGame() = default;
+
+    //destructor
+    virtual ~BoardGame() = default;
+
+    
+    //getters
+    const std::map<std::string, sf::Texture>& getTextures() const;
+    GameState& getGameState() const;
+    GameRules& getGameRules() const;
+    
+    //methods
+    virtual void loadTextures() = 0;
     
 
-    virtual void initializeGame();
-    void updatePosition(int fromX, int fromY, int toX, int toY);
-    int getBoardSize() const;
-    const std::map<std::string, sf::Texture>& getTextures() const;
-    Piece* getPieceAt(int x, int y) const;
-    const std::vector<std::vector<Tile>>& getBoard() const;
-    virtual void selectTile(int x, int y);
-    void movePiece(int fromX, int fromY, int toX, int toY);
-    void changePlayer();
-    bool isEmpty(int x, int y) const;
    
 };
 

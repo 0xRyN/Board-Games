@@ -1,4 +1,4 @@
-#include "CheckersRules.hpp"
+/* #include "CheckersRules.hpp"
 
 std::vector<std::pair<int, int>>
 CheckersRules::getAvailableActions(const BoardGame& game, int x, int y) {
@@ -28,11 +28,7 @@ CheckersRules::getAvailableActions(const BoardGame& game, int x, int y) {
     return actions;
 }
 
-bool CheckersRules::isValidMove(const BoardGame& game, int fromX, int fromY,
-                                int toX, int toY) const {
-    if (!isWithinBoard(game, toX, toY)) {
-        return false;
-    }
+bool CheckersRules::isValidMove(const BoardGame& game, int fromX, int fromY, int toX, int toY) const {
     if (isValidSimpleMove(game, fromX, fromY, toX, toY)) {
         return false;
     }
@@ -92,10 +88,6 @@ bool CheckersRules::isValidSimpleMove(const BoardGame& game, int fromX,
     return true;
 }
 
-bool CheckersRules::isWithinBoard(const BoardGame& game, int x, int y) const {
-    return x >= 0 && x < game.getBoardSize() && y >= 0 &&
-           y < game.getBoardSize();
-}
 
 bool CheckersRules::isDiagonalStep(int step, int fromX, int fromY, int toX,
                                    int toY) const {
@@ -140,3 +132,4 @@ void CheckersRules::showReachableTiles(BoardGame& game, int x, int y)  {
         board.setReachable(true);
     }
 }
+ */

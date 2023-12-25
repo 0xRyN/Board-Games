@@ -2,23 +2,38 @@
 #define GAME_STATES_HPP_
 
 #include <vector>
-
+#include "Tile.hpp"
+#include "Player.hpp"
 class GameState {
 protected:
     bool isActionInProgress;
     std::vector<std::pair<int, int>> availableActions;
-    std::vector<std::pair<int, int>> availableCaptureMoves;
+    Player* currentPlayer;
+
+    //board
+    int boardSize;
+    std::vector<std::vector<Tile>> board; 
     
 
 public:
-    GameState() : isActionInProgress(false) {}
-    virtual void startActionSequence();
-    virtual void endActionSequence();
+    GameState() : isActionInProgress(false){}
+
+    void startActionSequence();
+    void endActionSequence();
     bool actionInProgress() const;
-    void setAvailableActions(const std::vector<std::pair<int, int>>& actions);
+     
+    virtual void initializeGame() = 0;
+    virtual void creatBoard() = 0;
+    //getters
     const std::vector<std::pair<int, int>>& getAvailableActions() const;
-    void setAvailableCaptureMoves(const std::vector<std::pair<int, int>>& captures);
-    const std::vector<std::pair<int, int>>& getAvailableCaptureMoves() const;
+    const std::vector<std::vector<Tile>>& getBoard() const;
+    Player* getCurrentPlayer() const;
+    int getBoardSize() const;
+
+    //setters
+    void setBoardSize(int size);
+    void setBoard(const std::vector<std::vector<Tile>>& board);
+
 };
 
 

@@ -3,20 +3,18 @@
 #include "CheckersRules.hpp"
 #include "CheckersPawn.hpp"
 
-CheckersGame::CheckersGame() : BoardGame(8) {
+//define a constant for the number of rows and columns
+#define BOARD_SIZE 8
+
+CheckersGame::CheckersGame() : BoardGame() {
     gameState = std::make_unique<CheckersGameState>();
-    gameRules = std::make_unique<CheckersRules>();
-    this->loadTextures();
-    this->initializeGame();
+    gameState->setBoardSize(BOARD_SIZE);
+    gameState->creatBoard();
+    gameState->initializeGame();
 }
-
-CheckersGame::~CheckersGame() {
-}
-
 
 void CheckersGame::loadTextures() {
     // Implementation of loadTextures function
-    BoardGame::loadTextures();
     std::string textures[] = {
         "assets/Pieces/Checkers/Pawn/white.png",
         "assets/Pieces/Checkers/Pawn/black.png",
@@ -30,22 +28,12 @@ void CheckersGame::loadTextures() {
     }
 };
 
-void CheckersGame::initializeGame() {
-    std::cout << "Initializing Checkers game..." << std::endl;
-    BoardGame::initializeGame();
-    for (int i = 0; i < boardSize; i++) {
-        for (int j = 0; j < boardSize; j++) {
-            if (board[i][j].getIsDark() && j < 3) {
-                board[i][j].setPiece(new CheckersPawn(i, j, Color::White));
-            } else if (board[i][j].getIsDark() && j > 4) {
-                board[i][j].setPiece(new CheckersPawn(i, j, Color::Black));
-            } else {
-                board[i][j].removePiece();
-            }
-        }
-    }
-}
 
+
+
+
+
+/*
 void CheckersGame::removeCapturedPiece(int fromX, int fromY, int toX, int toY) {
     int x = fromX, y = fromY;
     int dx = toX - fromX, dy = toY - fromY;
@@ -77,33 +65,9 @@ void CheckersGame::setRecheableTile(int x, int y) {
         int toY = action.second;
          board[toX][toY].setReachable(true);
     }
-}
+} */
 
-void CheckersGame::selectTile(int x, int y) {
-    if (!selectedTile) {
-        if (board[x][y].hasPiece()) {
-            selectedTile = &board[x][y];
-            setRecheableTile(x, y);
-            setAvailableCaptureMoves(x, y);
-            std::cout << "Tile selected at (" << x << ", " << y << ")"
-                      << std::endl;
-        }
-        return;
-    }
 
-    Piece* piece = selectedTile->getPiece();
-    if (piece->getColor() != currentPlayer->getColor()) {
-        selectedTile = nullptr;
-        return;
-    }
-
-    if (gameRules->isValidMove(*this, piece->getX(), piece->getY(), x, y)) {
-        movePiece(piece->getX(), piece->getY(), x, y);
-        changePlayer();
-    }
-    selectedTile = nullptr;
-
-}
 
 
 

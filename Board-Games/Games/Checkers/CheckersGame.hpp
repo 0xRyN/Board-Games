@@ -6,14 +6,10 @@
 class CheckersGame : public BoardGame {
   public:
     CheckersGame();
-    ~CheckersGame();
-    void removeCapturedPiece(int fromX, int fromY, int toX, int toY);
-    void setAvailableCaptureMoves(int x, int y);
-    void setRecheableTile(int x, int y);
-    void loadTextures() override;
-    void initializeGame() override;
-    void selectTile(int x, int y) override;
+    ~CheckersGame() = default;
 
+    void loadTextures() override;
+   
 };
 
 #endif

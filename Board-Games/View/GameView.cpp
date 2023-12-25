@@ -1,7 +1,9 @@
 #include "GameView.hpp"
 
-GameView::GameView(CheckersGame& game, int width, int height)
+GameView::GameView(BoardGame& game, int width, int height)
     : game(game), window(sf::VideoMode(width, height), "Board Game") {
+    // Load textures
+    game.loadTextures();
 }
 
 void GameView::run() {
@@ -12,7 +14,7 @@ void GameView::run() {
                 window.close();
             // Gérer d'autres événements ici, comme les clics de souris
             if (event.type == sf::Event::MouseButtonPressed) {
-                handleClick();
+               // handleClick();
             }
         }
 
@@ -27,6 +29,7 @@ void GameView::drawTile(Tile* tile, int x, int y, int tileSize) {
     auto texturePath = tile->getTexturePath();
     auto texture = game.getTextures().at(texturePath);
     sf::Sprite sprite(texture);
+    
     // Vérifier si la tuile est accessible
     if (tile->isReachable()) {
         // Utiliser la texture "assets/Tiles/green_tile.png" pour les tuiles accessibles
@@ -38,7 +41,7 @@ void GameView::drawTile(Tile* tile, int x, int y, int tileSize) {
                     (double)tileSize / (double)texture.getSize().y);
 
 
-    window.draw(sprite);
+    window.draw(sprite); 
 }
 
 void GameView::drawPiece(Piece* piece, int x, int y, int tileSize) {
@@ -66,19 +69,18 @@ void GameView::drawBoard() {
     auto size = window.getSize();
     int width = size.x;
     int height = size.y;
-    int boardSize = game.getBoardSize();
-    auto board = game.getBoard();
+    int boardSize = game.getGameState().getBoardSize();
+    auto board = game.getGameState().getBoard(); 
+    
     int tileSize = std::min(width, height) / boardSize;
 
     for (int i = 0; i < boardSize; ++i) {
         for (int j = 0; j < boardSize; ++j) {
             sf::RectangleShape tile(sf::Vector2f(tileSize, tileSize));
             tile.setPosition(i * tileSize, j * tileSize);
-
             drawTile(&board[i][j], i * tileSize, j * tileSize, tileSize);
-
             // Draw a piece if there is one
-            auto piece = game.getPieceAt(i, j);
+            auto piece = game.getGameState().getBoard()[i][j].getPiece();
             if (piece != nullptr) {
                 drawPiece(piece, i * tileSize, j * tileSize, tileSize);
             }
@@ -87,9 +89,9 @@ void GameView::drawBoard() {
 }
 
 // get the position of the click
-void GameView::handleClick() {
+/* void GameView::handleClick() {
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
     int x = mousePos.x / (window.getSize().x / game.getBoardSize());
     int y = mousePos.y / (window.getSize().y / game.getBoardSize());
     game.selectTile(x, y);
-}
+} */

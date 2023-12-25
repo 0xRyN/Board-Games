@@ -13,13 +13,15 @@ private:
     
 
 public:
-    CheckersGameState();
-    void startMultiCapture(Piece* piece);
-    void endMultiCapture();
-    bool multiCaptureInProgress() const;
-    Piece* getCapturingPiece() const;
-    void setAvailableCaptures(const std::vector<std::pair<int, int>>& captures);
-    const std::vector<std::pair<int, int>>& getAvailableCaptures() const;
+    //constructors
+    CheckersGameState() : GameState(), isMultiCaptureInProgress(false), capturingPiece(nullptr) {};
+
+
+    // methods
+    void initializeGame() override;
+    void creatBoard() override;
+
+
 };
 
 #endif // CHECKERS_GAME_STATE_HPP

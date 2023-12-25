@@ -1,4 +1,6 @@
 #include "GameState.hpp"
+#include <iostream>
+
 
 
 
@@ -15,14 +17,29 @@ bool GameState::actionInProgress() const {
     return isActionInProgress;
 }
 
-void GameState::setAvailableActions(const std::vector<std::pair<int, int>>& actions) {
-    availableActions = actions;
-}
 
 const std::vector<std::pair<int, int>>& GameState::getAvailableActions() const {
     return availableActions;
 }
 
-void GameState::setAvailableCaptureMoves(
-    const std::vector<std::pair<int, int>>& captures) {
+const std::vector<std::vector<Tile>>& GameState::getBoard() const {
+    return board;    
 }
+
+Player* GameState::getCurrentPlayer() const {
+    return currentPlayer;
+}
+
+int GameState::getBoardSize() const {
+    return boardSize;
+}
+
+void GameState::setBoardSize(int size) {
+    boardSize = size;
+}
+
+void GameState::setBoard(const std::vector<std::vector<Tile>>& board) {
+    this->board = board;
+}
+
+
