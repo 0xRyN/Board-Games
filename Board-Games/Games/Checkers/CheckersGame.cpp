@@ -7,26 +7,14 @@
 #define BOARD_SIZE 8
 
 CheckersGame::CheckersGame() : BoardGame() {
+    //TODO: Remove make unique 
     gameState = std::make_unique<CheckersGameState>();
     gameState->setBoardSize(BOARD_SIZE);
-    gameState->creatBoard();
+    gameState->createBoard();
     gameState->initializeGame();
 }
 
-void CheckersGame::loadTextures() {
-    // Implementation of loadTextures function
-    std::string textures[] = {
-        "assets/Pieces/Checkers/Pawn/white.png",
-        "assets/Pieces/Checkers/Pawn/black.png",
-    };
 
-    for (std::string texture : textures) {
-        sf::Texture tex;
-        tex.loadFromFile(texture);
-        tex.setSmooth(true);
-        this->textures[texture] = tex;
-    }
-};
 
 
 

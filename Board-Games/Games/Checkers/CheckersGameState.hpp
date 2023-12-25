@@ -14,12 +14,11 @@ private:
 
 public:
     //constructors
-    CheckersGameState() : GameState(), isMultiCaptureInProgress(false), capturingPiece(nullptr) {};
+    CheckersGameState();
 
 
     // methods
     void initializeGame() override;
-    void creatBoard() override;
 
 
 };

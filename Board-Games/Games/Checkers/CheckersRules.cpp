@@ -1,4 +1,4 @@
-/* #include "CheckersRules.hpp"
+ #include "CheckersRules.hpp"
 
 std::vector<std::pair<int, int>>
 CheckersRules::getAvailableActions(const BoardGame& game, int x, int y) {

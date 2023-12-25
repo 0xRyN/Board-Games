@@ -8,7 +8,6 @@ class CheckersGame : public BoardGame {
     CheckersGame();
     ~CheckersGame() = default;
 
-    void loadTextures() override;
    
 };
 

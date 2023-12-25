@@ -6,6 +6,7 @@
 #include "Player.hpp"
 class GameState {
 protected:
+
     bool isActionInProgress;
     std::vector<std::pair<int, int>> availableActions;
     Player* currentPlayer;
@@ -23,7 +24,8 @@ public:
     bool actionInProgress() const;
      
     virtual void initializeGame() = 0;
-    virtual void creatBoard() = 0;
+    virtual void createBoard();
+
     //getters
     const std::vector<std::pair<int, int>>& getAvailableActions() const;
     const std::vector<std::vector<Tile>>& getBoard() const;
@@ -32,7 +34,6 @@ public:
 
     //setters
     void setBoardSize(int size);
-    void setBoard(const std::vector<std::vector<Tile>>& board);
 
 };
 

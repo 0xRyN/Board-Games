@@ -23,11 +23,7 @@ class BoardGame {
   public:
     
     //constructors
-    BoardGame() = default;
-
-    //destructor
-    virtual ~BoardGame() = default;
-
+    BoardGame();
     
     //getters
     const std::map<std::string, sf::Texture>& getTextures() const;
@@ -35,7 +31,7 @@ class BoardGame {
     GameRules& getGameRules() const;
     
     //methods
-    virtual void loadTextures() = 0;
+    virtual void loadTextures();
     
 
    

@@ -38,8 +38,16 @@ void GameState::setBoardSize(int size) {
     boardSize = size;
 }
 
-void GameState::setBoard(const std::vector<std::vector<Tile>>& board) {
-    this->board = board;
+
+
+void GameState::createBoard() {
+    for (int i = 0; i < boardSize; i++) {
+        std::vector<Tile> row;
+        for (int j = 0; j < boardSize; j++) {
+            row.push_back(Tile(i, j, (i + j) % 2 == 0));
+        }
+        board.push_back(row);
+    }
 }
 
 

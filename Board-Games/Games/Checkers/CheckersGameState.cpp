@@ -1,6 +1,7 @@
 #include "CheckersGameState.hpp"
 #include "CheckersPawn.hpp"
 
+CheckersGameState::CheckersGameState() : GameState(), isMultiCaptureInProgress(false), capturingPiece(nullptr){}
 
 void CheckersGameState::initializeGame() {
     for (int i = 0; i < boardSize; i++) {
@@ -15,15 +16,3 @@ void CheckersGameState::initializeGame() {
         }
     }
 }
-
-void CheckersGameState::creatBoard() {
-    for (int i = 0; i < boardSize; i++) {
-        std::vector<Tile> row;
-        for (int j = 0; j < boardSize; j++) {
-            row.push_back(Tile(i, j, (i + j) % 2 == 0));
-        }
-        board.push_back(row);
-    }
-}
-
-
