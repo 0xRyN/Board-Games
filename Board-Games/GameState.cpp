@@ -94,6 +94,7 @@ void GameState::computeAvailableMoves() {
             }
         }
     }
+    eraseNoCaptureMoves();
 }
 
 void GameState::movePiece(Move move) {
