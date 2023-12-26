@@ -56,6 +56,5 @@ void BoardGame::handleTurn(Move& move) {
     }
     
     gameState->movePiece(move);
-    gameState->changePlayer();
 
 }
