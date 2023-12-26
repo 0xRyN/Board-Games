@@ -83,6 +83,22 @@ bool CheckersPawn::canCapture(GameState& state, int toX, int toY) const {
 const std::vector<Move>*
 CheckersPawn::getAllAvailableMoves(GameState& state) const {
     std::vector<Move>* moves = new std::vector<Move>();
+    
+    const int WHITE_DIRECTION = 1;
+    const int BLACK_DIRECTION = -1;
 
-    // TODO
+    // Utiliser les constantes dans le code
+    int direction = (color == Color::White) ? WHITE_DIRECTION : BLACK_DIRECTION;
+
+    // Iterate through all possible moves in the valid direction
+    for (int dx = -1; dx <= 1; dx++) {
+        int toX = x + dx;
+        int toY = y + direction;
+    
+        // Check if the move is valid
+        if (isValidMove(state, toX, toY)) {
+            moves->push_back(Move(x, y, toX, toY, (toX - x) == 2 || (toX - x) == -2));
+        }
+    }
+    return moves;
 }
