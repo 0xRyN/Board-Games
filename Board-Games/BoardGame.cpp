@@ -34,18 +34,26 @@ void BoardGame::loadTextures() {
     }
 }
 
-void BoardGame::handleTurn(Move move) {
-    //check if move is in available moves
-    gameState->computeAvailableMoves();
-    auto availableMoves = gameState->getAvailableMoves();
-    auto it = availableMoves.find(std::make_pair(move.fromX, move.fromY));
-    
-    // if move is in available moves
-    if (it == availableMoves.end()) {
-       return;
+void BoardGame::handleTurn(Move& move) {
+    auto fromX = move.fromX;
+    auto fromY = move.fromY;
+
+    Piece* piece = gameState->getTileAt(fromX, fromY).getPiece();
+
+    if (piece == nullptr) {
+        std::cout << "No piece at (" << fromX << ", " << fromY << ")"
+                  << std::endl;
+        return;
+    }
+
+    auto availableMoves =
+        gameState->getAvailableMoves().at(std::make_pair(fromX, fromY));
+
+    if (std::find(availableMoves.begin(), availableMoves.end(), move) ==
+        availableMoves.end()) {
+        std::cout << "Invalid move" << std::endl;
+        return;
     }
 
     gameState->movePiece(move);
-    gameState->changePlayer();
-
 }
