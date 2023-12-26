@@ -40,11 +40,6 @@ bool CheckersPawn::canMove(GameState& state, int toX, int toY) const {
     if (state.getTileAt(toX, toY).getPiece() != nullptr) {
         return false;
     }
-
-    // We can move, update the position
-    Move move = {x, y, toX, toY, false};
-    state.updatePosition(move);
-
     return true;
 }
 
@@ -82,12 +77,6 @@ bool CheckersPawn::canCapture(GameState& state, int toX, int toY) const {
     if (state.getTileAt(toX, toY).getPiece() != nullptr) {
         return false;
     }
-
-    // We can capture, update the position
-    Move move = {x, y, toX, toY, true};
-    state.updatePosition(move);
-    state.removeCapturedPiece(middleX, middleY);
-
     return true;
 }
 
