@@ -31,7 +31,6 @@ class GameState {
     const std::map<std::pair<int, int>, std::vector<Move>>&
     getAvailableMoves() const;
     void changePlayer();
-    bool updatePosition(Move move);
     bool removeCapturedPiece(int x, int y);
     virtual void computeAvailableMoves();
     virtual void movePiece(Move move);

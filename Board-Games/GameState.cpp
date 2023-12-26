@@ -46,18 +46,8 @@ void GameState::changePlayer() {
         currentPlayer == &firstPlayer ? &secondPlayer : &firstPlayer;
 }
 
-bool GameState::updatePosition(Move move) {
-    auto fromX = move.fromX;
-    auto fromY = move.fromY;
-    auto toX = move.toX;
-    auto toY = move.toY;
-    Piece* piece = board[fromX][fromY].getPiece();
-    board[toX][toY].setPiece(piece);
-    board[fromX][fromY].setPiece(nullptr);
-    piece->setPosition(toX, toY);
 
-    return true;
-}
+
 
 bool GameState::removeCapturedPiece(int x, int y) {
     Piece* piece = board[x][y].getPiece();
@@ -88,12 +78,11 @@ void GameState::computeAvailableMoves() {
 }
 
 void GameState::movePiece(Move move) {
-
     Piece* piece = board[move.fromX][move.fromY].getPiece();
     board[move.toX][move.toY].setPiece(piece);
     board[move.fromX][move.fromY].setPiece(nullptr);
     piece->setPosition(move.toX, move.toY);
-
-    return true;
-
+    if (move.isCaptureMove) {
+        removeCapturedPiece(move.fromX, move.fromY);
+    }
 }
