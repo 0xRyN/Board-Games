@@ -28,6 +28,8 @@ class GameState {
     const std::vector<std::vector<Tile>>& getBoard() const;
     const Tile& getTileAt(int x, int y) const;
     const Player* getCurrentPlayer() const;
+    const std::map<std::pair<int, int>, std::vector<Move>>&
+    getAvailableMoves() const;
     void changePlayer();
     bool updatePosition(Move move);
     bool removeCapturedPiece(int x, int y);

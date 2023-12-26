@@ -36,6 +36,11 @@ const Player* GameState::getCurrentPlayer() const {
     return currentPlayer;
 }
 
+const std::map<std::pair<int, int>, std::vector<Move>>&
+GameState::getAvailableMoves() const {
+    return availableMoves;
+}
+
 void GameState::changePlayer() {
     currentPlayer =
         currentPlayer == &firstPlayer ? &secondPlayer : &firstPlayer;
