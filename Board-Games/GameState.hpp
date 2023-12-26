@@ -32,7 +32,7 @@ class GameState {
     bool updatePosition(Move move);
     bool removeCapturedPiece(int x, int y);
     virtual void computeAvailableMoves();
-    virtual bool movePiece(Move move);
+    virtual void movePiece(Move move);
     virtual void initializeGame() = 0;
 };
 

@@ -82,29 +82,13 @@ void GameState::computeAvailableMoves() {
     }
 }
 
-bool GameState::movePiece(Move move) {
-    auto fromX = move.fromX;
-    auto fromY = move.fromY;
-    auto toX = move.toX;
-    auto toY = move.toY;
+void GameState::movePiece(Move move) {
 
-    Piece* piece = board[fromX][fromY].getPiece();
-    if (piece == nullptr) {
-        return false;
-    }
-
-    if (piece->getColor() != currentPlayer->getColor()) {
-        return false;
-    }
-
-    auto possibleMoves = availableMoves[std::make_pair(fromX, fromY)];
-
-    bool canMove = std::find(possibleMoves.begin(), possibleMoves.end(),
-                             move) != possibleMoves.end();
-
-    if (!canMove) {
-        return false;
-    }
+    Piece* piece = board[move.fromX][move.fromY].getPiece();
+    board[move.toX][move.toY].setPiece(piece);
+    board[move.fromX][move.fromY].setPiece(nullptr);
+    piece->setPosition(move.toX, move.toY);
 
     return true;
+
 }

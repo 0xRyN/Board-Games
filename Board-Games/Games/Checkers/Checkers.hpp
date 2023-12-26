@@ -10,6 +10,7 @@ class Checkers : public BoardGame {
   public:
     Checkers();
     void loadTextures();
+    void handleTurn(Move move);
 };
 
 #endif

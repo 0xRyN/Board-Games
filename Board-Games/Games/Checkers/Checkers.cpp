@@ -29,3 +29,21 @@ void Checkers::loadTextures() {
         this->textures[texture] = tex;
     }
 }
+
+void Checkers::handleTurn(Move move) {
+    if (gameState->getAvailableMoves().empty()) {
+        gameState->computeAvailableMoves();
+    }
+    // compare moves with available moves
+    auto availableMoves = gameState->getAvailableMoves();
+    auto it = availableMoves.find(std::make_pair(move.fromX, move.fromY));
+
+    // if move is in available moves
+    if (it != availableMoves.end()) {
+        gameState->movePiece(move);
+        if (move.isCapture()) {
+            auto piece = gameState->getTileAt(move.toX, move.toY).getPiece();
+            // check if there is an other piece to capture
+        }
+    }
+}

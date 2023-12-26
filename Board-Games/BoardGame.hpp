@@ -23,6 +23,7 @@ class BoardGame {
     GameState* getGameState() const;
     const std::map<std::string, sf::Texture>& getTextures() const;
     virtual void loadTextures();
+    virtual void handleTurn(Move move) ;
 };
 
 #endif
