@@ -62,6 +62,25 @@ bool GameState::removeCapturedPiece(int x, int y) {
 void GameState::initializeGame() {
 }
 
+void GameState::eraseNoCaptureMoves() {
+    //keep only capture moves if there are any
+    bool hasCaptureMove = false;
+    for (auto it = availableMoves.begin(); it != availableMoves.end();) {
+        auto moves = it->second;
+        for (auto move : moves) {
+            if (move.isCaptureMove) {
+                hasCaptureMove = true;
+                break;
+            }
+        }
+        if (!hasCaptureMove) {
+            it = availableMoves.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+
 void GameState::computeAvailableMoves() {
     // TODO: Only check pieces of the current player
     availableMoves.clear();

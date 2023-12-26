@@ -35,6 +35,9 @@ class GameState {
     virtual void computeAvailableMoves();
     virtual void movePiece(Move move);
     virtual void initializeGame() = 0;
+
+    //auxiliary functions
+    void eraseNoCaptureMoves();
 };
 
 #endif
