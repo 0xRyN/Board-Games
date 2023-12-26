@@ -4,7 +4,7 @@
 #include <Board-Games/Games/Checkers/Pieces/Pawn/CheckersPawn.hpp>
 #include <Board-Games/Player.hpp>
 
-int CHECKERS_BOARD_SIZE = 10;
+int CHECKERS_BOARD_SIZE = 8;
 Checkers::Checkers() : BoardGame(CHECKERS_BOARD_SIZE) {
     // Implementation of Checkers constructor
     Player* firstPlayer = new Player("Player 1", Color::White);
