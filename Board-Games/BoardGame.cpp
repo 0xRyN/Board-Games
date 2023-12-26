@@ -54,6 +54,8 @@ void BoardGame::handleTurn(Move& move) {
         std::cout << "Invalid move" << std::endl;
         return;
     }
-
+    
     gameState->movePiece(move);
+    gameState->changePlayer();
+
 }
