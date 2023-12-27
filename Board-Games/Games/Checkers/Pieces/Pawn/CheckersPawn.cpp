@@ -45,7 +45,6 @@ bool CheckersPawn::canMove(GameState& state, int toX, int toY) const {
 
 // TODO: Why is there fromX and fromY?
 bool CheckersPawn::canCapture(GameState& state, int toX, int toY) const {
-    std::cout << "Called canCapture" << std::endl;
     if (abs(toX - x) != 2 || abs(toY - y) != 2) {
         return false;
     }
@@ -73,6 +72,11 @@ bool CheckersPawn::canCapture(GameState& state, int toX, int toY) const {
         return false;
     }
 
+    // Check if the piece in the middle is of the opposite color
+    if (state.getTileAt(middleX, middleY).getPiece()->getColor() == color) {
+        return false;
+    }
+
     // Finally, check if the destination square is empty
     if (state.getTileAt(toX, toY).getPiece() != nullptr) {
         return false;
@@ -83,7 +87,7 @@ bool CheckersPawn::canCapture(GameState& state, int toX, int toY) const {
 const std::vector<Move>*
 CheckersPawn::getAllAvailableMoves(GameState& state) const {
     std::vector<Move>* moves = new std::vector<Move>();
-    
+
     const int WHITE_DIRECTION = 1;
     const int BLACK_DIRECTION = -1;
 
@@ -91,13 +95,23 @@ CheckersPawn::getAllAvailableMoves(GameState& state) const {
     int direction = (color == Color::White) ? WHITE_DIRECTION : BLACK_DIRECTION;
 
     // Iterate through all possible moves in the valid direction
-    for (int dx = -1; dx <= 1; dx++) {
+    for (int dx = -1; dx <= 1; dx += 2) {
+        // For simple moves
         int toX = x + dx;
         int toY = y + direction;
-    
+
+        // For capture moves
+        int captureX = x + 2 * dx;
+        int captureY = y + 2 * direction;
+
         // Check if the move is valid
         if (isValidMove(state, toX, toY)) {
-            moves->push_back(Move(x, y, toX, toY, (toX - x) == 2 || (toX - x) == -2));
+            moves->push_back(Move(x, y, toX, toY, false));
+        }
+
+        // Check if the capture move is valid
+        if (isValidMove(state, captureX, captureY)) {
+            moves->push_back(Move(x, y, captureX, captureY, true));
         }
     }
     return moves;

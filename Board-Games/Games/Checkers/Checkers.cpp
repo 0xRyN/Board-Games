@@ -30,19 +30,37 @@ void Checkers::loadTextures() {
     }
 }
 
-void Checkers::handleTurn(Move move) {
-    if (gameState->getAvailableMoves().empty()) {
-        gameState->computeAvailableMoves();
+bool Checkers::handleTurn(Move& move) {
+    bool isMoveValid = BoardGame::handleTurn(move);
+    if (!isMoveValid) {
+        return false;
     }
-    BoardGame::handleTurn(move);
-    //if move was a capture, check if there are any more captures for the same piece
-    if(move.isCaptureMove){
-        auto move = gameState->getAvailableMoves();
-        move.clear();
-        gameState->computeAvailableMoves();
+
+    Piece* piece = gameState->getTileAt(move.toX, move.toY).getPiece();
+
+    if (piece == nullptr) {
+        std::cout << "No piece at (" << move.toX << ", " << move.toY << ")"
+                  << std::endl;
+        return false;
     }
-    if(gameState->getAvailableMoves().empty()){
+
+    auto availableMoves = piece->getAllAvailableMoves(*gameState);
+
+    bool captureAvailable = false;
+    for (auto& move : *availableMoves) {
+        if (move.isCaptureMove) {
+            captureAvailable = true;
+            break;
+        }
+    }
+
+    delete availableMoves;
+
+    if (!captureAvailable || !move.isCaptureMove) {
         gameState->changePlayer();
-        gameState->computeAvailableMoves();
     }
+
+    gameState->computeAvailableMoves();
+
+    return true;
 }

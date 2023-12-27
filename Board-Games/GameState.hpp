@@ -30,13 +30,15 @@ class GameState {
     const Player* getCurrentPlayer() const;
     const std::map<std::pair<int, int>, std::vector<Move>>&
     getAvailableMoves() const;
+    const void setAvailableMoves(
+        std::map<std::pair<int, int>, std::vector<Move>>& availableMoves);
     void changePlayer();
-    bool removeCapturedPiece(int x, int y);
+    bool removeCapturedPiece(Move move);
     virtual void computeAvailableMoves();
     virtual void movePiece(Move move);
     virtual void initializeGame() = 0;
 
-    //auxiliary functions
+    // auxiliary functions
     void eraseNoCaptureMoves();
 };
 

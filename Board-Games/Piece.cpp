@@ -55,10 +55,11 @@ std::string Piece::getTexturePath() const {
 }
 
 bool Piece::isValidMove(GameState& state, int toX, int toY) const {
-    // If the path is not clear, it's a capture
-    if (!isPathClear(state, x, y, toX, toY)) {
-        return canCapture(state, toX, toY);
+    // Check if the destination is out of bounds
+    if (toX < 0 || toX >= state.getBoardSize() || toY < 0 ||
+        toY >= state.getBoardSize()) {
+        return false;
     }
-
-    return canMove(state, toX, toY);
+    // If the path is not clear, it's a capture
+    return canCapture(state, toX, toY) || canMove(state, toX, toY);
 }

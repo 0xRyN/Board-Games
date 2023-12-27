@@ -22,4 +22,7 @@ void CheckersState::initializeGame() {
             }
         }
     }
+
+    // Compute available moves for the first player
+    computeAvailableMoves();
 }
