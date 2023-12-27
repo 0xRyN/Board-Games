@@ -14,6 +14,7 @@ class GameView {
     void selectTile(int x, int y);
     void drawTile(const Tile& tile, int x, int y, int tileSize);
     void drawPiece(const Piece* piece, int x, int y, int tileSize);
+    void drawArrows();
 
   public:
     GameView(BoardGame& game, int width = 800, int height = 800);

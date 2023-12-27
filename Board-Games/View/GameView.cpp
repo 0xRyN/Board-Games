@@ -124,6 +124,32 @@ void GameView::drawPiece(const Piece* piece, int x, int y, int tileSize) {
     window.draw(sprite);
 }
 
+void GameView::drawArrows() {
+    bool ONLY_DRAW_SELECTED_PIECE = true; // TRY FALSE
+    auto availableMoves = state->getAvailableMoves();
+
+    if (ONLY_DRAW_SELECTED_PIECE) {
+        if (selectedTile) {
+            auto pair =
+                std::make_pair(selectedTile->getX(), selectedTile->getY());
+            auto it = availableMoves.find(pair);
+            if (it != availableMoves.end()) {
+                for (auto move : it->second) {
+                    drawArrow(window, state->getBoardSize(), move.fromX,
+                              move.fromY, move.toX, move.toY);
+                }
+            }
+        }
+    } else {
+        for (auto pair : availableMoves) {
+            for (auto move : pair.second) {
+                drawArrow(window, state->getBoardSize(), move.fromX, move.fromY,
+                          move.toX, move.toY);
+            }
+        }
+    }
+}
+
 void GameView::drawBoard() {
     // Draw a 2D Board
     auto size = window.getSize();
@@ -149,14 +175,7 @@ void GameView::drawBoard() {
     }
 
     // Draw the available moves
-    auto moves = game.getGameState()->getAvailableMoves();
-
-    for (auto& move : moves) {
-        for (auto& m : move.second) {
-            drawArrow(window, state->getBoardSize(), m.fromX, m.fromY, m.toX,
-                      m.toY);
-        }
-    }
+    drawArrows();
 }
 
 // get the position of the click
