@@ -29,6 +29,10 @@ const std::vector<std::vector<Tile>>& GameState::getBoard() const {
 }
 
 const Tile& GameState::getTileAt(int x, int y) const {
+    // Check if the coordinates are valid
+    if (x < 0 || x >= boardSize || y < 0 || y >= boardSize) {
+        throw std::invalid_argument("Invalid coordinates");
+    }
     return board[x][y];
 }
 
@@ -36,8 +40,14 @@ const Player* GameState::getCurrentPlayer() const {
     return currentPlayer;
 }
 
-void GameState::setForcedMoves(std::vector<Move> forcedMoves) {
-    this->forcedMoves = forcedMoves;
+const std::map<std::pair<int, int>, std::vector<Move>>&
+GameState::getAvailableMoves() const {
+    return availableMoves;
+}
+
+const void GameState::setAvailableMoves(
+    std::map<std::pair<int, int>, std::vector<Move>>& availableMoves) {
+    this->availableMoves = availableMoves;
 }
 
 void GameState::changePlayer() {
@@ -45,20 +55,10 @@ void GameState::changePlayer() {
         currentPlayer == &firstPlayer ? &secondPlayer : &firstPlayer;
 }
 
-bool GameState::updatePosition(Move move) {
-    auto fromX = move.fromX;
-    auto fromY = move.fromY;
-    auto toX = move.toX;
-    auto toY = move.toY;
-    Piece* piece = board[fromX][fromY].getPiece();
-    board[toX][toY].setPiece(piece);
-    board[fromX][fromY].setPiece(nullptr);
-    piece->setPosition(toX, toY);
+bool GameState::removeCapturedPiece(Move move) {
+    auto x = (move.fromX + move.toX) / 2;
+    auto y = (move.fromY + move.toY) / 2;
 
-    return true;
-}
-
-bool GameState::removeCapturedPiece(int x, int y) {
     Piece* piece = board[x][y].getPiece();
     if (piece == nullptr) {
         return false;
@@ -71,28 +71,62 @@ bool GameState::removeCapturedPiece(int x, int y) {
 void GameState::initializeGame() {
 }
 
-bool GameState::movePiece(Move move) {
-    // We have forced moves and the current move is not one of them
-    if (!forcedMoves.empty() &&
-        std::find(forcedMoves.begin(), forcedMoves.end(), move) ==
-            forcedMoves.end()) {
-        return false;
+void GameState::eraseNoCaptureMoves() {
+    std::map<std::pair<int, int>, std::vector<Move>> captureMoves;
+    bool hasCaptureMove = false;
+
+    for (auto& pair : availableMoves) {
+        std::vector<Move> temp;
+        for (auto& move : pair.second) {
+            if (move.isCaptureMove) {
+                temp.push_back(move);
+                std::cout << "Has capture move : " << move << std::endl;
+                hasCaptureMove = true;
+            }
+        }
+        if (!temp.empty()) {
+            captureMoves[pair.first] = temp;
+        }
     }
 
-    auto fromX = move.fromX;
-    auto fromY = move.fromY;
-    auto toX = move.toX;
-    auto toY = move.toY;
-    Piece* piece = board[fromX][fromY].getPiece();
+    if (hasCaptureMove) {
+        availableMoves = captureMoves;
+    }
+}
 
-    if (piece == nullptr) {
-        return false;
+void GameState::computeAvailableMoves() {
+    // TODO: Only check pieces of the current player
+    availableMoves.clear();
+    for (int i = 0; i < boardSize; ++i) {
+        for (int j = 0; j < boardSize; j++) {
+            Piece* piece = board[i][j].getPiece();
+            if (piece != nullptr &&
+                piece->getColor() == currentPlayer->getColor()) {
+                auto moves = piece->getAllAvailableMoves(*this);
+                std::vector<Move> copy = *moves;
+                delete moves;
+                availableMoves[std::make_pair(i, j)] = copy;
+            }
+        }
     }
 
-    if (!piece->isValidMove(*this, toX, toY)) {
-        std::cout << "Invalid move" << std::endl;
-        return false;
-    }
+    eraseNoCaptureMoves();
 
-    return true;
+    std::cout << "Current turn : " << currentPlayer->getName() << std::endl;
+    std::cout << "Available moves: " << std::endl;
+    for (auto& pair : availableMoves) {
+        for (auto& move : pair.second) {
+            std::cout << move << std::endl;
+        }
+    }
+}
+
+void GameState::movePiece(Move move) {
+    Piece* piece = board[move.fromX][move.fromY].getPiece();
+    board[move.toX][move.toY].setPiece(piece);
+    board[move.fromX][move.fromY].setPiece(nullptr);
+    piece->setPosition(move.toX, move.toY);
+    if (move.isCaptureMove) {
+        removeCapturedPiece(move);
+    }
 }

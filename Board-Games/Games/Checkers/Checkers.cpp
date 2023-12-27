@@ -4,7 +4,7 @@
 #include <Board-Games/Games/Checkers/Pieces/Pawn/CheckersPawn.hpp>
 #include <Board-Games/Player.hpp>
 
-int CHECKERS_BOARD_SIZE = 10;
+int CHECKERS_BOARD_SIZE = 8;
 Checkers::Checkers() : BoardGame(CHECKERS_BOARD_SIZE) {
     // Implementation of Checkers constructor
     Player* firstPlayer = new Player("Player 1", Color::White);
@@ -28,4 +28,39 @@ void Checkers::loadTextures() {
         tex.setSmooth(true);
         this->textures[texture] = tex;
     }
+}
+
+bool Checkers::handleTurn(Move& move) {
+    bool isMoveValid = BoardGame::handleTurn(move);
+    if (!isMoveValid) {
+        return false;
+    }
+
+    Piece* piece = gameState->getTileAt(move.toX, move.toY).getPiece();
+
+    if (piece == nullptr) {
+        std::cout << "No piece at (" << move.toX << ", " << move.toY << ")"
+                  << std::endl;
+        return false;
+    }
+
+    auto availableMoves = piece->getAllAvailableMoves(*gameState);
+
+    bool captureAvailable = false;
+    for (auto& move : *availableMoves) {
+        if (move.isCaptureMove) {
+            captureAvailable = true;
+            break;
+        }
+    }
+
+    delete availableMoves;
+
+    if (!captureAvailable || !move.isCaptureMove) {
+        gameState->changePlayer();
+    }
+
+    gameState->computeAvailableMoves();
+
+    return true;
 }

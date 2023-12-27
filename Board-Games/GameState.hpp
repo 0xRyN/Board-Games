@@ -19,7 +19,7 @@ class GameState {
     std::vector<std::vector<Tile>> board;
     Player firstPlayer, secondPlayer;
     Player* currentPlayer;
-    std::vector<Move> forcedMoves;
+    std::map<std::pair<int, int>, std::vector<Move>> availableMoves;
 
   public:
     GameState(int boardSize);
@@ -28,12 +28,18 @@ class GameState {
     const std::vector<std::vector<Tile>>& getBoard() const;
     const Tile& getTileAt(int x, int y) const;
     const Player* getCurrentPlayer() const;
-    void setForcedMoves(std::vector<Move> forcedMoves);
+    const std::map<std::pair<int, int>, std::vector<Move>>&
+    getAvailableMoves() const;
+    const void setAvailableMoves(
+        std::map<std::pair<int, int>, std::vector<Move>>& availableMoves);
     void changePlayer();
-    bool updatePosition(Move move);
-    bool removeCapturedPiece(int x, int y);
-    virtual bool movePiece(Move move);
+    bool removeCapturedPiece(Move move);
+    virtual void computeAvailableMoves();
+    virtual void movePiece(Move move);
     virtual void initializeGame() = 0;
+
+    // auxiliary functions
+    void eraseNoCaptureMoves();
 };
 
 #endif

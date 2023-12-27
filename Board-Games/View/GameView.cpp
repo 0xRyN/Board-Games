@@ -6,6 +6,53 @@ GameView::GameView(BoardGame& game, int width, int height)
     game.loadTextures();
 }
 
+#include <SFML/Graphics.hpp>
+#include <cmath>
+
+void drawArrow(sf::RenderWindow& window, int boardSize, int fromX, int fromY,
+               int toX, int toY) {
+    // Calculate the size of each tile
+    float tileSize = static_cast<float>(window.getSize().x) / boardSize;
+
+    // Convert tile coordinates to pixel coordinates
+    float pixelFromX = fromX * tileSize + tileSize / 2;
+    float pixelFromY = fromY * tileSize + tileSize / 2;
+    float pixelToX = toX * tileSize + tileSize / 2;
+    float pixelToY = toY * tileSize + tileSize / 2;
+
+    sf::Vertex line[] = {
+        sf::Vertex(sf::Vector2f(pixelFromX, pixelFromY), sf::Color::Red),
+        sf::Vertex(sf::Vector2f(pixelToX, pixelToY), sf::Color::Red)};
+
+    // Draw the line
+    window.draw(line, 2, sf::Lines);
+
+    // Calculate the direction of the arrow
+    sf::Vector2f direction =
+        sf::Vector2f(pixelToX - pixelFromX, pixelToY - pixelFromY);
+    float length = sqrt(direction.x * direction.x + direction.y * direction.y);
+    direction.x /= length;
+    direction.y /= length;
+
+    // Calculate the orthogonal direction
+    sf::Vector2f ortho(-direction.y, direction.x);
+
+    // Draw the arrow head
+    sf::Vertex arrowHead[] = {
+        sf::Vertex(sf::Vector2f(pixelToX, pixelToY), sf::Color::Red),
+        sf::Vertex(
+            sf::Vector2f(pixelToX - direction.x * 10.0f + ortho.x * 5.0f,
+                         pixelToY - direction.y * 10.0f + ortho.y * 5.0f),
+            sf::Color::Red),
+        sf::Vertex(
+            sf::Vector2f(pixelToX - direction.x * 10.0f - ortho.x * 5.0f,
+                         pixelToY - direction.y * 10.0f - ortho.y * 5.0f),
+            sf::Color::Red)};
+
+    // Draw the arrow head
+    window.draw(arrowHead, 3, sf::Triangles);
+}
+
 void GameView::run() {
     while (window.isOpen()) {
         sf::Event event;
@@ -25,31 +72,23 @@ void GameView::run() {
 }
 
 void GameView::selectTile(int x, int y) {
-    std::cout << "Selecting tile (" << x << ", " << y << ")" << std::endl;
+    // std::cout << "Selecting tile (" << x << ", " << y << ")" << std::endl;
     if (!selectedTile) {
         if (state->getTileAt(x, y).hasPiece()) {
             selectedTile = &(state->getTileAt(x, y));
         }
         return;
     }
-
     const Piece* piece = selectedTile->getPiece();
-    // // TODO: Implement the use of getAllAvailableMoves like this
-    // // getAllAvailableMoves returns all available moves for a piece, and
-    // // if needed to, makes them forced (inside Piece::canCapture)
     // auto moves = piece->getAllAvailableMoves(*state);
 
     if (piece->getColor() != state->getCurrentPlayer()->getColor()) {
-        std::cout << *(state->getCurrentPlayer()) << std::endl;
         selectedTile = nullptr;
         return;
     }
 
     Move move = {piece->getX(), piece->getY(), x, y, false};
-
-    if (state->movePiece(move)) {
-        state->changePlayer();
-    }
+    game.handleTurn(move);
 
     selectedTile = nullptr;
 }
@@ -106,6 +145,16 @@ void GameView::drawBoard() {
             if (piece != nullptr) {
                 drawPiece(piece, i * tileSize, j * tileSize, tileSize);
             }
+        }
+    }
+
+    // Draw the available moves
+    auto moves = game.getGameState()->getAvailableMoves();
+
+    for (auto& move : moves) {
+        for (auto& m : move.second) {
+            drawArrow(window, state->getBoardSize(), m.fromX, m.fromY, m.toX,
+                      m.toY);
         }
     }
 }
