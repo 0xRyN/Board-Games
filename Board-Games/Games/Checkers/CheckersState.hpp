@@ -8,6 +8,8 @@ class CheckersState : public GameState {
   public:
     CheckersState(int boardSize, Player* firstPlayer, Player* secondPlayer);
     void initializeGame() override;
+    void promotePiece(int x, int y);
+
 };
 
 #endif

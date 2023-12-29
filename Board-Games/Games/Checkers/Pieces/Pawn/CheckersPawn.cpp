@@ -116,3 +116,20 @@ CheckersPawn::getAllAvailableMoves(GameState& state) const {
     }
     return moves;
 }
+
+bool CheckersPawn::canBePromoted(GameState& state) const {
+    // Check if the pawn is at the end of the board
+    if (color == Color::White) {
+        if (y == state.getBoardSize() - 1) {
+            return true;
+        }
+    }
+
+    if (color == Color::Black) {
+        if (y == 0) {
+            return true;
+        }
+    }
+
+    return false;
+}
