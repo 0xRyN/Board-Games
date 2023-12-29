@@ -1,7 +1,7 @@
 #ifndef CHECKERSQUEEN_HPP
 #define CHECKERSQUEEN_HPP
 
-#include "Board-Games/Piece.cpp"
+#include "Board-Games/Piece.hpp"
 
 class CheckersQueen : public Piece{
 private:

@@ -19,7 +19,8 @@ void Checkers::loadTextures() {
     std::string textures[] = {
         "assets/Pieces/Checkers/Pawn/white.png",
         "assets/Pieces/Checkers/Pawn/black.png",
-
+        "assets/Pieces/Checkers/Queen/light.png",
+        "assets/Pieces/Checkers/Queen/dark.png",
     };
 
     for (std::string texture : textures) {
