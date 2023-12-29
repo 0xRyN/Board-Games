@@ -8,11 +8,7 @@ CheckersQueen::CheckersQueen(int posX, int posY, Color pieceColor)
 }
 
 bool CheckersQueen::canMove(GameState& state, int toX, int toY) const {
-    // Movement rules for queen checkers :
-    // 1. Can move diagonally any number of squares
-    // If statements are separated like this for optimization (short-circuiting)
-
-    // Check if the queen is moving diagonally
+    //Check if the queen is moving diagonally
     if (abs(toX - x) != abs(toY - y)) {
         return false;
     }
@@ -22,16 +18,20 @@ bool CheckersQueen::canMove(GameState& state, int toX, int toY) const {
         return false;
     }
 
-    // Check if there are any pieces in the way
+    return true;
+}
+
+
+bool CheckersQueen::canCapture(GameState& state, int toX, int toY) const {
+        //check if there is a piece adjacent to the destination square
     int xDir = (toX - x) / abs(toX - x);
     int yDir = (toY - y) / abs(toY - y);
-    for (int i = 1; i < abs(toX - x); i++) {
-        if (state.getTileAt(x + i * xDir, y + i * yDir).getPiece() != nullptr) {
-            return false;
-        }
+    if (state.getTileAt(toX - xDir, toY - yDir).getPiece() == nullptr) {
+        return false;
     }
     return true;
 }
+
 
 
 
