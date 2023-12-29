@@ -1,7 +1,7 @@
 #include "CheckersState.hpp"
 
 #include <Board-Games/Games/Checkers/Pieces/Pawn/CheckersPawn.hpp>
-#include "CheckersQueen.hpp"
+#include "Board-Games/Games/Checkers/Pieces/Pawn/CheckersQueen.hpp"
 
 CheckersState::CheckersState(int boardSize, Player* firstPlayer,
                              Player* secondPlayer)
@@ -28,7 +28,7 @@ void CheckersState::initializeGame() {
     computeAvailableMoves();
 }
 
-void CheckersState::promotePiece(int x, int y) {
+void CheckersState::promotePawn(int x, int y) {
     CheckersPawn* Pawn = dynamic_cast<CheckersPawn*>(board[x][y].getPiece());
     delete Pawn;
     board[x][y].setPiece(new CheckersQueen(x, y, board[x][y].getPiece()->getColor()));
