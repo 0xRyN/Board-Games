@@ -14,9 +14,6 @@ class Piece {
     Color color;             // Color of the piece
     std::string texturePath; // Path to the texture of the piece
 
-    bool isPathClear(GameState& state, int fromX, int fromY, int toX,
-                     int toY) const;
-
   public:
     // Constructor
     Piece(int posX, int posY, Color pieceColor);
