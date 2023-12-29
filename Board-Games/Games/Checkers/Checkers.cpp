@@ -19,7 +19,8 @@ void Checkers::loadTextures() {
     std::string textures[] = {
         "assets/Pieces/Checkers/Pawn/white.png",
         "assets/Pieces/Checkers/Pawn/black.png",
-
+        "assets/Pieces/Checkers/Queen/light.png",
+        "assets/Pieces/Checkers/Queen/dark.png",
     };
 
     for (std::string texture : textures) {
@@ -60,6 +61,12 @@ bool Checkers::handleTurn(Move& move) {
         gameState->changePlayer();
     }
 
+    if(typeid(*piece).name() == typeid(CheckersPawn).name()) {
+        CheckersPawn* pawn = dynamic_cast<CheckersPawn*>(piece);
+        if(pawn->canBePromoted(*gameState)) {
+            dynamic_cast<CheckersState*>(gameState)->promotePawn(move.toX, move.toY);
+        }
+    }
     gameState->computeAvailableMoves();
 
     return true;
