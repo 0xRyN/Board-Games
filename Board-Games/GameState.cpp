@@ -36,6 +36,10 @@ const Tile& GameState::getTileAt(int x, int y) const {
     return board[x][y];
 }
 
+const Piece* GameState::getPiece(int x, int y) const {
+    return board[x][y].getPiece();
+}
+
 const Player* GameState::getCurrentPlayer() const {
     return currentPlayer;
 }
