@@ -17,60 +17,39 @@ bool isWithinBounds(int x, int y, int boardSize) {
 }
 
 bool CheckersQueen::canCapture(GameState& state, int toX, int toY) const {
-    return false;
+    //check if the piece is moving diagonally
+    if (abs(toX - x) != abs(toY - y)) {
+        return false;
+    }
+    //piece count
+    int pieceCount = 0;
+
+
+    
+    // check the number of pieces between the current position and the target
+
+    
 }
+
 
 bool CheckersQueen::canMove(GameState& state, int toX, int toY) const {
     return false;
 }
 
-void CheckersQueen::findAllMoves(
-    GameState& state, int x, int y, std::vector<Move>& moves,
-    std::vector<Move>& path, std::vector<std::vector<bool>>& visited) const {
 
-    std::cout << "Initial position: (" << x << ", " << y << ")" << std::endl;
-    bool captureMade = false;
-    static const int dirs[4][2] = {{1, 1}, {1, -1}, {-1, -1}, {-1, 1}};
-
-    for (const auto& dir : dirs) {
-        int nextX = x + dir[0];
-        int nextY = y + dir[1];
-
-        if (isWithinBounds(nextX, nextY, state.getBoardSize()) &&
-            !visited[nextX][nextY]) {
-            Piece* nextPiece = state.getTileAt(nextX, nextY).getPiece();
-            if (nextPiece && nextPiece->getColor() != color) {
-                int jumpX = nextX + dir[0];
-                int jumpY = nextY + dir[1];
-                if (isWithinBounds(jumpX, jumpY, state.getBoardSize()) &&
-                    !state.getTileAt(jumpX, jumpY).getPiece()) {
-                    // Perform capture
-                    visited[nextX][nextY] = true;
-                    path.push_back(Move(x, y, jumpX, jumpY, true));
-                    findAllMoves(state, jumpX, jumpY, moves, path, visited);
-                    path.pop_back();
-                    visited[nextX][nextY] = false;
-                    captureMade = true;
-                }
-            }
+//make a function that counts the number of pieces between the current position and the target position
+int CheckersQueen::countPiecesBetween(GameState& state, int toX, int toY) const {
+    int pieceCount = 0;
+    int xDir = (toX - x) / abs(toX - x);
+    int yDir = (toY - y) / abs(toY - y);
+    int xTemp = x;
+    int yTemp = y;
+    while (xTemp != toX && yTemp != toY) {
+        xTemp += xDir;
+        yTemp += yDir;
+        if (state.getPiece(xTemp, yTemp) != nullptr) {
+            pieceCount++;
         }
     }
-
-    if (!captureMade && !path.empty()) {
-        // If no further capture and path is not empty, consider this path as a
-        // valid move sequence
-        moves.insert(moves.end(), path.begin(), path.end());
-    }
-}
-
-const std::vector<Move>*
-CheckersQueen::getAllAvailableMoves(GameState& state) const {
-    std::vector<Move>* moves = new std::vector<Move>();
-    std::vector<Move> path;
-    std::vector<std::vector<bool>> visited(
-        state.getBoardSize(), std::vector<bool>(state.getBoardSize(), false));
-
-    findAllMoves(state, x, y, *moves, path, visited);
-
-    return moves;
+    return pieceCount;
 }
