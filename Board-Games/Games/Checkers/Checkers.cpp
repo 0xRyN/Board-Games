@@ -4,7 +4,7 @@
 #include <Board-Games/Games/Checkers/Pieces/Pawn/CheckersPawn.hpp>
 #include <Board-Games/Player.hpp>
 
-int CHECKERS_BOARD_SIZE = 8;
+int CHECKERS_BOARD_SIZE = 10;
 Checkers::Checkers() : BoardGame(CHECKERS_BOARD_SIZE) {
     // Implementation of Checkers constructor
     Player* firstPlayer = new Player("Player 1", Color::White);
@@ -40,8 +40,6 @@ bool Checkers::handleTurn(Move& move) {
     Piece* piece = gameState->getTileAt(move.toX, move.toY).getPiece();
 
     if (piece == nullptr) {
-        std::cout << "No piece at (" << move.toX << ", " << move.toY << ")"
-                  << std::endl;
         return false;
     }
 
