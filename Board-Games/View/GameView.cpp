@@ -72,7 +72,7 @@ void GameView::run() {
 }
 
 void GameView::selectTile(int x, int y) {
-    // std::cout << "Selecting tile (" << x << ", " << y << ")" << std::endl;
+    //  << "Selecting tile (" << x << ", " << y << ")" << std::endl;
     if (!selectedTile) {
         if (state->getTileAt(x, y).hasPiece()) {
             selectedTile = &(state->getTileAt(x, y));

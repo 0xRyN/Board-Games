@@ -24,7 +24,6 @@ bool CheckersPawn::canMove(GameState& state, int toX, int toY) const {
     // White pawns can only move up the board
     if (color == Color::White) {
         if (toY <= y) {
-            std::cout << "White pawns can only move up the board" << std::endl;
             return false;
         }
     }
