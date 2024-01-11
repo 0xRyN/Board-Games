@@ -8,12 +8,6 @@ IncognitoState::IncognitoState(int boardSize, Player* firstPlayer,
 }
 
 void IncognitoState::initializeGame() {
-    //initialize the board with the pieces on the following positions for a 5x5 board
-    //(2,0)->white (3,0)->white
-    //(3,1)->white (4,1)->white 
-    //(0,2)->black (4,2)->white
-    //(0,3)->black (1,3)->black
-    //(1,4)->black (2,4)->black
 
     for (int i = 0; i < boardSize; i++) {
         for (int j = 0; j < boardSize; j++) {
@@ -30,7 +24,20 @@ void IncognitoState::initializeGame() {
     }
 
     // Compute available moves for the first player
+    putRandomSpies();
     computeAvailableMoves();
 
     
+}
+
+void IncognitoState::putRandomSpies() {
+    //transform a random pawn into a spy for each player
+    int x = rand() % 5;
+    int y = rand() % 5;
+    IncognitoPawn* Pawn = dynamic_cast<IncognitoPawn*>(board[x][y].getPiece());
+    Pawn->setIsASpy(true);
+    x = rand() % 5;
+    y = rand() % 5;
+    Pawn = dynamic_cast<IncognitoPawn*>(board[x][y].getPiece());
+    Pawn->setIsASpy(true);
 }

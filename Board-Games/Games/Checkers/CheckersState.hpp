@@ -9,6 +9,7 @@ class CheckersState : public GameState {
     CheckersState(int boardSize, Player* firstPlayer, Player* secondPlayer);
     void initializeGame() override;
     void promotePawn(int x, int y);
+  
 
 };
 

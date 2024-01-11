@@ -31,5 +31,3 @@ void CheckersState::promotePawn(int x, int y) {
     delete Pawn;
     board[x][y].setPiece(new CheckersQueen(x, y, board[x][y].getPiece()->getColor()));
 }
-
-

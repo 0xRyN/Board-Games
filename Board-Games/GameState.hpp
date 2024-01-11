@@ -12,6 +12,7 @@
 #include <vector>
 
 class Tile;
+class Piece;
 
 class GameState {
   protected:

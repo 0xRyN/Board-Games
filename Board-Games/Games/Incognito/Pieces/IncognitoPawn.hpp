@@ -7,6 +7,7 @@ private:
     bool IsSpy;
 public:
     IncognitoPawn(int posX, int posY, Color pieceColor);
+    bool canEnterToCastel(GameState& state, int toX, int toY) const;
     bool canMove(GameState& state, int toX, int toY) const override;
     bool isPathClear(GameState& state, int toX, int toY) const ;
     bool isASpy() const;

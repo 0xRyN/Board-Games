@@ -1,5 +1,6 @@
 #include "Incognito.hpp"
 #include "IncognitoState.hpp"
+#include <Board-Games/Games/Incognito/Pieces/IncognitoPawn.hpp>
 
 
 Incognito::Incognito() : BoardGame(5) {
@@ -14,8 +15,8 @@ void Incognito::loadTextures() {
     // Implementation of loadTextures function
     BoardGame::loadTextures();
     std::string textures[] = {
-        "assets/Pieces/Incognito/Pawn/white.png",
-        "assets/Pieces/Incognito/Pawn/black.png",
+    "assets/Pieces/Incognito/Pawn/white.png",
+    "assets/Pieces/Incognito/Pawn/black.png",
 
     };
 
@@ -28,6 +29,21 @@ void Incognito::loadTextures() {
 }
 
 bool Incognito::handleTurn(Move& move) {
-    BoardGame::handleTurn(move);
+    int toX = move.toX;
+    int toY = move.toY;
+
+    if (gameState->getTileAt(toX, toY).getPiece() != nullptr) {
+        IncognitoPawn *piece = dynamic_cast<IncognitoPawn *>(gameState->getTileAt(toX, toY).getPiece());
+        bool isASpy = piece->Ask(*gameState, toX, toY);
+        if (isASpy) {
+            std::cout << "This is a spy" << std::endl;
+        }
+    }else{
+        BoardGame::handleTurn(move);
+    }
+    
+    gameState->changePlayer();
+    gameState->computeAvailableMoves();
+
     return true;
 }

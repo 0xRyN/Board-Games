@@ -1,6 +1,7 @@
 #include <Board-Games/BoardGame.hpp>
 
 
+
 class Incognito : public BoardGame
 {   
 public:

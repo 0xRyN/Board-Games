@@ -10,6 +10,7 @@ private:
 public:
     IncognitoState(int boardSize, Player* firstPlayer, Player* secondPlayer);
     void initializeGame() override;
+    void putRandomSpies();
 };
 
 

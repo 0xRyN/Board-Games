@@ -116,13 +116,7 @@ void GameState::computeAvailableMoves() {
 
     eraseNoCaptureMoves();
 
-    std::cout << "Current turn : " << currentPlayer->getName() << std::endl;
-    std::cout << "Available moves: " << std::endl;
-    for (auto& pair : availableMoves) {
-        for (auto& move : pair.second) {
-            std::cout << move << std::endl;
-        }
-    }
+
 }
 
 void GameState::movePiece(Move move) {

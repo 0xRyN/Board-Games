@@ -1,9 +1,11 @@
 #ifndef TILE_HPP
 #define TILE_HPP
 
+
 #include <Board-Games/Piece.hpp>
 
 class Piece;
+
 
 class Tile {
   private:
