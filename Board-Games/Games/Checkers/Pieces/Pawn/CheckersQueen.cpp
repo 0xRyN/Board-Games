@@ -55,8 +55,6 @@ getRemainingDirections(std::pair<int, int> dir) {
     return remainingDirections;
 }
 
-int walkAfterCapture() {
-}
 
 void printPath(std::vector<Move>& path) {
     std::cout << "START PATH: " << std::endl;
@@ -103,6 +101,9 @@ int walkCaptures(GameState& state, int fromX, int fromY,
         else {
             int captureX = nextX + direction.first;
             int captureY = nextY + direction.second;
+
+             if (!isWithinBounds(captureX, captureY, state.getBoardSize()))
+            return 0;
 
             // Has a piece, no need to continue further, no captures available
             if (state.getTileAt(captureX, captureY).hasPiece())
@@ -249,9 +250,7 @@ CheckersQueen::getAllAvailableMoves(GameState& state) const {
         std::cout << move << std::endl;
     }
 
-    if (max > 0){
-        
-    }
+
 
     return path;
 }

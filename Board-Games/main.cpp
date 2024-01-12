@@ -3,7 +3,7 @@
 #include <Board-Games/Games/Incognito/Incognito.hpp>
 
 int main() {
-    Incognito game; // Remplacez par le jeu approprié
+    Checkers game; // Remplacez par le jeu approprié
     GameView view(game);
     view.run();
     return 0;
