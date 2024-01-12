@@ -5,9 +5,15 @@
 #include <Board-Games/GameState.hpp>
 
 class CheckersState : public GameState {
+    private:
+      int captureLeft;
   public:
     CheckersState(int boardSize, Player* firstPlayer, Player* secondPlayer);
     void initializeGame() override;
+    void startCaptureSequence(int nbCaptures);
+    void decreaseCaptureLeft();
+    bool isCaptureSequenceInProgress() const;
+    void computeAvailableMoves() override;
 };
 
 #endif

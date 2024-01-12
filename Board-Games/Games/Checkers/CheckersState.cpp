@@ -4,8 +4,8 @@
 #include <Board-Games/Games/Checkers/Pieces/Pawn/CheckersPawn.hpp>
 
 CheckersState::CheckersState(int boardSize, Player* firstPlayer,
-                             Player* secondPlayer)
-    : GameState(boardSize) {
+                             Player* secondPlayer) 
+    : GameState(boardSize), captureLeft(0) {
     this->initializeGame();
 }
 
@@ -48,4 +48,21 @@ void CheckersState::initializeGame() {
 
     // Compute available moves for the first player
     computeAvailableMoves();
+}
+
+void CheckersState::startCaptureSequence(int nbCaptures) {
+    captureLeft = nbCaptures;
+}
+
+void CheckersState::decreaseCaptureLeft() {
+    captureLeft--;
+}
+
+bool CheckersState::isCaptureSequenceInProgress() const {
+    return captureLeft > 0;
+}
+
+void CheckersState::computeAvailableMoves() {
+    GameState::computeAvailableMoves();
+
 }

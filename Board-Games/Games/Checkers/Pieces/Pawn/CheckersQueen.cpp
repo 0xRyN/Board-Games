@@ -249,5 +249,9 @@ CheckersQueen::getAllAvailableMoves(GameState& state) const {
         std::cout << move << std::endl;
     }
 
+    if (max > 0){
+        
+    }
+
     return path;
 }
