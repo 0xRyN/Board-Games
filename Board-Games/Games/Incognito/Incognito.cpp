@@ -36,12 +36,12 @@ bool Incognito::handleTurn(Move& move) {
         IncognitoPawn *piece = dynamic_cast<IncognitoPawn *>(gameState->getTileAt(toX, toY).getPiece());
         bool isASpy = piece->Ask(*gameState, toX, toY);
         if (isASpy) {
-            std::cout << "This is a spy" << std::endl;
+            
         }
     }else{
         BoardGame::handleTurn(move);
     }
-    
+
     gameState->changePlayer();
     gameState->computeAvailableMoves();
 

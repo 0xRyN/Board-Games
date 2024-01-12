@@ -1,3 +1,6 @@
+#ifndef INCOGNITO_PAWN_HPP
+#define INCOGNITO_PAWN_HPP
+
 #include <Board-Games/Piece.hpp>
 
 
@@ -17,3 +20,4 @@ public:
     bool canCapture(GameState& state, int toX, int toY) const override;
 };
 
+#endif // INCOGNITO_PAWN_HPP

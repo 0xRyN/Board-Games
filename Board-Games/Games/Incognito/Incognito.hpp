@@ -1,6 +1,7 @@
+#ifndef INCOGNITO_HPP
+#define INCOGNITO_HPP
+
 #include <Board-Games/BoardGame.hpp>
-
-
 
 class Incognito : public BoardGame
 {   
@@ -10,4 +11,5 @@ public:
     bool handleTurn(Move& move) override;
 };
 
+#endif // INCOGNITO_HPP
 

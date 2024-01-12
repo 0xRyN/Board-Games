@@ -1,3 +1,5 @@
+#ifndef INCOGNITO_STATE_HPP
+#define INCOGNITO_STATE_HPP
 
 #include <Board-Games/BoardGame.hpp>
 #include <Board-Games/GameState.hpp>
@@ -12,5 +14,7 @@ public:
     void initializeGame() override;
     void putRandomSpies();
 };
+
+#endif // INCOGNITO_STATE_HPP
 
 
