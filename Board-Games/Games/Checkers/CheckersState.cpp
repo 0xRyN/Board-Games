@@ -13,7 +13,7 @@ void CheckersState::initializeGame() {
     std::cout << "Initializing Checkers game..." << std::endl;
     GameState::initializeGame();
 
-    bool DEBUG = 1;
+    bool DEBUG = 0;
     if (DEBUG) {
         board[9][6].setPiece(new CheckersQueen(9, 6, Color::White));
 
