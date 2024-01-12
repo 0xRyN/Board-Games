@@ -2,6 +2,7 @@
 
 #include "Board-Games/Games/Checkers/Pieces/Pawn/CheckersQueen.hpp"
 #include <Board-Games/Games/Checkers/Pieces/Pawn/CheckersPawn.hpp>
+#include "Board-Games/Games/Checkers/Pieces/Pawn/CheckersQueen.hpp"
 
 CheckersState::CheckersState(int boardSize, Player* firstPlayer,
                              Player* secondPlayer) 
@@ -10,8 +11,6 @@ CheckersState::CheckersState(int boardSize, Player* firstPlayer,
 }
 
 void CheckersState::initializeGame() {
-    std::cout << "Initializing Checkers game..." << std::endl;
-    GameState::initializeGame();
 
     bool DEBUG = 0;
     if (DEBUG) {
@@ -36,9 +35,9 @@ void CheckersState::initializeGame() {
 
     for (int i = 0; i < boardSize; i++) {
         for (int j = 0; j < boardSize; j++) {
-            if (board[i][j].getIsDark() && j < 3) {
+            if (board[i][j].getIsDark() && j < 4) {
                 board[i][j].setPiece(new CheckersPawn(i, j, Color::White));
-            } else if (board[i][j].getIsDark() && j > 4) {
+            } else if (board[i][j].getIsDark() && j > 5) {
                 board[i][j].setPiece(new CheckersPawn(i, j, Color::Black));
             } else {
                 board[i][j].removePiece();
@@ -50,19 +49,8 @@ void CheckersState::initializeGame() {
     computeAvailableMoves();
 }
 
-void CheckersState::startCaptureSequence(int nbCaptures) {
-    captureLeft = nbCaptures;
-}
-
-void CheckersState::decreaseCaptureLeft() {
-    captureLeft--;
-}
-
-bool CheckersState::isCaptureSequenceInProgress() const {
-    return captureLeft > 0;
-}
-
-void CheckersState::computeAvailableMoves() {
-    GameState::computeAvailableMoves();
-
+void CheckersState::promotePawn(int x, int y) {
+    CheckersPawn* Pawn = dynamic_cast<CheckersPawn*>(board[x][y].getPiece());
+    delete Pawn;
+    board[x][y].setPiece(new CheckersQueen(x, y, board[x][y].getPiece()->getColor()));
 }

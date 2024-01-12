@@ -40,8 +40,6 @@ bool Checkers::handleTurn(Move& move) {
     Piece* piece = gameState->getTileAt(move.toX, move.toY).getPiece();
 
     if (piece == nullptr) {
-        std::cout << "No piece at (" << move.toX << ", " << move.toY << ")"
-                  << std::endl;
         return false;
     }
 
@@ -63,6 +61,12 @@ bool Checkers::handleTurn(Move& move) {
         gameState->changePlayer();
     }
 
+    if(typeid(*piece).name() == typeid(CheckersPawn).name()) {
+        CheckersPawn* pawn = dynamic_cast<CheckersPawn*>(piece);
+        if(pawn->canBePromoted(*gameState)) {
+            dynamic_cast<CheckersState*>(gameState)->promotePawn(move.toX, move.toY);
+        }
+    }
     gameState->computeAvailableMoves();
 
     return true;

@@ -12,6 +12,7 @@
 #include <vector>
 
 class Tile;
+class Piece;
 
 class GameState {
   protected:
@@ -27,6 +28,7 @@ class GameState {
     int getBoardSize() const;
     const std::vector<std::vector<Tile>>& getBoard() const;
     const Tile& getTileAt(int x, int y) const;
+    const Piece* getPiece(int x, int y) const;
     const Player* getCurrentPlayer() const;
     const std::map<std::pair<int, int>, std::vector<Move>>&
     getAvailableMoves() const;

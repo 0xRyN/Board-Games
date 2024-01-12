@@ -24,7 +24,6 @@ bool CheckersPawn::canMove(GameState& state, int toX, int toY) const {
     // White pawns can only move up the board
     if (color == Color::White) {
         if (toY <= y) {
-            std::cout << "White pawns can only move up the board" << std::endl;
             return false;
         }
     }
@@ -49,19 +48,7 @@ bool CheckersPawn::canCapture(GameState& state, int toX, int toY) const {
         return false;
     }
 
-    // White pawns can only move up the board
-    if (color == Color::White) {
-        if (toY <= y) {
-            return false;
-        }
-    }
 
-    // Black pawns can only move down the board
-    if (color == Color::Black) {
-        if (toY >= y) {
-            return false;
-        }
-    }
 
     // We need to check if there is a piece in the middle of the move
     // If there is no piece, then the move is invalid
@@ -96,23 +83,42 @@ CheckersPawn::getAllAvailableMoves(GameState& state) const {
 
     // Iterate through all possible moves in the valid direction
     for (int dx = -1; dx <= 1; dx += 2) {
-        // For simple moves
-        int toX = x + dx;
-        int toY = y + direction;
+        for (int dy = -1; dy <= 1; dy += 2) {
+            // For simple moves
+            int toX = x + dx;
+            int toY = y + direction;
 
-        // For capture moves
-        int captureX = x + 2 * dx;
-        int captureY = y + 2 * direction;
+            // For capture moves
+            int captureX = x + 2 * dx;
+            int captureY = y + 2 * dy;
 
-        // Check if the move is valid
-        if (isValidMove(state, toX, toY)) {
-            moves->push_back(Move(x, y, toX, toY, false));
-        }
+            // Check if the move is valid
+            if (isValidMove(state, toX, toY)) {
+                moves->push_back(Move(x, y, toX, toY, false));
+            }
 
-        // Check if the capture move is valid
-        if (isValidMove(state, captureX, captureY)) {
-            moves->push_back(Move(x, y, captureX, captureY, true));
+            // Check if the capture move is valid
+            if (isValidMove(state, captureX, captureY)) {
+                moves->push_back(Move(x, y, captureX, captureY, true));
+            }
         }
     }
     return moves;
+}
+
+bool CheckersPawn::canBePromoted(GameState& state) const {
+    // Check if the pawn is at the end of the board
+    if (color == Color::White) {
+        if (y == state.getBoardSize() - 1) {
+            return true;
+        }
+    }
+
+    if (color == Color::Black) {
+        if (y == 0) {
+            return true;
+        }
+    }
+
+    return false;
 }

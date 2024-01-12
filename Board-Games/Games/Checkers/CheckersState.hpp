@@ -10,10 +10,9 @@ class CheckersState : public GameState {
   public:
     CheckersState(int boardSize, Player* firstPlayer, Player* secondPlayer);
     void initializeGame() override;
-    void startCaptureSequence(int nbCaptures);
-    void decreaseCaptureLeft();
-    bool isCaptureSequenceInProgress() const;
-    void computeAvailableMoves() override;
+    void promotePawn(int x, int y);
+  
+
 };
 
 #endif
