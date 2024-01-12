@@ -125,7 +125,7 @@ void GameView::drawPiece(const Piece* piece, int x, int y, int tileSize) {
 }
 
 void GameView::drawArrows() {
-    bool ONLY_DRAW_SELECTED_PIECE = true; // TRY FALSE
+    bool ONLY_DRAW_SELECTED_PIECE = false; // TRY FALSE
     auto availableMoves = state->getAvailableMoves();
 
     if (ONLY_DRAW_SELECTED_PIECE) {
